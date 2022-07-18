@@ -1,0 +1,38 @@
+@startuml entity
+
+package "cloud-note-app" as note {
+  entity "ユーザーテーブル" as User {
+    ユーザーID [PK]
+    --
+    メールアドレス
+    論理削除フラグ
+    登録日時
+    更新日時
+  }
+  entity "投稿テーブル" as Post {
+    投稿ID [PK]
+    --
+    # ユーザーID [FK]
+    タイトル
+    内容
+    # フォルダID [FK]    
+    論理削除フラグ
+    登録日時
+    更新日時
+  }
+  entity "フォルダテーブル" as Folder {
+    フォルダID [PK]
+    --
+    # ユーザーID [FK]
+    フォルダ名
+    論理削除フラグ
+    登録日時
+    更新日時
+  }
+}
+
+User  ----r{ Folder
+User  ----{ Post 
+Folder ----{ Post
+
+@enduml
