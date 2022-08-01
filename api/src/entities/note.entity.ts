@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Folder } from './folder.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity()
 export class Note {
@@ -28,4 +30,10 @@ export class Note {
 
   @Column()
   destroyedAt: string
+
+  @ManyToOne(() => Folder, (folder) => folder.notes)
+  folder: Folder
+
+  @ManyToOne(() => User, (user) => user.notes)
+  user: User
 }

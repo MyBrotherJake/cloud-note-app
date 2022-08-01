@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Folder } from './folder.entity';
+import { Note } from './note.entity';
 
 @Entity()
 export class User {
@@ -16,4 +18,10 @@ export class User {
 
   @Column()
   updatedAt: string
+
+  @OneToMany(() => Folder, (folder) => folder.user)
+  folders: Folder[]
+
+  @OneToMany(() => Note, (note) => note.user)
+  notes: Note[]
 }
