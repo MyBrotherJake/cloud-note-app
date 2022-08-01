@@ -22,16 +22,31 @@ services:
       - /app/node_modules
     tty: true
     stdin_open: true
-  mysql:
-    container_name: database
-    image: mysql/mysql-server:5.7
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  postgres:
+    image: postgres:14.2-alpine
+    container_name: postgres
     ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: develop
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: root
+      - 5432:5432
     volumes:
-      - /var/lib/mysql
+      - ./docker/postgres/init.d:/docker-entrypoint-initdb.d
+      - ./docker/postgres/pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      POSTGRES_DB: postgres
+    hostname: postgres
+    restart: always
+    user: root
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 81:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - ./docker/pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
