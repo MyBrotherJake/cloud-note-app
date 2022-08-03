@@ -3,6 +3,15 @@
  */
  export const NoteListItems = () => {
 
+  const onClickList = (e) => {
+    // ノートID, タイトルを取得    
+    const noteId = e.target.id;
+    const title = e.target.innerText;
+    // 配列からノートの内容を取得
+    const body = dummyNotes.find(el => el.noteId === noteId).body;
+    
+    return { noteId, title, body };
+  };
   /**
    * こういうのを作りたい
    * 
@@ -27,46 +36,60 @@
    *  <li>Note 3</li>
    * </ul>
    */
-  
   /**
-   * 配列が分かれてない場合
-   */  
-
-  /**
-   * フォルダの有無で分ける
-   * 後でジョインする
+   * フォルダの有無で処理を分け、後でジョインする。
    */
-
-  // フォルダなし
-  const notFolder = dummyNotes.map(({noteId, title, body, folderId}) => {    
+  let prevId = ""; // フィルタ用
+  // フォルダのないものだけ
+  const notFolder = dummyNotes.map(({noteId, title, body, folderId, folderName}) => {
     if (folderId === "0") {
       return (
-        <li key={noteId}>{title}</li>
+        <li id={noteId} onClick={onClickList}>{title}</li>
       );
-    }         
+    } else {
+      return null;
+    }    
   });
-  // フォルダあり
-  const withFolder  = dummyFolder.map(({folderKey, folderName}) => {
+  // フォルダのあるものだけを抽出
+  // mapで作った配列から undefined を filter する
+  const newFolderList = dummyNotes.map(({folderId, folderName}) => {
+    // フォルダが設定されていて、かつ新しいフォルダだった場合    
+    if (folderId !== "0" && prevId !== folderId) {
+      // 前のIDを保持
+      prevId = folderId;
+      // 新しい配列を作成
+      return (
+        {folderKey: folderId, folderName: folderName}
+      );
+    } else {
+      return null;
+    }
+  }).filter(Boolean);  
+  // フォルダのあるものだけ
+  const withFolder  = newFolderList.map(({folderKey, folderName}) => {
     return (
       <li key={folderKey}>
         {folderName}
         {
           dummyNotes.map(({noteId, title, body, folderId}) => {
-            if (folderKey === folderId && folderId != "0") {
+            if (folderKey === folderId && folderId !== "0") {
               return (
                 <ul>
-                  <li key={noteId}>{title}</li>
+                  <li id={noteId} onClick={onClickList}>{title}</li>
                 </ul>
               );              
+            } else {
+              return null;
             } 
           })
         }
       </li>
     );
-  });  
-  // Join
+  });
+  
+  // ここで Joinする
   const notesList = withFolder.concat(notFolder);
-
+  
   return (
     <>
       <ul>
