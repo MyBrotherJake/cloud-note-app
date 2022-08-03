@@ -7,16 +7,16 @@ export class Note {
   @PrimaryGeneratedColumn('uuid')
   id: string
   
-  @Column()
+  @Column({ nullable: true })
   title: string
 
-  @Column()
+  @Column({ nullable: true })
   content: string
 
   @Column()
   userId: string
 
-  @Column()
+  @Column({ nullable: true })
   folderId: string
 
   @Column()
@@ -25,10 +25,10 @@ export class Note {
   @Column()
   updatedAt: string
 
-  @Column()
+  @Column({ nullable: true })
   archivedAt: string
 
-  @Column()
+  @Column({ nullable: true })
   destroyedAt: string
 
   @ManyToOne(() => Folder, (folder) => folder.notes)
