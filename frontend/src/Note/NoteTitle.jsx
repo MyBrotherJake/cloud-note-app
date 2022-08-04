@@ -1,21 +1,23 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
-
+import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+/**
+ * ノートのタイトル
+ */
 export const NoteTitle = () => {
 
-  const [ title, setTitle ] = useState("");
-
+  const { values, setValues } = useContext(ShowNoteContext);
+  
   const onChangeTitle = (e) => {
     // ノート名を取得
-    setTitle(e.target.value);
-    console.log(title);
+    setValues({...values, title: e.target.value});    
   }
 
   return (
     <TitleArea 
       onChange={onChangeTitle} 
       placeholder="タイトル" 
-      value={ title } 
+      value={values.title}
     />
   );
 };

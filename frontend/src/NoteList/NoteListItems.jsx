@@ -1,16 +1,21 @@
+import { useContext } from "react";
+import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 /**
  * ノート一覧表示
  */
  export const NoteListItems = () => {
+  
+  const { values, setValues } = useContext(ShowNoteContext);
 
-  const onClickList = (e) => {
+  const onClickList = (e) => {    
     // ノートID, タイトルを取得    
-    const noteId = e.target.id;
-    const title = e.target.innerText;
+    const noteKey = e.target.id;
+    const noteTitle = e.target.innerText;
     // 配列からノートの内容を取得
-    const body = dummyNotes.find(el => el.noteId === noteId).body;
-    
-    return { noteId, title, body };
+    const noteBody = dummyNotes.find(el => el.noteId === noteKey).body;
+    // 取得した内容で State の更新 
+    const newValues = {...values, noteId: noteKey, title: noteTitle, body: noteBody};
+    setValues(newValues);             
   };
   /**
    * こういうのを作りたい
@@ -51,7 +56,7 @@
     }    
   });
   // フォルダのあるものだけを抽出
-  // mapで作った配列から undefined を filter する
+  // mapで作った配列から undefined を 除外 する
   const newFolderList = dummyNotes.map(({folderId, folderName}) => {
     // フォルダが設定されていて、かつ新しいフォルダだった場合    
     if (folderId !== "0" && prevId !== folderId) {
@@ -154,8 +159,7 @@ const dummyNotes = [
   {
     noteId: "4",
     title: "NoteTitle 4",
-    body: `     
-    `,
+    body: "Hello World",
     folderId: "1",    
     folderName: "FolderName 1",
   },
