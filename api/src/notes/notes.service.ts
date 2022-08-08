@@ -1,7 +1,7 @@
 import { FolderRepository } from './../folders/folder.repository';
 import { UserRepository } from '../users/user.repository';
 import { NoteRepository } from './note.repository';
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { Note } from '../entities/note.entity';
@@ -41,7 +41,7 @@ export class NotesService {
     return await this.noteRepository.updateNote(updateNoteDto)
   }
 
-  archive(id: string) {
+  async archive(id: string): Promise<Note> {
     throw new Error('Method not implemented.');
   }
 

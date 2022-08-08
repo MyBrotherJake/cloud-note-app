@@ -2,36 +2,37 @@ import { NotesService } from './notes.service';
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { Note } from '../entities/note.entity';
 
 @Controller('notes')
 export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Get()
-  findAll() {
-    return this.notesService.findAll()
+  async findAll(): Promise<Note[]> {
+    return await this.notesService.findAll()
   }
 
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: string) {
-    return this.notesService.findById(id)
+  async findById(@Param('id', ParseUUIDPipe) id: string): Promise<Note> {
+    return await this.notesService.findById(id)
   }
 
   @Post()
-  create(@Body() createNoteDto: CreateNoteDto) {
-    return this.notesService.create(createNoteDto)
+  async create(@Body() createNoteDto: CreateNoteDto): Promise<Note> {
+    return await this.notesService.create(createNoteDto)
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateNoteDto: UpdateNoteDto
-  ) {
-    return this.notesService.update(updateNoteDto)
+  ): Promise<Note> {
+    return await this.notesService.update(updateNoteDto)
   }
 
   @Delete(':id')
-  archive(@Param('id', ParseUUIDPipe) id: string) {
-    return this.notesService.archive(id)
+  async archive(@Param('id', ParseUUIDPipe) id: string): Promise<Note> {
+    return await this.notesService.archive(id)
   }
 }
