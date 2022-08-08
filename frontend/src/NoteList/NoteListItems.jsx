@@ -13,7 +13,7 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
     const noteTitle = e.target.innerText;
     // 配列からノートの内容を取得
     const noteBody = dummyNotes.find(el => el.noteId === noteKey).body;
-    // 取得した内容で State の更新 
+    // 取得した内容で State の更新 => useContext を使用した コンポーネント が全て レンダリング される    
     const newValues = {...values, noteId: noteKey, title: noteTitle, body: noteBody};
     setValues(newValues);             
   };
@@ -110,8 +110,21 @@ const dummyNotes = [
   {
     noteId: "1",
     title: "NoteTitle 1",
-    body: `# NoteBody from NoteTitle 1
-      ## Dummy Text
+    body: `# NoteBody from NoteTitle 1\n ## DummyText is\n
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+    Excepteur sint occaecat cupidatat non proident, 
+    sunt in culpa qui officia deserunt mollit anim id est laborum.
+    `
+    ,
+    folderId: "0",    
+    folderName: ""
+  },
+  {
+    noteId: "2",
+    title: "NoteTitle 2",
+    body: `
+      NoteBody from NoteTitle 2    
       Lorem ipsum dolor sit amet, 
       consectetur adipiscing elit, 
       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
@@ -119,27 +132,11 @@ const dummyNotes = [
       quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
       Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
       Excepteur sint occaecat cupidatat non proident, 
-      sunt in culpa qui officia deserunt mollit anim id est laborum.    
+      sunt in culpa qui officia deserunt mollit anim id est laborum.
     `,
-    folderId: "0",    
-    folderName: "",
-  },
-  {
-    noteId: "2",
-    title: "NoteTitle 2",
-    body: `# NoteBody from NoteTitle 2    
-      ## Lorem ipsum dolor sit amet, 
-      * consectetur adipiscing elit, 
-      * sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-      * Ut enim ad minim veniam, 
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-      Excepteur sint occaecat cupidatat non proident, 
-      sunt in culpa qui officia deserunt mollit anim id est laborum.    
-    `,
-    folderId: "0",    
-    folderName: "",
-  },
+    folderId: "0",
+    folderName: "",    
+  }, 
   {
     noteId: "3",
     title: "タイトル 3",
@@ -153,7 +150,7 @@ const dummyNotes = [
       Excepteur sint occaecat cupidatat non proident, 
       sunt in culpa qui officia deserunt mollit anim id est laborum.    
     `,
-    folderId: "0",    
+    folderId: "0",
     folderName: "",
   },
   {

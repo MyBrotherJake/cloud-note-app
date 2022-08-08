@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 /**
@@ -9,7 +9,7 @@ export const NoteTitle = () => {
   const { values, setValues } = useContext(ShowNoteContext);
   
   const onChangeTitle = (e) => {
-    // ノート名を取得
+    // ノート名をセット
     setValues({...values, title: e.target.value});    
   }
 
