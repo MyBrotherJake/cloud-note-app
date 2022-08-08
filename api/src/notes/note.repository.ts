@@ -18,9 +18,10 @@ export class NoteRepository extends Repository<Note> {
   }
 
   async createNote(createNoteDto: CreateNoteDto): Promise<Note> {
-    const { folderId } = createNoteDto
+    const { folderId, userId } = createNoteDto
     const note = this.create({
       folderId,
+      userId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     })
