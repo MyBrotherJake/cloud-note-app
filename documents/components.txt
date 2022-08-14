@@ -1,0 +1,34 @@
+SignIn.jsx - サインイン画面
+  - Authenticate.jsx - 認証を行う
+
+User.jsx
+  - UseIcon.jsx                 - ユーザーアイコンを表示する
+  - UserDialog.jsx              - ユーザーダイアログを表示する
+  - SignOut.jsx                 - サインアウト機能
+
+Setting.jsx
+  - SettingIcon.jsx             - 設定アイコンを表示する
+  - SettingDialog.jsx           - 設定ダイアログを表示する
+  - NoteSetting.jsx             - ノートの設定機能
+
+Note.jsx
+  - NoteTitle.jsx               - ノートのタイトル
+  - NoteBody.jsx                - ノートの本文  
+
+CreateNoteButton.jsx            - ノートの作成ボタン
+
+NoteList.jsx
+  - NoteListIcon.jsx            - ハンバーガーメニューの表示  
+  - GetList.jsx                 - ノートのタイトル一覧を表示
+    - DeleteNoteButton.jsx      - ノートの削除ボタン  
+  - CreateFolderButton.jsx      - フォルダの作成ボタン
+  - DeleteFolderButton.jsx      - フォルダの削除ボタン        
+  - Folder.jsx
+    - FolderIcon.jsx            - フォルダのアイコン表示
+    - FolderMotion.jsx          - フォルダの開閉をする  
+
+DustBox.jsx
+  - DustBoxIcon.jsx             - ゴミ箱アイコン  
+  - DeleteList.jsx              - ゴミ箱にあるノート一覧
+  - RecoveryButton.jsx          - 復元ボタン
+  - DeleteCompletelyButton.jsx  - 完全削除ボタン
