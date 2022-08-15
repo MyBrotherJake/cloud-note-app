@@ -14,6 +14,9 @@
 3. postgres / Postgresql
 4. pgadmin / データベース管理
 
+frontend/apiともにDockerfile内でサーバーが起動する設定になっています。
+Dokcer for Macのダッシュボードやdocker attachでコンソールに接続することができます。
+
 ### Database
 
 #### pgadminの設定
@@ -54,10 +57,56 @@ Connectionタブ
 
 3. pgadminのサイドバーからDatabases->postgres->Schemas->public->Tablesと開いていき、テーブルが作成されていることを確認します。
 
+## API
 
+Dockerコンテナを起動するとAPIサーバーにアクセスできるようになります。
 
+### ユーザーを作成
+http://localhost:4000/users
 
+```
+request
+{
+  name: '',
+  email: ''
+}
 
+response
+{
+  userId: ''
+}
+```
 
+### ノートの一覧を取得
+GET http://localhost:4000/notes
 
+### ノートの詳細を取得
+GET http://localhost:4000/notes/:noteId
 
+### ノートを作成
+POST http://localhost:4000/notes/
+
+```
+// request
+{
+  userId: ''
+}
+
+// response
+{
+  noteId: ''
+}
+```
+
+### ノートを更新
+PATCH http://localhost:4000/notes/:noteId
+
+```
+{
+  noteId: ''
+  title: ''
+  content: ''
+}
+```
+
+- コンテナ間通信の場合はホスト名`localhost`ではなくコンテナ名`api`を使用してください
