@@ -1,3 +1,4 @@
+import { FoldersAndNotes } from './../types';
 import { NotesService } from './notes.service';
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -9,7 +10,7 @@ export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
   @Get()
-  async findAll(): Promise<Note[]> {
+  async findAll(): Promise<FoldersAndNotes> {
     return await this.notesService.findAll()
   }
 

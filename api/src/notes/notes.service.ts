@@ -5,6 +5,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { Note } from '../entities/note.entity';
+import { FoldersAndNotes } from 'src/types';
+
 
 @Injectable()
 export class NotesService {
@@ -21,8 +23,11 @@ export class NotesService {
     return note
   }
 
-  async findAll(): Promise<Note[]> {
-    return await this.noteRepository.find()
+  async findAll(): Promise<FoldersAndNotes> {
+    // TODO userIdによる絞り込み
+    const folders = await this.folderRepository.find({ relations: ['notes'] })
+    const notesWithoutFolder = await this.noteRepository.findNotesWithoutFolder()
+    return { folders, notesWithoutFolder }
   }
 
   async create(createNoteDto: CreateNoteDto): Promise<Note> {

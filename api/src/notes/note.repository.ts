@@ -5,6 +5,15 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 
 @EntityRepository(Note)
 export class NoteRepository extends Repository<Note> {
+  async findNotesWithoutFolder(): Promise<Note[]> {
+    // TODO userIdによる絞り込み
+    return await this.find({ 
+      where: {
+        folderId: null
+      }
+    })
+  }
+
   async updateNote(updateNoteDto: UpdateNoteDto): Promise<Note> {
     const { noteId, folderId, title, content } = updateNoteDto
     const note = await this.findOne(noteId)
