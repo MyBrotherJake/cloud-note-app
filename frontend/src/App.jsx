@@ -17,6 +17,9 @@ gapi.load('client:auth2', () => {
 export const App = () => {
   const { user } = useContext(AuthContext)
 
+  // 初回useEffectでaccessTokenをサーバー側で認証する
+  // アクセストークンがあればOKとする。AuthContextでlocalStorageに保管する
+
   return (
     <>
       {user.accessToken ?
