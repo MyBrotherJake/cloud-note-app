@@ -7,30 +7,12 @@ import axios from "axios";
  export const NoteListItems = () => {
   
   const { values, setValues } = useContext(ShowNoteContext);
-  
-
-  const onClickList = (e) => {    
-    // ノートID, タイトルを取得    
-    const noteKey = e.target.id;
-    /*
-    const noteTitle = e.target.innerText;
-    // 配列からノートの内容を取得
-    const noteBody = dummyNotes.find(el => el.noteId === noteKey).body;
-    // 取得した内容で State の更新 => useContext を使用した コンポーネント が全て レンダリング される    
-    const newValues = {...values, noteId: noteKey, title: noteTitle, body: noteBody};
-    */
-    // TODO APIから取得    
-    const resData = getNoteContents(noteKey);
-    
-    console.log(resData);
-
-    //setValues(newValues);             
-  };
-
+  /**
+   * noteId をキーにAPIから値取得
+   */
   const getNoteContents = (noteKey) => {
-    
-    const instance = axios.create({
-      baseURL: "http://localhost:4000/",      
+    // axios setting
+    const instance = axios.create({      
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -38,20 +20,26 @@ import axios from "axios";
         "Access-Control-Allow-Headers": "Content-Type",
       }      
     });
+    // GET
+    instance.get("/notes/" + noteKey).then(res => {
 
+      const noteTitle = res.data["title"];
+      const noteBody = res.data["content"];
+      const userId = res.data["userId"];
 
-    instance.get("/notes").then(res => {
-      console.log(res.data);
-    });    
-    /*
-    fetch("/api/notes/" + noteKey, {method: "GET"})
-      //.then(res => res.json())
-      .then(jsonData => {
-        //console.log(JSON.stringify(jsonData));
-        console.log(jsonData);
-    });*/       
+      const newValues = {...values, noteId: noteKey, title: noteTitle, body: noteBody};
+      setValues(newValues);
+    });        
   };
-
+  /**
+   * onClick時にAPI呼び出し
+   */
+  const onClickList = (e) => {    
+    // ノートID, タイトルを取得    
+    const noteKey = e.target.id;
+    // APIから取得    
+    getNoteContents(noteKey);    
+  };
   /**
    * フォルダの有無で処理を分け、後でジョインする。
    */
