@@ -1,46 +1,45 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import axios from "axios";
 /**
  * ノート一覧表示
  */
  export const NoteListItems = () => {
   
   const { values, setValues } = useContext(ShowNoteContext);
+  /**
+   * noteId をキーにAPIから値取得
+   */
+  const getNoteContents = (noteKey) => {
+    // axios setting
+    const instance = axios.create({      
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+      }      
+    });
+    // GET
+    instance.get("/notes/" + noteKey).then(res => {
 
+      const noteTitle = res.data["title"];
+      const noteBody = res.data["content"];
+      const userId = res.data["userId"];
+
+      const newValues = {...values, noteId: noteKey, title: noteTitle, body: noteBody};
+      setValues(newValues);
+    });        
+  };
+  /**
+   * onClick時にAPI呼び出し
+   */
   const onClickList = (e) => {    
     // ノートID, タイトルを取得    
     const noteKey = e.target.id;
-    const noteTitle = e.target.innerText;
-    // 配列からノートの内容を取得
-    const noteBody = dummyNotes.find(el => el.noteId === noteKey).body;
-    // 取得した内容で State の更新 => useContext を使用した コンポーネント が全て レンダリング される    
-    const newValues = {...values, noteId: noteKey, title: noteTitle, body: noteBody};
-    setValues(newValues);             
+    // APIから取得    
+    getNoteContents(noteKey);    
   };
-  /**
-   * こういうのを作りたい
-   * 
-   * <ul>
-   *  <li> 
-   *    Folder 1
-   *    <ul>
-   *      <li> Note 4 </li>      
-   *      <li> Note 5 </li>
-   *      <li> Note 6 </li>
-   *    </ul> 
-   *  </li>
-   *  <li>
-   *    Folder 2
-   *    <ul>
-   *      <li> Note 7 </li>      
-   *      <li> Note 8 </li>   
-   *    </ul> 
-   *  </li>
-   *  <li>Note 1</li>
-   *  <li>Note 2</li>
-   *  <li>Note 3</li>
-   * </ul>
-   */
   /**
    * フォルダの有無で処理を分け、後でジョインする。
    */
@@ -103,12 +102,10 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
     </>          
   );   
 };
-
-// ダミーデータ
 // ノート一覧
 const dummyNotes = [
   {
-    noteId: "1",
+    noteId: "0746bda6-5e32-4a6e-8008-a622027e8d5a",
     title: "NoteTitle 1",
     body: `# NoteBody from NoteTitle 1\n ## DummyText is\n
     quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
@@ -121,7 +118,7 @@ const dummyNotes = [
     folderName: ""
   },
   {
-    noteId: "2",
+    noteId: "9a05aab2-0e77-499a-bf25-64e688458826",
     title: "NoteTitle 2",
     body: `
       NoteBody from NoteTitle 2    
@@ -138,7 +135,7 @@ const dummyNotes = [
     folderName: "",    
   }, 
   {
-    noteId: "3",
+    noteId: "ee0a29f0-139f-409b-afb3-b1b458fc2588",
     title: "タイトル 3",
     body: `# 本文 3
       ** Lorem ipsum dolor sit amet, ** 
