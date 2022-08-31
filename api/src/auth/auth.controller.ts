@@ -9,10 +9,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
-  async authenticate(
-    @Body() dto: AuthTokenDto,
-    @Req() request: Request
-  ): Promise<void> {
-    this.authService.authenticate(dto.token)
+  async authenticate(@Body() dto: AuthTokenDto, @Req() req: Request): Promise<User> {
+    return this.authService.authenticate(dto.token)
   }
 }
