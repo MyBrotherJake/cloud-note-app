@@ -9,6 +9,7 @@ export const AuthProvider = props => {
   const [ user, setUser ] = useState({
     id: '',
     email: '',
+    name: '',
     accessToken: '',
   });    
 

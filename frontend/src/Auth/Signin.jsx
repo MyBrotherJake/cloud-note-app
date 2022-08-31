@@ -1,19 +1,29 @@
 import React, { useContext } from 'react'
 import { GoogleLogin } from 'react-google-login'
 import { AuthContext } from '../Providers/AuthProvider'
+import axios from 'axios'
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_AUTH_CLIENT_ID
 
 export const Signin = () => {
-  const { user, setUser } = useContext(AuthContext)
+  const { setUser } = useContext(AuthContext)
 
-  const handleSuccess = (res) => {
-    if ('accessToken' in res) {
-      setUser({
-        email: res.profileObj.email,
-        accessToken: res.accessToken
-      })
+  const handleSuccess = async (res) => {
+    if (!('accessToken' in res)) {
+      alert('ログインに失敗しました')
+      return
     }
+
+    const { data } = await axios.post('/auth', {
+      token: res.accessToken
+    })
+
+    setUser({
+      id: data.id, 
+      name: data.name,
+      email: data.email,
+      accessToken: res.accessToken
+    })
   }
 
   const handleFailure = (res) => {

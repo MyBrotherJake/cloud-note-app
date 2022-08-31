@@ -10,4 +10,14 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     return await this.userRepository.createUser(createUserDto)
   }
+
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({ email })
+    return user ?? null
+  }
+
+  async isExist(email: string): Promise<boolean> {
+    const user = await this.findByEmail(email)
+    return user ? true : false
+  }
 }
