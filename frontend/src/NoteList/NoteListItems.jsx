@@ -4,8 +4,8 @@ import axios from "axios";
 /**
  * ノート一覧表示
  */
- export const NoteListItems = () => {
-  
+ export const NoteListItems = (propData) => {
+
   const { values, setValues } = useContext(ShowNoteContext);
   /**
    * noteId をキーにAPIから値取得
@@ -39,10 +39,49 @@ import axios from "axios";
     const noteKey = e.target.id;
     // APIから取得    
     getNoteContents(noteKey);    
-  };
+  }; 
+  
+  // TODO NoteList から 取得するように
+  /*
+  // from NoteList
+  const listData = propData;
+  console.log(propData.data);
+  // Without Folder
+  const notesWithoutFolder = listData["notesWithoutFolder"].map(({id, title, userId}) => {
+    return (
+      <li id={id} key={id} onClick={onClickList}>{title}</li>
+    );
+  });
+  // With Folder
+  const folders = listData["folders"].map(({id, name, notes}) => {
+    return (
+      <li key={id} id={id}>
+        {name}
+        {
+          notes.map(({id, title, userId}) => {            
+            return (
+              <ul>
+                <li id={id} onClick={onClickList}>{title}</li>
+              </ul>
+            );              
+          }) 
+        }          
+      </li>
+    );
+  });
+
+  return folders.concat(notesWithoutFolder);
+*/
+
+  /**
+   * 以下はサンプルデータでの実装のためコメントアウト
+   * 後で削除すること
+   * -----------------------------------------------------------------------------------
+   */
   /**
    * フォルダの有無で処理を分け、後でジョインする。
    */
+  /*
   let prevId = ""; // フィルタ用
   // フォルダのないものだけ
   const notFolder = dummyNotes.map(({noteId, title, body, folderId, folderName}) => {
@@ -54,6 +93,11 @@ import axios from "axios";
       return null;
     }    
   });
+  */
+
+
+  /*
+
   // フォルダのあるものだけを抽出
   // mapで作った配列から undefined を 除外 する
   const newFolderList = dummyNotes.map(({folderId, folderName}) => {
@@ -200,4 +244,5 @@ const dummyFolder = [
     folderKey: "2",
     folderName: "フォルダ 2",
   },
-];
+];*/
+}
