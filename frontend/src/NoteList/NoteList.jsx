@@ -1,50 +1,35 @@
+import {useState, useEffect} from "react";
 import axios from "axios";
 import { NoteListItems } from "./NoteListItems";
-
+/**
+ * ノート一覧の表示
+ */
 export const NoteList = () => {  
-  let resData = "";
-  // APIへの通信
-  const instance = axios.create({
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
-      "Access-Control-Allow-Headers": "Content-Type",
-    }      
-  });
-  instance.get("/notes").then(res => {    
-    // Without Folder
-    const notesWithoutFolder = res.data["notesWithoutFolder"].map(({id, title}) => {
-      return (
-        <li id={id} key={id}>{title}</li>
-      );
+  
+  const [ data, setData ] = useState("");
+  // 再描画の制御に useEffectを使う
+  useEffect(() => {
+    // axios でAPIに通信
+    const instance = axios.create({
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers": "Content-Type",
+      }      
     });
-    // With Folder
-    const folders = res.data["folders"].map(({id, name, notes}) => {
-      return (
-        <li key={id} id={id}>
-          {name}
-          {
-            notes.map(({id, title}) => {            
-              return (
-                <ul>
-                  <li id={id} key={id}>{title}</li>
-                </ul>
-              );              
-            }) 
-          }          
-        </li>
-      );
-    });
-    resData = folders.concat(notesWithoutFolder);
-    
-  });  
+    // ノート一覧APIにアクセス
+    instance.get("/notes").then(res => {            
+      // 取得した値でステートを更新
+      setData(res.data);      
+    });            
+  },[]);  
   
   return (
     <>
       <ul>
-        <NoteListItems resData={resData} />
+        <NoteListItems notesData={data} />
       </ul>
     </>
-  );
+  );     
 };

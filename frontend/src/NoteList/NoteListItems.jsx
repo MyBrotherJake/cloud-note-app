@@ -4,12 +4,19 @@ import axios from "axios";
 /**
  * ノート一覧表示
  */
- export const NoteListItems = (propData) => {
+ export const NoteListItems = (props) => {  
+  
+  const notesData = props.notesData;
+
+  console.log(props);
+  console.log(notesData);
+  console.log(notesData["notesWithoutFolder"]);
+  console.log(notesData["folders"]);
 
   const { values, setValues } = useContext(ShowNoteContext);
   /**
    * noteId をキーにAPIから値取得
-   */
+   */  
   const getNoteContents = (noteKey) => {
     // axios setting
     const instance = axios.create({      
@@ -41,19 +48,22 @@ import axios from "axios";
     getNoteContents(noteKey);    
   }; 
   
-  // TODO NoteList から 取得するように
-  /*
-  // from NoteList
-  const listData = propData;
-  console.log(propData.data);
-  // Without Folder
-  const notesWithoutFolder = listData["notesWithoutFolder"].map(({id, title, userId}) => {
+  // TODO NoteList から 取得するように  
+  
+  // Without Folder  
+  if (!notesData) {
+    return;
+  };
+
+
+  const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title, userId}) => {
     return (
       <li id={id} key={id} onClick={onClickList}>{title}</li>
     );
   });
+  
   // With Folder
-  const folders = listData["folders"].map(({id, name, notes}) => {
+  const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
       <li key={id} id={id}>
         {name}
@@ -61,7 +71,7 @@ import axios from "axios";
           notes.map(({id, title, userId}) => {            
             return (
               <ul>
-                <li id={id} onClick={onClickList}>{title}</li>
+                <li id={id} key={id} onClick={onClickList}>{title}</li>
               </ul>
             );              
           }) 
@@ -70,10 +80,14 @@ import axios from "axios";
     );
   });
 
-  return folders.concat(notesWithoutFolder);
-*/
+  const items = folders.concat(notesWithoutFolder);
+  
+  return (
+    <>{items}</>    
+  );
 
-  /**
+  
+   /**
    * 以下はサンプルデータでの実装のためコメントアウト
    * 後で削除すること
    * -----------------------------------------------------------------------------------
