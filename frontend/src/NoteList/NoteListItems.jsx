@@ -1,17 +1,19 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import axios from "axios";
 /**
  * リスト作成
  */
- export const NoteListItems = (props) => {  
+export const NoteListItems = (props) => {  
 
   const { note, setNote } = useContext(ShowNoteContext);
   // From NoteList
   const notesData = props.notesData;  
-  
+  // 空のリストを返す
   if (!notesData) {
-    return;
+    return (
+      <ul></ul>
+    );
   };   
   /**
    * onClick時にAPI呼び出し
@@ -25,16 +27,16 @@ import axios from "axios";
   /**
    * noteId をキーにAPIから値取得
    */  
-   const getNoteContents = (noteId) => {
-    // GET    
-    axios.get(`/notes/${ noteId }`).then(res => {
+  const getNoteContents = (noteId) => {
+    // GET       
+    (async () => {
+      const resNote = await axios.get(`/notes/${noteId}`);
       // タイトル, 内容 をセット
-      const { title, content } = res.data;
+      const { title, content } = resNote.data;
       // update useContext
       const data = { ...note, noteId, title, body: content };
-      setNote(data);
-      console.log("a");
-    });            
+      setNote(data);      
+    })();
   };
   /**
    * Create NoteList
@@ -64,7 +66,7 @@ import axios from "axios";
   });
   // Join With Folder + Without Folder
   const items = folders.concat(notesWithoutFolder);
-  
+
   return (
     <>
       {items}
