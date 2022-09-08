@@ -6,14 +6,14 @@ export const ShowNoteProvider = props => {
   const { children } = props;
 
   // ノートの情報
-  const [ values, setValues ] = useState({
+  const [ note, setNote ] = useState({
     noteId: "",
     title: "",
     body: "",
   });    
 
   return (
-    <ShowNoteContext.Provider value={{ values, setValues }}>
+    <ShowNoteContext.Provider value={{ note, setNote }}>
       {children}
     </ShowNoteContext.Provider>
   );

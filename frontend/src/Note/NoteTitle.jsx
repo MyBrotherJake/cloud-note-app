@@ -6,18 +6,18 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  */
 export const NoteTitle = () => {
 
-  const { values, setValues } = useContext(ShowNoteContext);
+  const { note, setNote } = useContext(ShowNoteContext);
   
-  const onChangeTitle = (e) => {
+  const onChangeTitle = (element) => {
     // ノート名をセット
-    setValues({...values, title: e.target.value});    
+    setNote({ ...note, title: element.target.value });    
   }
 
   return (
     <TitleArea 
       onChange={onChangeTitle} 
       placeholder="タイトル" 
-      value={values.title}
+      value={note.title}
     />
   );
 };

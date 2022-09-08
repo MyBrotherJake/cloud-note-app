@@ -6,29 +6,20 @@ import { NoteListItems } from "./NoteListItems";
  */
 export const NoteList = () => {  
   
-  const [ data, setData ] = useState("");
+  const [ notes, setNotes ] = useState("");
   // 再描画の制御に useEffectを使う
   useEffect(() => {
-    // axios でAPIに通信
-    const instance = axios.create({
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE",
-        "Access-Control-Allow-Headers": "Content-Type",
-      }      
-    });
     // ノート一覧APIにアクセス
-    instance.get("/notes").then(res => {            
+    axios.get("/notes").then(res => {            
       // 取得した値でステートを更新
-      setData(res.data);      
+      setNotes(res.data);      
     });            
   },[]);  
   
   return (
     <>
       <ul>
-        <NoteListItems notesData={data} />
+        <NoteListItems notesData={notes} />
       </ul>
     </>
   );     
