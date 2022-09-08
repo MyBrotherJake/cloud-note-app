@@ -18,25 +18,23 @@ export const NoteListItems = (props) => {
   /**
    * onClick時にAPI呼び出し
    */
-  const onClickTitle = (element) => {    
+  const onClickTitle = async (element) => {    
     // ノートID取得    
     const noteId = element.target.id;
     // APIから詳細を取得    
-    getNoteContents(noteId);    
+    await getNoteContents(noteId);    
   };   
   /**
    * noteId をキーにAPIから値取得
    */  
-  const getNoteContents = (noteId) => {
-    // GET       
-    (async () => {
-      const resNote = await axios.get(`/notes/${noteId}`);
-      // タイトル, 内容 をセット
-      const { title, content } = resNote.data;
-      // update useContext
-      const data = { ...note, noteId, title, body: content };
-      setNote(data);      
-    })();
+  const getNoteContents = async (noteId) => {
+    // GET
+    const resNote = await axios.get(`/notes/${noteId}`);
+    // タイトル, 内容 をセット
+    const { title, content } = resNote.data;
+    // update useContext
+    const data = { ...note, noteId, title, body: content };
+    setNote(data);
   };
   /**
    * Create NoteList
