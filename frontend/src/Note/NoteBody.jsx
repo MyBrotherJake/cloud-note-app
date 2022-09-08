@@ -7,11 +7,11 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  */
 export const NoteBody = () => {
 
-  const { values, setValues } = useContext(ShowNoteContext);
+  const { note, setNote } = useContext(ShowNoteContext);
   // ノートの編集内容をアップデート
-  const onChangeBody = (value) => {      
+  const onChangeBody = (content) => {      
     // エディタ自身で 内部的に State を管理しているため、onChange での State変更は 予期しない動作になる    
-    //setValues({...values, body: value()});        
+    //setNote({...note, body: content()});        
   } 
   
   return (
@@ -20,7 +20,7 @@ export const NoteBody = () => {
         <Editor 
           placeholder=""
           onChange={onChangeBody}          
-          value={values.body}
+          value={note.body}
           readOnly={false}
         />        
       </EditorArea>    
