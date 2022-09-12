@@ -1,6 +1,8 @@
 import { useContext } from "react";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import axios from "axios";
+import { BeakerIcon } from "@heroicons/react/20/solid";
+import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+
 /**
  * リスト作成
  */
@@ -42,7 +44,13 @@ export const NoteListItems = (props) => {
   // Without Folder    
   const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
     return (
-      <li id={id} key={id} onClick={onClickTitle}>{title}</li>
+      <>      
+      <li id={id} key={id} onClick={onClickTitle}>  
+      <BeakerIcon className="h-px w-px" />
+        {title}
+      </li>
+      
+      </>
     );
   });  
   // With Folder
