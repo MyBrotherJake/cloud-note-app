@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import axios from "axios";
-import { BeakerIcon } from "@heroicons/react/20/solid";
+import { FolderIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
@@ -9,8 +9,15 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 export const NoteListItems = (props) => {  
 
   const { note, setNote } = useContext(ShowNoteContext);
-  // From NoteList
-  const notesData = props.notesData;  
+  
+  const {notesData, listStyle} = props;
+  // Icon Style  
+  const iconStyle = {
+    "width": "20px",
+    "height": "20px",
+    // TODO float ではなく display: flex で対応する
+    "float": "left",            
+  };  
   // 空のリストを返す
   if (!notesData) {
     return (
@@ -44,30 +51,33 @@ export const NoteListItems = (props) => {
   // Without Folder    
   const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
     return (
-      <>      
-      <li id={id} key={id} onClick={onClickTitle}>  
-      <BeakerIcon className="h-px w-px" />
-        {title}
-      </li>
-      
+      <> 
+        <DocumentTextIcon style={iconStyle} />       
+        <li id={id} key={id} onClick={onClickTitle}>        
+          {title}
+        </li>      
       </>
     );
   });  
   // With Folder
   const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
-      <li key={id} id={id}>
-        {name}
-        {
-          notes.map(({id, title}) => {            
-            return (
-              <ul>
-                <li id={id} key={id} onClick={onClickTitle}>{title}</li>
-              </ul>
-            );              
-          }) 
-        }          
-      </li>
+      <>
+        <FolderIcon style={iconStyle} />
+        <li id={id} key={id} >
+          {name}
+          {
+            notes.map(({id, title}) => {            
+              return (
+                <ul style={listStyle}>
+                  <DocumentTextIcon style={iconStyle} />
+                  <li id={id} key={id} onClick={onClickTitle}>{title}</li>
+                </ul>
+              );              
+            }) 
+          }          
+        </li>
+      </>
     );
   });
   // Join With Folder + Without Folder

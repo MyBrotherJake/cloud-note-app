@@ -14,12 +14,16 @@ export const NoteList = () => {
       const resNotes = await axios.get("/notes");
       setNotes(resNotes.data);
     })();
-  },[]);  
+  },[]);    
   
+  const listStyle = {
+    "listStyle": "none",    
+  };
+
   return (
     <>
-      <ul>
-        <NoteListItems notesData={notes} />
+      <ul style={listStyle}>
+        <NoteListItems notesData={notes} listStyle={listStyle} />
       </ul>
     </>
   );     
