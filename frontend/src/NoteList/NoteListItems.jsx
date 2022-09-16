@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import axios from "axios";
-import { FolderIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
@@ -14,9 +14,8 @@ export const NoteListItems = (props) => {
   // Icon Style  
   const iconStyle = {
     "width": "20px",
-    "height": "20px",
-    // TODO float ではなく display: flex で対応する
-    "float": "left",            
+    "height": "20px",    
+    "float": "left",           
   };  
   // 空のリストを返す
   if (!notesData) {
@@ -51,9 +50,9 @@ export const NoteListItems = (props) => {
   // Without Folder    
   const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
     return (
-      <> 
-        <DocumentTextIcon style={iconStyle} />       
-        <li id={id} key={id} onClick={onClickTitle}>        
+      <>        
+        <DocumentTextIcon style={iconStyle} />
+        <li id={id} key={id} onClick={onClickTitle}>                  
           {title}
         </li>      
       </>
@@ -62,16 +61,18 @@ export const NoteListItems = (props) => {
   // With Folder
   const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
-      <>
-        <FolderIcon style={iconStyle} />
-        <li id={id} key={id} >
+      <>        
+        <li><FolderMinusIcon style={iconStyle} /></li>
+        <li id={id} key={id} >                  
           {name}
           {
             notes.map(({id, title}) => {            
               return (
                 <ul style={listStyle}>
                   <DocumentTextIcon style={iconStyle} />
-                  <li id={id} key={id} onClick={onClickTitle}>{title}</li>
+                  <li id={id} key={id} onClick={onClickTitle}>                                      
+                    {title}
+                  </li>
                 </ul>
               );              
             }) 
