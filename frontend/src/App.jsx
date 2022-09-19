@@ -10,7 +10,7 @@ export const App = () => {
 
   // 初回useEffectでaccessTokenをサーバー側で認証する
   // アクセストークンがあればOKとする。AuthContextでlocalStorageに保管する
-
+  
   if (!user.accessToken) {
     return <Signin />
   } else {
@@ -29,7 +29,7 @@ export const App = () => {
         </div>
       </NoteContainer>
     );  
-  }
+  }    
 }
 
 const NoteContainer = styled.div`

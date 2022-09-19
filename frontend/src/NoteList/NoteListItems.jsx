@@ -1,14 +1,22 @@
 import { useContext } from "react";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import axios from "axios";
+import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+
 /**
  * リスト作成
  */
 export const NoteListItems = (props) => {  
 
   const { note, setNote } = useContext(ShowNoteContext);
-  // From NoteList
-  const notesData = props.notesData;  
+  
+  const {notesData, listStyle} = props;
+  // Icon Style  
+  const iconStyle = {
+    "width": "20px",
+    "height": "20px",    
+    "float": "left",           
+  };  
   // 空のリストを返す
   if (!notesData) {
     return (
@@ -42,24 +50,35 @@ export const NoteListItems = (props) => {
   // Without Folder    
   const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
     return (
-      <li id={id} key={id} onClick={onClickTitle}>{title}</li>
+      <>        
+        <DocumentTextIcon style={iconStyle} />
+        <li id={id} key={id} onClick={onClickTitle}>                  
+          {title}
+        </li>      
+      </>
     );
   });  
   // With Folder
   const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
-      <li key={id} id={id}>
-        {name}
-        {
-          notes.map(({id, title}) => {            
-            return (
-              <ul>
-                <li id={id} key={id} onClick={onClickTitle}>{title}</li>
-              </ul>
-            );              
-          }) 
-        }          
-      </li>
+      <>        
+        <li><FolderMinusIcon style={iconStyle} /></li>
+        <li id={id} key={id} >                  
+          {name}
+          {
+            notes.map(({id, title}) => {            
+              return (
+                <ul style={listStyle}>
+                  <DocumentTextIcon style={iconStyle} />
+                  <li id={id} key={id} onClick={onClickTitle}>                                      
+                    {title}
+                  </li>
+                </ul>
+              );              
+            }) 
+          }          
+        </li>
+      </>
     );
   });
   // Join With Folder + Without Folder
