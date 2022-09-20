@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { NoteListItems } from "./NoteListItems";
 /**
@@ -6,13 +6,13 @@ import { NoteListItems } from "./NoteListItems";
  */
 export const NoteList = () => {  
   
-  const [ notes, setNotes ] = useState("");
+  const [ notes, setNotes ] = useState("");  
   // 再描画の制御に useEffectを使う
   useEffect(() => {    
     // ノート一覧APIにアクセス    
     (async () => {
       const resNotes = await axios.get("/notes");
-      setNotes(resNotes.data);
+      setNotes(resNotes.data);      
     })();
   },[]);    
   

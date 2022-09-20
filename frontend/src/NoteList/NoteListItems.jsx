@@ -14,8 +14,7 @@ export const NoteListItems = (props) => {
   // Icon Style  
   const iconStyle = {
     "width": "20px",
-    "height": "20px",    
-    "float": "left",           
+    "height": "20px",        
   };  
   // 空のリストを返す
   if (!notesData) {
@@ -51,8 +50,8 @@ export const NoteListItems = (props) => {
   const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
     return (
       <>        
-        <DocumentTextIcon style={iconStyle} />
         <li id={id} key={id} onClick={onClickTitle}>                  
+          <DocumentTextIcon style={iconStyle} />
           {title}
         </li>      
       </>
@@ -62,15 +61,15 @@ export const NoteListItems = (props) => {
   const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
       <>        
-        <li><FolderMinusIcon style={iconStyle} /></li>
         <li id={id} key={id} >                  
+          <FolderMinusIcon style={iconStyle} />
           {name}
           {
             notes.map(({id, title}) => {            
               return (
-                <ul style={listStyle}>
-                  <DocumentTextIcon style={iconStyle} />
+                <ul style={listStyle}>                  
                   <li id={id} key={id} onClick={onClickTitle}>                                      
+                    <DocumentTextIcon style={iconStyle} />
                     {title}
                   </li>
                 </ul>
