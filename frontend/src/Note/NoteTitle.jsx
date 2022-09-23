@@ -10,14 +10,14 @@ export const NoteTitle = () => {
   
   const onChangeTitle = (element) => {
     // ノート名をセット
-    setNote({ ...note, title: element.target.value });    
+    setNote({ title: element.target.value, ...note });    
   }
 
   return (
     <TitleArea 
       onChange={onChangeTitle} 
       placeholder="タイトル" 
-      value={note.title}
+      value={note[0].title}
     />
   );
 };

@@ -16,8 +16,9 @@ export const NoteListItems = (props) => {
     "width": "20px",
     "height": "20px",        
   };  
-  // 空のリストを返す
-  if (!notesData) {
+  // データが取得できない場合
+  if (!notesData) {   
+    // 空のリストを返す
     return (
       <ul></ul>
     );
@@ -38,10 +39,14 @@ export const NoteListItems = (props) => {
     // GET
     const resNote = await axios.get(`/notes/${noteId}`);
     // タイトル, 内容 をセット
-    const { title, content } = resNote.data;
-    // update useContext
-    const data = { ...note, noteId, title, body: content };
-    setNote(data);
+    const { title, content } = resNote.data;    
+    // 空の配列を削除する    
+    if (note[0].noteId === "") {
+      note.shift();
+    }
+    // ステートを更新    
+    const data = [{ noteId, title, body: content }, ...note];
+    setNote(data);    
   };
   /**
    * Create NoteList
