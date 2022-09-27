@@ -23,8 +23,14 @@ export const ShowNoteProvider = props => {
     ]    
   );
 
+  const [ noteId, setNoteId ] = useState(
+    {
+      noteId: ""
+    }
+  );
+
   return (
-    <ShowNoteContext.Provider value={{ note, setNote }}>
+    <ShowNoteContext.Provider value={{ note, setNote, noteId, setNoteId }}>
       {children}
     </ShowNoteContext.Provider>
   );

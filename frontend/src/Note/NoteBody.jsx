@@ -10,18 +10,10 @@ export const NoteBody = () => {
   const { note, setNote } = useContext(ShowNoteContext);   
   // ノートの編集内容をアップデート
   const onChangeBody = (content) => {      
-    // Update State                            
-    const data = note.forEach((noteId) => {           
-      if (noteId["noteId"] === note[0].noteId) {        
-        console.log("a");        
-      }
-    });
-    setNote(...note[0], content())
+    // Update State                                
     //setNote({...note, body: content()});        
     //setNote([ ...note, { body: content() }]);   
   };     
-    
-  console.log(note);  
 
   return (
     <>

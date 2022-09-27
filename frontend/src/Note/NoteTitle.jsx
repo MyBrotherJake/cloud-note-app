@@ -6,18 +6,29 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  */
 export const NoteTitle = () => {
 
-  const { note, setNote } = useContext(ShowNoteContext);
+  const { note, setNote, noteId } = useContext(ShowNoteContext);
   
   const onChangeTitle = (element) => {
     // ノート名をセット
-    setNote({ title: element.target.value, ...note });    
+    //setNote({ title: element.target.value, ...note });    
+    
   }
+  // 現在選択されているタイトルをIDから取得
+  const titleData = note.find(element => element["noteId"] === noteId);
+  let title = "";
+
+  if (titleData) {
+    title = titleData["title"];    
+  }
+
+  
+  
 
   return (
     <TitleArea 
       onChange={onChangeTitle} 
-      placeholder="タイトル" 
-      value={note[0].title}
+      placeholder="タイトル"
+      value={title}
     />
   );
 };
