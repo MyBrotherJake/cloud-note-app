@@ -1,42 +1,26 @@
-import { useContext } from "react";
 import Editor from "rich-markdown-editor";
 import styled from "styled-components";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { GetContent, UpdateNote } from "./SetContent";
 /**
  * ノートの作成、編集
  */
 export const NoteBody = () => {
+  // 本文の取得
+  const { noteId, data, isChange, setIsChange, onChangeContent } = GetContent("body");
 
-  const { note, setNote, noteId } = useContext(ShowNoteContext);   
-  // ノートの編集内容をアップデート  
-  const onChangeBody = (content) => {
-    // ノートIDをキーに配列からインデックスを取得    
-    const index = note.findIndex(({noteId}) => noteId === bodyData["noteId"]);
-
-    if (index !== -1) {        
-      // 対象のノート本文を変更
-      note[index]["body"] = content();      
-    }                    
-    setNote(note);
-  };  
-
-  // 現在選択されている本文をIDから取得      
-  const bodyData = note.find(element => element["noteId"] === noteId);      
-  
-  let body = "";  
-  // タイトルがあれば表示
-  if (bodyData) {
-    body = bodyData["body"];        
-  };   
+  if (isChange) {
+    UpdateNote();
+    setIsChange(false);
+  }
 
   return (
     <>
       <EditorArea>
         <Editor          
           key={noteId}
-          value={body}
-          defaultValue={body}
-          onChange={onChangeBody}          
+          value={data}
+          defaultValue={data}
+          onChange={onChangeContent}          
         />        
       </EditorArea>    
     </>    

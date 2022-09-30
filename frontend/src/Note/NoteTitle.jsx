@@ -1,39 +1,23 @@
-import { useContext } from "react";
 import styled from "styled-components";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { GetContent, UpdateNote } from "./SetContent";
 /**
  * ノートのタイトル
  */
 export const NoteTitle = () => {
-
-  const { note, setNote, noteId } = useContext(ShowNoteContext);
+  // タイトルの取得
+  const { noteId, data, isChange, setIsChange, onChangeContent } = GetContent("title");
     
-  const onChangeTitle = (element) => {
-    // ノートIDをキーに配列からインデックスを取得    
-    const index = note.findIndex(({noteId}) => noteId === titleData["noteId"]);
-
-    if (index !== -1) {        
-      // 対象のノートのタイトルを変更
-      note[index]["title"] = element.target.value;
-    }                  
-    setNote(note);
-  };  
-
-  // 現在選択されているタイトルをIDから取得      
-  const titleData = note.find(element => element["noteId"] === noteId);      
-  
-  let title = "";  
-  // タイトルがあれば表示
-  if (titleData) {
-    title = titleData["title"];        
-  }; 
+  if (isChange) {
+    UpdateNote();
+    setIsChange(false);
+  }
 
   return (
     <TitleArea 
       key={noteId}
-      onChange={onChangeTitle} 
+      onChange={onChangeContent} 
       placeholder="タイトル"            
-      defaultValue={title}
+      defaultValue={data}
     />
   );
 };
