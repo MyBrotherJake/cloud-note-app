@@ -6,11 +6,12 @@ import { GetContent, UpdateNote } from "./SetContent";
  */
 export const NoteBody = () => {
   // 本文の取得
-  const { noteId, data, isChange, setIsChange, onChangeContent } = GetContent("body");
+  const { note, noteId, data, isChange, setIsChange, onChangeContent } = GetContent("body");
 
+  console.log(data);
   if (isChange) {
-    UpdateNote();
     setIsChange(false);
+    UpdateNote(note);    
   }
 
   return (
@@ -18,7 +19,7 @@ export const NoteBody = () => {
       <EditorArea>
         <Editor          
           key={noteId}
-          value={data}
+          //value={data}
           defaultValue={data}
           onChange={onChangeContent}          
         />        

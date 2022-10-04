@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import axios from "axios";
-import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/solid";
+import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
@@ -10,7 +10,7 @@ export const NoteListItems = (props) => {
 
   const { note, setNote, setNoteId } = useContext(ShowNoteContext);
   
-  const {notesData, listStyle} = props;
+  const { notesData, listStyle } = props;
   // Icon Style  
   const iconStyle = {
     "width": "20px",
@@ -42,7 +42,10 @@ export const NoteListItems = (props) => {
     const resNote = await axios.get(`/notes/${noteId}`);
     // タイトル, 内容 をセット
     const { title, content } = resNote.data;    
+
+    // TODO NoteList.jsx での処理に回す
     // 最初のレンダリングで空の配列が作られるので削除する      
+    
     if (note[0].noteId === "") {
       setNote(note.shift());
     };            
@@ -53,7 +56,7 @@ export const NoteListItems = (props) => {
       // 前に追加していく
       const data = [{ noteId, title, body: content }, ...note];
       setNote(data);    
-    };        
+    };           
   };
   /**
    * Create NoteList

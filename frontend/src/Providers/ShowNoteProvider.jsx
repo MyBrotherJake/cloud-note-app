@@ -12,7 +12,7 @@ export const ShowNoteProvider = props => {
     title: "",
     body: "",
   });    
-*/
+  */
   const [ note, setNote ] = useState(
     [
       {
