@@ -35,8 +35,7 @@ export const NoteList = () => {
         notesList.shift();
       }      
       // State更新
-      setNotesList(notesList);   
-      console.log("a");          
+      setNotesList(notesList);             
     })();
   }, [notesList, setNotesList]);       
   /**
