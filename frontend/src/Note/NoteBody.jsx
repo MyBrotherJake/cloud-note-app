@@ -1,25 +1,23 @@
 import Editor from "rich-markdown-editor";
 import styled from "styled-components";
-import { GetContent, UpdateNote } from "./SetContent";
+import { SetContent, UpdateNote } from "./SetNote";
 /**
  * ノートの作成、編集
  */
 export const NoteBody = () => {
   // 本文の取得
-  const { note, noteId, data, isChange, setIsChange, onChangeContent } = GetContent("body");
-
-  console.log(data);
-  if (isChange) {
+  const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("body");
+  
+  if (isChange) {    
+    UpdateNote(notesList, note);    
     setIsChange(false);
-    UpdateNote(note);    
   }
 
   return (
     <>
       <EditorArea>
         <Editor          
-          key={noteId}
-          //value={data}
+          key={note["noteId"]}         
           defaultValue={data}
           onChange={onChangeContent}          
         />        

@@ -1,23 +1,23 @@
 import styled from "styled-components";
-import { GetContent, UpdateNote } from "./SetContent";
+import { SetContent, UpdateNote } from "./SetNote";
 /**
  * ノートのタイトル
  */
 export const NoteTitle = () => {
-  // タイトルの取得
-  const { note, noteId, data, isChange, setIsChange, onChangeContent } = GetContent("title");
+  // タイトルの取得    
+  const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("title");
   
-  if (isChange) {
+  if (isChange) {    
+    UpdateNote(notesList, note);    
     setIsChange(false);
-    UpdateNote(note);    
   }
 
   return (
     <TitleArea 
-      key={noteId}
+      key={note["noteId"]}
       onChange={onChangeContent} 
       placeholder="タイトル"            
-      defaultValue={data}
+      value={data}
     />
   );
 };

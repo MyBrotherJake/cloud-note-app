@@ -8,41 +8,40 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  */
 export const NoteList = () => {  
   
-  //const { note, setNote } = useContext(ShowNoteContext);  
-  //const { notesList, setNotesList } = useContext(ShowNoteContext);
-  const [ notes, setNotes ] = useState("");  
-  //const [ notes, setNotes ] = useState({});  
-  // 再描画の制御に useEffectを使う
-  // => タイトル変更時に再レンダリングしたいので、useEffectは使用しない
-  /*
-  useEffect(() => {    
-    // ノート一覧APIにアクセス    
+  const { notesList, setNotesList } = useContext(ShowNoteContext);    
+  const [ notes, setNotes ] = useState();    
+  // 再描画の制御
+  useEffect(() => {
     (async () => {
       const resNotes = await axios.get("/notes");
-      setNotes(resNotes.data);      
-    })();
-  },[]);      
- */
-  (async () => {
-    const resNotes = await axios.get("/notes");
-    // TODO ここで配列を整理してState を更新する
-    setNotes(resNotes.data);      
-    //await setOrder(resNotes.data);
-  })();
-  /*
-  const setOrder = async (notesData) => {
-    await notesData["notesWithoutFolder"].forEach(({ id, title, content }) => {
-      const data = [{ noteId: id, title, body: content }, ...notesList]; 
-      setNotesList(data);     
-    });
-    await notesData["folders"].forEach(({notes}) => {
-      notes.forEach(({ id, title, content }) => {
-        const data = [{ noteId: id, title, body: content }, ...notesList];        
-        setNotesList(data);
+      // APIから取得したデータをそのまま props として渡す
+      const notesData = resNotes.data;
+      setNotes(notesData);          
+      // 配列を整理して notesList を更新する
+      // フォルダなし    
+      notesData["notesWithoutFolder"].forEach(({ id, title, content }) => {            
+        // 配列に追加
+        notesList.push({ noteId: id, title, body: content });      
       });
-    });    
-  };
-  */  
+      // フォルダあり
+      notesData["folders"].forEach(({notes}) => {      
+        notes.forEach(({ id, title, content }) => {        
+          // 配列に追加
+          notesList.push({ noteId: id, title, body: content });        
+        });
+      }); 
+      // 空のデータは削除
+      if (notesList[0]["noteId"] === "") {
+        notesList.shift();
+      }      
+      // State更新
+      setNotesList(notesList);   
+      console.log("a");          
+    })();
+  }, [notesList, setNotesList]);       
+  /**
+   * list-style: none;
+   */
   const listStyle = {
     "listStyle": "none",    
   };

@@ -7,8 +7,8 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  * リスト作成
  */
 export const NoteListItems = (props) => {  
-
-  const { note, setNote, setNoteId } = useContext(ShowNoteContext);
+  
+  const { setNote } = useContext(ShowNoteContext);
   
   const { notesData, listStyle } = props;
   // Icon Style  
@@ -16,21 +16,19 @@ export const NoteListItems = (props) => {
     "width": "20px",
     "height": "20px",        
   };  
-  // データが取得できない場合
+  // データが取得できない場合  
   if (!notesData) {   
     // 空のリストを返す
     return (
       <ul></ul>
     );
-  };   
+  };  
   /**
    * onClick時にAPI呼び出し
    */
   const onClickTitle = async (element) => {    
     // ノートID取得    
     const noteId = element.target.id;
-    // 現在選択されたノートIDのみのStateを更新
-    setNoteId(noteId);
     // APIから詳細を取得    
     await getNoteContents(noteId);    
   };   
@@ -42,21 +40,8 @@ export const NoteListItems = (props) => {
     const resNote = await axios.get(`/notes/${noteId}`);
     // タイトル, 内容 をセット
     const { title, content } = resNote.data;    
-
-    // TODO NoteList.jsx での処理に回す
-    // 最初のレンダリングで空の配列が作られるので削除する      
-    
-    if (note[0].noteId === "") {
-      setNote(note.shift());
-    };            
-    // ノートIDの重複チェック
-    const isExist = note.some(element => element["noteId"] === noteId);
-    // 重複がなければ
-    if (!isExist){
-      // 前に追加していく
-      const data = [{ noteId, title, body: content }, ...note];
-      setNote(data);    
-    };           
+    // 現在選択されたノート
+    setNote({ noteId, title, body: content });    
   };
   /**
    * Create NoteList
