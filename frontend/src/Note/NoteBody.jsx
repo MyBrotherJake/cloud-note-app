@@ -6,29 +6,27 @@ import { SetContent, UpdateNote } from "./SetNote";
  */
 export const NoteBody = () => {
   // 本文の取得
+  
   const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("body");
   
   if (isChange) {    
     UpdateNote(notesList, note);    
     setIsChange(false);
-  }
-
+  } 
+   
   return (
     <>
       <EditorArea>
-        <Editor          
+        <Editor                    
           key={note["noteId"]}         
           defaultValue={data}
-          onChange={onChangeContent}          
+          onChange={onChangeContent}                    
         />        
       </EditorArea>    
-    </>    
-  );  
+    </>        
+  ); 
 };
 
 const EditorArea = styled.div`
   margin: 20px;
 `;
-
-
-

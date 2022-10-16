@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import axios from "axios";
 import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
@@ -20,7 +20,7 @@ export const NoteListItems = (props) => {
   if (!notesData) {   
     // 空のリストを返す
     return (
-      <ul></ul>
+      <li></li>
     );
   };  
   /**
@@ -49,27 +49,27 @@ export const NoteListItems = (props) => {
   // Without Folder    
   const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
     return (
-      <>        
+      <Fragment key={id}>        
         <li id={id} key={id} onClick={onClickTitle}>                  
-          <DocumentTextIcon style={iconStyle} />
+          <DocumentTextIcon style={iconStyle} key={id} />
           {title}
         </li>      
-      </>
+      </Fragment>
     );
   });  
   // With Folder
   const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
-      <>        
+      <Fragment key={id}>        
         <li id={id} key={id} >                  
-          <FolderMinusIcon style={iconStyle} />
+          <FolderMinusIcon style={iconStyle} key={id} />
           {name}
           {
             notes.map(({id, title}) => {            
               return (
-                <ul style={listStyle}>                  
+                <ul style={listStyle} key={id}>                  
                   <li id={id} key={id} onClick={onClickTitle}>                                      
-                    <DocumentTextIcon style={iconStyle} />
+                    <DocumentTextIcon style={iconStyle} key={id} />
                     {title}
                   </li>
                 </ul>
@@ -77,7 +77,7 @@ export const NoteListItems = (props) => {
             }) 
           }          
         </li>
-      </>
+      </Fragment>
     );
   });
   // Join With Folder + Without Folder
