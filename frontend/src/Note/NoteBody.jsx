@@ -1,37 +1,32 @@
-import { useContext } from "react";
 import Editor from "rich-markdown-editor";
 import styled from "styled-components";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { SetContent, UpdateNote } from "./SetNote";
 /**
  * ノートの作成、編集
  */
 export const NoteBody = () => {
-
-  const { note, setNote } = useContext(ShowNoteContext);
-  // ノートの編集内容をアップデート
-  const onChangeBody = (content) => {      
-    // エディタ自身で 内部的に State を管理しているため、onChange での State変更は 予期しない動作になる    
-    //setNote({...note, body: content()});        
-  } 
+  // 本文の取得
   
+  const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("body");
+  
+  if (isChange) {    
+    UpdateNote(notesList, note);    
+    setIsChange(false);
+  } 
+   
   return (
     <>
       <EditorArea>
-        <Editor 
-          placeholder=""
-          onChange={onChangeBody}          
-          value={note.body}
-          readOnly={false}
+        <Editor                    
+          key={note["noteId"]}         
+          defaultValue={data}
+          onChange={onChangeContent}                    
         />        
       </EditorArea>    
-    </>    
-  );
-  
+    </>        
+  ); 
 };
 
 const EditorArea = styled.div`
   margin: 20px;
 `;
-
-
-

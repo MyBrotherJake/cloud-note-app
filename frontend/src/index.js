@@ -4,11 +4,15 @@ import { App } from "./App";
 import { AuthProvider } from './Providers/AuthProvider';
 import { ShowNoteProvider } from "./Providers/ShowNoteProvider";
 
-const root = createRoot(document.getElementById("root"));
-root.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(  
   <AuthProvider>
     <ShowNoteProvider>
-      <App />
+      <App />        
     </ShowNoteProvider>
-  </AuthProvider>
-)
+  </AuthProvider>    
+);
+
+

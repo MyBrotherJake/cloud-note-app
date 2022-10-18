@@ -1,23 +1,23 @@
-import { useContext } from "react";
 import styled from "styled-components";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { SetContent, UpdateNote } from "./SetNote";
 /**
  * ノートのタイトル
  */
 export const NoteTitle = () => {
-
-  const { note, setNote } = useContext(ShowNoteContext);
+  // タイトルの取得    
+  const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("title");
   
-  const onChangeTitle = (element) => {
-    // ノート名をセット
-    setNote({ ...note, title: element.target.value });    
+  if (isChange) {    
+    UpdateNote(notesList, note);    
+    setIsChange(false);
   }
 
   return (
     <TitleArea 
-      onChange={onChangeTitle} 
-      placeholder="タイトル" 
-      value={note.title}
+      key={note["noteId"]}
+      onChange={onChangeContent} 
+      placeholder="タイトル"            
+      value={data}
     />
   );
 };

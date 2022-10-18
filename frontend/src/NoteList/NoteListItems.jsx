@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import axios from "axios";
 import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
@@ -7,22 +7,22 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  * リスト作成
  */
 export const NoteListItems = (props) => {  
-
-  const { note, setNote } = useContext(ShowNoteContext);
   
-  const {notesData, listStyle} = props;
+  const { setNote } = useContext(ShowNoteContext);
+  
+  const { notesData, listStyle } = props;
   // Icon Style  
   const iconStyle = {
     "width": "20px",
-    "height": "20px",    
-    "float": "left",           
+    "height": "20px",        
   };  
-  // 空のリストを返す
-  if (!notesData) {
+  // データが取得できない場合  
+  if (!notesData) {   
+    // 空のリストを返す
     return (
-      <ul></ul>
+      <li></li>
     );
-  };   
+  };  
   /**
    * onClick時にAPI呼び出し
    */
@@ -39,10 +39,9 @@ export const NoteListItems = (props) => {
     // GET
     const resNote = await axios.get(`/notes/${noteId}`);
     // タイトル, 内容 をセット
-    const { title, content } = resNote.data;
-    // update useContext
-    const data = { ...note, noteId, title, body: content };
-    setNote(data);
+    const { title, content } = resNote.data;    
+    // 現在選択されたノート
+    setNote({ noteId, title, body: content });    
   };
   /**
    * Create NoteList
@@ -50,27 +49,27 @@ export const NoteListItems = (props) => {
   // Without Folder    
   const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
     return (
-      <>        
-        <DocumentTextIcon style={iconStyle} />
+      <Fragment key={id}>        
         <li id={id} key={id} onClick={onClickTitle}>                  
+          <DocumentTextIcon style={iconStyle} key={id} />
           {title}
         </li>      
-      </>
+      </Fragment>
     );
   });  
   // With Folder
   const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
-      <>        
-        <li><FolderMinusIcon style={iconStyle} /></li>
+      <Fragment key={id}>        
         <li id={id} key={id} >                  
+          <FolderMinusIcon style={iconStyle} key={id} />
           {name}
           {
             notes.map(({id, title}) => {            
               return (
-                <ul style={listStyle}>
-                  <DocumentTextIcon style={iconStyle} />
+                <ul style={listStyle} key={id}>                  
                   <li id={id} key={id} onClick={onClickTitle}>                                      
+                    <DocumentTextIcon style={iconStyle} key={id} />
                     {title}
                   </li>
                 </ul>
@@ -78,7 +77,7 @@ export const NoteListItems = (props) => {
             }) 
           }          
         </li>
-      </>
+      </Fragment>
     );
   });
   // Join With Folder + Without Folder
