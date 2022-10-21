@@ -1,6 +1,6 @@
 import { Fragment, useContext } from "react";
 import axios from "axios";
-import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/solid";
+import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
