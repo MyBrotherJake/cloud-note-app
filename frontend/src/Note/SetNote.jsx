@@ -9,11 +9,11 @@ export function SetContent (target) {
   // State を取得
   const { notesList, setNotesList, note } = useContext(ShowNoteContext);
   // 変更フラグ
-  const [ isChange, setIsChange ] = useState(false);
+  const [ isChange, setIsChange ] = useState(false);  
   // noteId
   const noteId = note["noteId"];
   // NoteListからIDをもとに ノート詳細を取得
-  const noteData = notesList.find(element => element["noteId"] === noteId);
+  const noteData = notesList.find(element => element && element["noteId"] === noteId);
   // データ取得
   let data = "";
   if (noteData) {

@@ -7,28 +7,37 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  */
 export const DeleteNoteButton = () => {
 
-  const { note, setNote } = useContext(ShowNoteContext);
+  const { note, setNote, notesList, setNotesList } = useContext(ShowNoteContext);
   /**
    * 削除アイコンクリック
    */
   const onClickDelete = async () => {
-    // TODO 削除ボタンクリック
-    if (window.confirm("ノートを削除してもよろしいですか？") === true) {      
+    // 確認ダイアログ表示
+    if (window.confirm("ノートを削除してもよろしいですか？") === true) {            
       await deleteNote(note["noteId"]);
-    }    
-  }
+    };    
+  };
   const deleteNote = async (noteId) => {
-    // 削除日
-    const now = new Date();
-    // PATCH Data
-    const patchData = {
-      noteId,
-      archivedAt: now
-    };
     // TODO 削除処理
-    const resData = await axios.patch(`/notes/${noteId}`, patchData );        
-    return resData
-  }
+    // Internal Server Error StatusCode 500
+    //const resData = await axios.delete(`/notes/${noteId}`);        
+    //console.log(resData);
+    // State 更新
+    updateNoteList(noteId);
+
+    //return resData;    
+  };
+  // TODO State の更新
+  const updateNoteList = (id) => {
+    // 配列のインデックスを取得
+    const index = notesList.findIndex(({noteId}) => noteId === id);
+    // 指定した要素を削除    
+    delete notesList[index];    
+    // State 更新    
+    setNotesList(notesList);
+    // 現在の選択をクリア
+    setNote({noteId: "", title: "", body: ""});    
+  };
 
   return (
     <TrashIcon onClick={onClickDelete} />          
