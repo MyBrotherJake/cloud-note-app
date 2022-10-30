@@ -47,7 +47,9 @@ export class NotesService {
   }
 
   async archive(id: string): Promise<Note> {
-    throw new Error('Method not implemented.');
-  }
+    const note = await this.noteRepository.findOne(id)
+    if (!note) throw new NotFoundException('ノートが見つかりません')
 
+    return await this.noteRepository.archiveNote(id)
+  }
 }

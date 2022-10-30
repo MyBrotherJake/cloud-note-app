@@ -38,4 +38,12 @@ export class NoteRepository extends Repository<Note> {
     await this.save(note)
     return note
   }
+
+  async archiveNote(noteId: string) {
+    const note = await this.findOne(noteId)
+    note.archivedAt = new Date().toISOString()
+
+    await this.save(note)
+    return note
+  }
 }
