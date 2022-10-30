@@ -9,7 +9,9 @@ export class NoteRepository extends Repository<Note> {
     // TODO userIdによる絞り込み
     return await this.find({ 
       where: {
-        folderId: null
+        folderId: null,
+        archivedAt: null,
+        destroyedAt: null
       }
     })
   }
