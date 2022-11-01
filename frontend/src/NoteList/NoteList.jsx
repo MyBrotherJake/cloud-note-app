@@ -10,7 +10,7 @@ export const NoteList = () => {
   
   const { notesList, setNotesList } = useContext(ShowNoteContext);    
   const [ notes, setNotes ] = useState();    
-  // 再描画の制御
+  // 再描画の制御  
   useEffect(() => {
     (async () => {
       const resNotes = await axios.get("/notes");
@@ -35,9 +35,9 @@ export const NoteList = () => {
         notesList.shift();
       }      
       // State更新
-      setNotesList(notesList);             
+      setNotesList(notesList);                   
     })();
-  }, [notesList, setNotesList]);       
+  }, [notesList, setNotesList]);         
   /**
    * list-style: none;
    */

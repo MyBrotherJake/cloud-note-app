@@ -18,23 +18,22 @@ export const DeleteNoteButton = () => {
     };    
   };
   const deleteNote = async (noteId) => {
-    // TODO 削除処理
-    // Internal Server Error StatusCode 500
-    //const resData = await axios.delete(`/notes/${noteId}`);        
-    //console.log(resData);
+    // 削除処理    
+    const resData = await axios.delete(`/notes/${noteId}`);            
     // State 更新
     updateNoteList(noteId);
-
-    //return resData;    
+    return resData;    
   };
   // TODO State の更新
   const updateNoteList = (id) => {
     // 配列のインデックスを取得
     const index = notesList.findIndex(({noteId}) => noteId === id);
-    // 指定した要素を削除    
-    delete notesList[index];    
-    // State 更新    
-    setNotesList(notesList);
+    // 指定した要素を削除        
+    if (delete notesList[index] === true) {      
+      const newNotesList = notesList.filter((element) => element === true);    
+      // State更新
+      setNotesList(newNotesList);          
+    }
     // 現在の選択をクリア
     setNote({noteId: "", title: "", body: ""});    
   };
