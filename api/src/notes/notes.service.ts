@@ -25,7 +25,12 @@ export class NotesService {
 
   async findAll(): Promise<FoldersAndNotes> {
     // TODO userIdによる絞り込み
-    const folders = await this.folderRepository.find({ relations: ['notes'] })
+    const folders = await this.folderRepository.find({
+      relations: ['notes'],
+      where: (qb) => {
+        qb.where('Folder__notes.archivedAt IS NULL AND Folder__notes.destroyedAt IS NULL')
+      }
+    })
     const notesWithoutFolder = await this.noteRepository.findNotesWithoutFolder()
     return { folders, notesWithoutFolder }
   }
@@ -47,7 +52,9 @@ export class NotesService {
   }
 
   async archive(id: string): Promise<Note> {
-    throw new Error('Method not implemented.');
-  }
+    const note = await this.noteRepository.findOne(id)
+    if (!note) throw new NotFoundException('ノートが見つかりません')
 
+    return await this.noteRepository.archiveNote(id)
+  }
 }

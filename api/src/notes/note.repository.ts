@@ -9,7 +9,9 @@ export class NoteRepository extends Repository<Note> {
     // TODO userIdによる絞り込み
     return await this.find({ 
       where: {
-        folderId: null
+        folderId: null,
+        archivedAt: null,
+        destroyedAt: null
       }
     })
   }
@@ -34,6 +36,14 @@ export class NoteRepository extends Repository<Note> {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     })
+
+    await this.save(note)
+    return note
+  }
+
+  async archiveNote(noteId: string) {
+    const note = await this.findOne(noteId)
+    note.archivedAt = new Date().toISOString()
 
     await this.save(note)
     return note
