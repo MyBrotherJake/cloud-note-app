@@ -22,7 +22,7 @@ export const NoteListItems = (props) => {
     return (
       <li></li>
     );
-  };  
+  };    
   /**
    * onClick時にAPI呼び出し
    */
@@ -79,7 +79,7 @@ export const NoteListItems = (props) => {
         </li>
       </Fragment>
     );
-  });
+  });  
   // Join With Folder + Without Folder
   const items = folders.concat(notesWithoutFolder);
 
