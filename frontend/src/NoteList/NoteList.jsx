@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import { NoteListItems } from "./NoteListItems";
+import { CreateNoteButton } from "./CreateNoteButton";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
@@ -50,6 +52,17 @@ export const NoteList = () => {
       <ul style={listStyle}>
         <NoteListItems notesData={notes} listStyle={listStyle} />
       </ul>
+      <CreateNoteArea>
+        <CreateNoteButton />
+      </CreateNoteArea>
     </>
   );     
 };
+
+const CreateNoteArea = styled.div`
+  width: 40px;
+  height: 40px; 
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+`;
