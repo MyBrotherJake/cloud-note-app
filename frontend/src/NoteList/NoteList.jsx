@@ -22,14 +22,24 @@ export const NoteList = () => {
       // 配列を整理して notesList を更新する
       // フォルダなし    
       notesData["notesWithoutFolder"].forEach(({ id, title, content }) => {            
-        // 配列に追加
-        notesList.push({ noteId: id, title, body: content });      
+        // 配列のインデックスを取得
+        const index = notesList.findIndex(({noteId}) => noteId === id);
+        // ノート新規作成時に重複しないようにチェック
+        if (index === -1) {
+          // 配列に追加
+          notesList.push({ noteId: id, title, body: content });      
+        }        
       });
       // フォルダあり
       notesData["folders"].forEach(({notes}) => {      
         notes.forEach(({ id, title, content }) => {        
-          // 配列に追加
-          notesList.push({ noteId: id, title, body: content });        
+          // 配列のインデックスを取得
+          const index = notesList.findIndex(({noteId}) => noteId === id);
+          // ノート新規作成時に重複しないようにチェック
+          if (index === -1) {
+            // 配列に追加
+            notesList.push({ noteId: id, title, body: content });      
+          }                  
         });
       }); 
       // 空のデータは削除
