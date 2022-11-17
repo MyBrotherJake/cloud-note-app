@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import { NoteListItems } from "./NoteListItems";
+import { CreateNoteButton } from "./CreateNoteButton";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
@@ -20,14 +22,24 @@ export const NoteList = () => {
       // 配列を整理して notesList を更新する
       // フォルダなし    
       notesData["notesWithoutFolder"].forEach(({ id, title, content }) => {            
-        // 配列に追加
-        notesList.push({ noteId: id, title, body: content });      
+        // 配列のインデックスを取得
+        const index = notesList.findIndex(({noteId}) => noteId === id);
+        // ノート新規作成時に重複しないようにチェック
+        if (index === -1) {
+          // 配列に追加
+          notesList.push({ noteId: id, title, body: content });      
+        }        
       });
       // フォルダあり
       notesData["folders"].forEach(({notes}) => {      
         notes.forEach(({ id, title, content }) => {        
-          // 配列に追加
-          notesList.push({ noteId: id, title, body: content });        
+          // 配列のインデックスを取得
+          const index = notesList.findIndex(({noteId}) => noteId === id);
+          // ノート新規作成時に重複しないようにチェック
+          if (index === -1) {
+            // 配列に追加
+            notesList.push({ noteId: id, title, body: content });      
+          }                  
         });
       }); 
       // 空のデータは削除
@@ -50,6 +62,17 @@ export const NoteList = () => {
       <ul style={listStyle}>
         <NoteListItems notesData={notes} listStyle={listStyle} />
       </ul>
+      <CreateNoteArea>
+        <CreateNoteButton />
+      </CreateNoteArea>
     </>
   );     
 };
+
+const CreateNoteArea = styled.div`
+  width: 40px;
+  height: 40px; 
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+`;

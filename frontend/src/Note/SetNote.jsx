@@ -9,20 +9,21 @@ export function SetContent (target) {
   // State を取得
   const { notesList, setNotesList, note } = useContext(ShowNoteContext);
   // 変更フラグ
-  const [ isChange, setIsChange ] = useState(false);  
-  // noteId
+  const [ isChange, setIsChange ] = useState(false);    
+;  // noteId
   const noteId = note["noteId"];
-  // NoteListからIDをもとに ノート詳細を取得
+  // NoteListからIDをもとに ノート詳細を取得  
   const noteData = notesList.find(element => element && element["noteId"] === noteId);
   // データ取得
-  let data = "";
-  if (noteData) {
+  let data = "";  
+  // ノート新規作成時の null 回避 (inputタグおよびエディタでのエラー回避)
+  if (noteData && noteData[target]) {
     data = noteData[target];
   }
   /**
    * onChange
    */
-  const onChangeContent = async (element) => {
+  const onChangeContent = async (element) => {    
     // 配列のインデックスをnoteIdから取得    
     const index = notesList.findIndex(({noteId}) => noteId === noteData["noteId"]);    
     // useEffect の再レンダリングの条件として、違うオブジェクトを参照させるため、配列をコピー

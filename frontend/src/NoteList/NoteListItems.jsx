@@ -22,7 +22,7 @@ export const NoteListItems = (props) => {
     return (
       <li></li>
     );
-  };    
+  };      
   /**
    * onClick時にAPI呼び出し
    */
@@ -46,8 +46,12 @@ export const NoteListItems = (props) => {
   /**
    * Create NoteList
    */
-  // Without Folder    
-  const notesWithoutFolder = notesData["notesWithoutFolder"].map(({id, title}) => {
+  // updatedAt でソート  
+  const sortNotesWithoutFolder = notesData["notesWithoutFolder"].sort((a, b) => {
+    return (a.updatedAt < b.updatedAt) ? -1 : 1
+  });  
+  // Without Folder       
+  const notesWithoutFolder = sortNotesWithoutFolder.map(({id, title}) => {
     return (
       <Fragment key={id}>        
         <li id={id} key={id} onClick={onClickTitle}>                  
@@ -57,7 +61,7 @@ export const NoteListItems = (props) => {
       </Fragment>
     );
   });  
-  // With Folder
+  // With Folder  
   const folders = notesData["folders"].map(({id, name, notes}) => {
     return (
       <Fragment key={id}>        
