@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { NoteListItems } from "./NoteListItems";
 import { CreateNoteButton } from "./CreateNoteButton";
+import { CreateFolderButton } from "./CreateFolderButton";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
@@ -62,17 +63,19 @@ export const NoteList = () => {
       <ul style={listStyle}>
         <NoteListItems notesData={notes} listStyle={listStyle} />
       </ul>
-      <CreateNoteArea>
+      <CreateArea>
         <CreateNoteButton />
-      </CreateNoteArea>
+        <CreateFolderButton />
+      </CreateArea>
     </>
   );     
 };
 
-const CreateNoteArea = styled.div`
-  width: 40px;
+const CreateArea = styled.div`
+  width: 80px;
   height: 40px; 
   position: fixed;
   bottom: 10px;
   left: 10px;
+  display: flex;
 `;
