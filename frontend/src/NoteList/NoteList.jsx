@@ -11,7 +11,7 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  */
 export const NoteList = () => {  
   
-  const { notesList, setNotesList } = useContext(ShowNoteContext);    
+  const { notesList, setNotesList, folders, setFolders } = useContext(ShowNoteContext);    
   const [ notes, setNotes ] = useState();    
   // 再描画の制御  
   useEffect(() => {
@@ -24,20 +24,26 @@ export const NoteList = () => {
       // フォルダなし    
       notesData["notesWithoutFolder"].forEach(({ id, title, content }) => {            
         // 配列のインデックスを取得
-        const index = notesList.findIndex(({noteId}) => noteId === id);
+        const noteIndex = notesList.findIndex(({noteId}) => noteId === id);
         // ノート新規作成時に重複しないようにチェック
-        if (index === -1) {
+        if (noteIndex === -1) {
           // 配列に追加
           notesList.push({ noteId: id, title, body: content });      
         }        
       });
       // フォルダあり
-      notesData["folders"].forEach(({notes}) => {      
+      notesData["folders"].forEach(({id, name, notes}) => {     
+        // 重複チェック
+        const folderIndex = folders.findIndex(({folderId}) => folderId === id);
+
+        if (folderIndex === -1) {
+          folders.push({ folderId: id,folderName: name });
+        }        
         notes.forEach(({ id, title, content }) => {        
           // 配列のインデックスを取得
-          const index = notesList.findIndex(({noteId}) => noteId === id);
+          const noteIndex = notesList.findIndex(({noteId}) => noteId === id);
           // ノート新規作成時に重複しないようにチェック
-          if (index === -1) {
+          if (noteIndex === -1) {
             // 配列に追加
             notesList.push({ noteId: id, title, body: content });      
           }                  
@@ -47,10 +53,14 @@ export const NoteList = () => {
       if (notesList[0]["noteId"] === "") {
         notesList.shift();
       }      
+      if (folders[0]["folderId"] === "") {
+        folders.shift();
+      }
       // State更新
-      setNotesList(notesList);                   
+      setNotesList(notesList);    
+      setFolders(folders);      
     })();
-  }, [notesList, setNotesList]);         
+  }, [notesList, setNotesList, folders, setFolders]);         
   /**
    * list-style: none;
    */
