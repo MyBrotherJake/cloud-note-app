@@ -21,9 +21,18 @@ export const ShowNoteProvider = props => {
       }
     ]    
   );
+  // フォルダ情報
+  const [ folders, setFolders ] = useState(
+    [
+      {
+        folderId: "",
+        folderName: "",
+      }
+    ]
+  );
 
   return (
-    <ShowNoteContext.Provider value={{ notesList, setNotesList, note, setNote }}>
+    <ShowNoteContext.Provider value={{ notesList, setNotesList, note, setNote, folders, setFolders }}>
       {children}
     </ShowNoteContext.Provider>
   );
