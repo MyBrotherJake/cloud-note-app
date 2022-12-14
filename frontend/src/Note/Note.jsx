@@ -1,24 +1,26 @@
 import { NoteTitle } from "./NoteTitle";
 import { NoteBody } from "./NoteBody";
 import { DeleteNoteButton } from "./DeleteNoteButton";
+import { SelectFolder } from "./SelectFolder";
 import styled from "styled-components";
 
 export const Note = () => {
   
   return (      
-    <>
-      <DeleteButtonArea>
-        <DeleteNoteButton />
-      </DeleteButtonArea>
+    <> 
+      <OptionArea>   
+        <SelectFolder />             
+        <DeleteNoteButton />        
+      </OptionArea>
       <NoteTitle />               
       <NoteBody />             
     </>
   );  
 };
 
-const DeleteButtonArea = styled.div`
-  width: 20px;
-  height: 20px;
+const OptionArea = styled.div`
+  width: 200px;
+  height: 30px;
   display: flex;  
   margin-left: auto;
 `;
