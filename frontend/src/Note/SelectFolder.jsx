@@ -17,12 +17,12 @@ export const SelectFolder = () => {
     // Get FolderID
     const folderId = element.target.value;
     // Call API
-    await updateNotes(folderId, note);
+    await updateFolder(folderId, note);
   }
   /**
    * PATCH
    */
-  const updateNotes = async(folderId, note) => {
+  const updateFolder = async (folderId, note) => {
     // notesList から Index 取得
     const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
     // フォルダIDをセット

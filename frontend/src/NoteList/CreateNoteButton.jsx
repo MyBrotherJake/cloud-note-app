@@ -13,9 +13,9 @@ export const CreateNoteButton = () => {
    */
   const onClickCreate = async () => {
     // UserID    
-    //const userId = user["id"];
+    const userId = user["id"];
     // 認証が現在通らないので、あらかじめ作ったダミーデータを利用する
-    const userId = "8a940d80-2d62-4e59-885e-5b67df590f8a";
+    //const userId = "8a940d80-2d62-4e59-885e-5b67df590f8a";
     // ユーザーIDを渡して、新規ノート作成
     const resData = await axios.post(`/notes`, {userId: userId});
     // ノートIDを取得
