@@ -10,6 +10,7 @@ export const ShowNoteProvider = props => {
     noteId: "",
     title: "",
     body: "",
+    folderId: "",
   });   
   // ノートの一覧情報
   const [ notesList, setNotesList ] = useState(
@@ -18,6 +19,7 @@ export const ShowNoteProvider = props => {
         noteId: "",
         title: "",
         body: "",
+        folderId: "",
       }
     ]    
   );

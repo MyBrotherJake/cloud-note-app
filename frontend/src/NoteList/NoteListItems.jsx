@@ -39,9 +39,9 @@ export const NoteListItems = (props) => {
     // GET
     const resNote = await axios.get(`/notes/${noteId}`);
     // タイトル, 内容 をセット
-    const { title, content } = resNote.data;    
+    const { title, content, folderId } = resNote.data;    
     // 現在選択されたノート
-    setNote({ noteId, title, body: content });    
+    setNote({ noteId, title, body: content, folderId });        
   };
   /**
    * Create NoteList

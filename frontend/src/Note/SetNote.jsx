@@ -69,12 +69,14 @@ export function UpdateNote (notesList, note) {
   // 値をセット
   const title = notesList[index]["title"];
   const body = notesList[index]["body"];
-  const noteId = notesList[index]["noteId"];
+  const noteId = notesList[index]["noteId"];  
+  const folderId = notesList[index]["folderId"];
   // PATCH Data
   const patchData = {
     noteId,
     title,
-    content: body
+    content: body,
+    folderId,
   };
   // Update    
   const update = async () => {    

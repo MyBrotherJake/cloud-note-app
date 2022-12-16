@@ -1,4 +1,4 @@
-import { TrashIcon } from "@heroicons/react/24/outline"
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { useContext } from "react";
 import axios from "axios";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";

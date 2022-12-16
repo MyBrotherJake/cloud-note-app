@@ -22,22 +22,23 @@ export const NoteList = () => {
       setNotes(notesData);          
       // 配列を整理して notesList を更新する
       // フォルダなし    
-      notesData["notesWithoutFolder"].forEach(({ id, title, content }) => {            
+      notesData["notesWithoutFolder"].forEach(({ id, title, content, folderId }) => {            
         // 配列のインデックスを取得
         const noteIndex = notesList.findIndex(({noteId}) => noteId === id);
         // ノート新規作成時に重複しないようにチェック
         if (noteIndex === -1) {
           // 配列に追加
-          notesList.push({ noteId: id, title, body: content });      
+          notesList.push({ noteId: id, title, body: content, folderId });      
         }        
       });
       // フォルダあり
       notesData["folders"].forEach(({id, name, notes}) => {     
         // 重複チェック
         const folderIndex = folders.findIndex(({folderId}) => folderId === id);
+        const folderSubId = id;
 
         if (folderIndex === -1) {
-          folders.push({ folderId: id,folderName: name });
+          folders.push({ folderId: folderSubId,folderName: name });
         }        
         notes.forEach(({ id, title, content }) => {        
           // 配列のインデックスを取得
@@ -45,7 +46,7 @@ export const NoteList = () => {
           // ノート新規作成時に重複しないようにチェック
           if (noteIndex === -1) {
             // 配列に追加
-            notesList.push({ noteId: id, title, body: content });      
+            notesList.push({ noteId: id, title, body: content, folderId: folderSubId });      
           }                  
         });
       }); 
@@ -58,7 +59,7 @@ export const NoteList = () => {
       }
       // State更新
       setNotesList(notesList);    
-      setFolders(folders);      
+      setFolders(folders);              
     })();
   }, [notesList, setNotesList, folders, setFolders]);         
   /**
