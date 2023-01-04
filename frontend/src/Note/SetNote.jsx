@@ -26,6 +26,11 @@ export function SetContent (target) {
   const onChangeContent = async (element) => {    
     // 配列のインデックスをnoteIdから取得    
     const index = notesList.findIndex(({noteId}) => noteId === noteData["noteId"]);    
+    
+    if (index === -1){
+      return;
+    }
+    
     // useEffect の再レンダリングの条件として、違うオブジェクトを参照させるため、配列をコピー
     const newList =notesList.slice()
     let targetValue = "";        
@@ -66,6 +71,10 @@ export function SetContent (target) {
 export function UpdateNote (notesList, note) {    
   // 配列のインデックスを取得
   const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
+
+  if (index === -1) {
+    return;
+  }
   // 値をセット
   const title = notesList[index]["title"];
   const body = notesList[index]["body"];
