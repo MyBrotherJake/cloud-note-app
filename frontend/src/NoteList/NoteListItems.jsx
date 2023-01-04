@@ -26,9 +26,7 @@ export const NoteListItems = (props) => {
   /**
    * onClick時にAPI呼び出し
    */
-  const onClickTitle = async (element) => {    
-    // ノートID取得    
-    const noteId = element.target.id;
+  const onClickTitle = async (noteId) => {                
     // APIから詳細を取得    
     await getNoteContents(noteId);    
   };   
@@ -54,7 +52,7 @@ export const NoteListItems = (props) => {
   const notesWithoutFolder = sortNotesWithoutFolder.map(({id, title}) => {
     return (
       <Fragment key={id}>        
-        <li id={id} key={id} onClick={onClickTitle}>                  
+        <li id={id} key={id} onClick={ () => onClickTitle(id) }>                  
           <DocumentTextIcon style={iconStyle} key={id} />
           {title}
         </li>      
@@ -72,7 +70,7 @@ export const NoteListItems = (props) => {
             notes.map(({id, title}) => {            
               return (
                 <ul style={listStyle} key={id}>                  
-                  <li id={id} key={id} onClick={onClickTitle}>                                      
+                  <li id={id} key={id} onClick={ () => onClickTitle(id) }>                                      
                     <DocumentTextIcon style={iconStyle} key={id} />
                     {title}
                   </li>
