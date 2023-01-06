@@ -10,7 +10,7 @@ export function SetContent (target) {
   const { notesList, setNotesList, note } = useContext(ShowNoteContext);
   // 変更フラグ
   const [ isChange, setIsChange ] = useState(false);    
-;  // noteId
+  // noteId
   const noteId = note["noteId"];
   // NoteListからIDをもとに ノート詳細を取得  
   const noteData = notesList.find(element => element && element["noteId"] === noteId);
