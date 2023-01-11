@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { AuthContext } from "../Providers/AuthProvider";
 /**
  * NoteTitle および NoteBody の共通処理
  * Title と Body の値を配列から探してセットする
@@ -18,7 +19,7 @@ export function SetContent (target) {
   let data = "";  
   // ノート新規作成時の null 回避 (inputタグおよびエディタでのエラー回避)
   if (noteData && noteData[target]) {
-    data = noteData[target];
+    data = noteData[target];    
   }
   /**
    * onChange
