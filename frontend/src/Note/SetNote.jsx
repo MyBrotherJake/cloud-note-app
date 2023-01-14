@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import axios from "axios";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
-import { AuthContext } from "../Providers/AuthProvider";
 /**
  * NoteTitle および NoteBody の共通処理
  * Title と Body の値を配列から探してセットする
@@ -95,3 +94,39 @@ export function UpdateNote (notesList, note) {
   };  
   update();      
 };
+/**
+ * API Create Note
+ */
+export function CreateNote(user, setNote, notesList, setNotesList) {
+  /**
+   * onClick Event
+   */
+  const onClickCreate = async () => {
+    // UserID    
+    const userId = user["id"];
+    // 認証が現在通らないので、あらかじめ作ったダミーデータを利用する
+    //const userId = "8a940d80-2d62-4e59-885e-5b67df590f8a";
+    // ユーザーIDを渡して、新規ノート作成
+    const resData = await axios.post(`/notes`, {userId: userId});
+    // ノートIDを取得
+    const noteId = resData.data["id"];    
+    // State更新処理
+    await createNote(noteId);
+  };
+  // State
+  const createNote = async (noteId) => {
+     // 選択中にする
+     setNote({ noteId, title: "新規ノート", body: "" });        
+     // 一覧に追加
+     notesList.push({ noteId, title: "新規ノート", body: "" }); 
+     // State更新用の配列をコピー
+     const newNotesList = notesList.slice();
+     // 一覧のState更新
+     setNotesList(newNotesList);       
+  };
+
+  return (
+    onClickCreate
+  );
+}
+
