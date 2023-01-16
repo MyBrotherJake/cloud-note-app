@@ -29,7 +29,8 @@ export const App = () => {
         </div>
       </NoteContainer>
     );      
-  }   
+  } 
+  
 }
 
 const NoteContainer = styled.div`
