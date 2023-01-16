@@ -11,51 +11,34 @@
 
 1. frontend / React.js
 2. api / Nest.js
-3. postgres / Postgresql
-4. pgadmin / データベース管理
 
 frontend/apiともにDockerfile内でサーバーが起動する設定になっています。
 Dokcer for Macのダッシュボードやdocker attachでコンソールに接続することができます。
 
 ### Database
 
-#### pgadminの設定
+#### prismaの初期設定
 
-1. コンテナを起動したら、pgadminにログインします。
+1. apiコンテナを起動したら、prismaコマンドでDBを初期化します
 ```
-URL: http://localhost:81
-user: admin@example.com
-password: password
+$npx prisma db reset --force
 ```
 
-2. ダッシュボード中央の「Add New Server」をクリックします。
-3. 以下の通り入力し、「Save」をクリックします。
+2. この時、api/prisma/note.dbというファイルが作成されます（これがDBの実体です。DBに直接接続したい場合はapiコンテナで以下のコマンドを実行できます。
 ```
-Generalタブ
-  Name: cloud-note-app
-Connectionタブ
-  Hostname: postgres
-  Port: 5432
-  Maintenance database: postgres
-  Username: postgres
-  Password: postgres  
+$sqlite3 prisma/note.db
 ```
 
-4. データベースに接続できるとサイドバーに表示されます。
-
-#### マイグレーションの実行
-
-1. apiコンテナに接続します。
+3. 通常はprisma studioを利用することでデータの閲覧・編集が可能です。以下のコマンドを実行します。
 ```
->docker-compose exec api sh
+$npx prisma studio
 ```
 
-2. 以下のコマンドを実行します。
-```
->yarn typeorm migration:run
-```
+4. ブラウザが起動し、データを確認することができます。コンテナのビルド・起動時にユーザーが1人だけ作成されているはずです。
 
-3. pgadminのサイドバーからDatabases->postgres->Schemas->public->Tablesと開いていき、テーブルが作成されていることを確認します。
+<img width="610" alt="スクリーンショット 2023-01-16 12 14 30" src="https://user-images.githubusercontent.com/1013392/212590999-6f499af4-84cf-4b0b-9aa5-db0a93b7e27c.png">
+
+参考）　https://www.prisma.io/docs
 
 ## API
 
