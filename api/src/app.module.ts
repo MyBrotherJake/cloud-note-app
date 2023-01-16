@@ -1,21 +1,23 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { NotesModule } from './notes/notes.module';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { PrismaModule } from './prisma/prisma.module'
 import { UsersModule } from './users/users.module';
+import { FirebaseModule } from './firebase/firebase.module';
 import { FoldersModule } from './folders/folders.module';
-import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
+import { NotesModule } from './notes/notes.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
-    NotesModule,
+    PrismaModule,
     UsersModule,
+    FirebaseModule,
     FoldersModule,
-    AuthModule
+    NotesModule
   ],
-  controllers: [],
-  providers: []
+  controllers: [AppController],
+  providers: [AppService]
 })
-export class AppModule {}
+export class AppModule { }

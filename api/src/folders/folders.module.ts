@@ -1,14 +1,10 @@
-import { FolderRepository } from './folder.repository';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
-import { FoldersController } from './folders.controller';
-import { FoldersService } from './folders.service';
+import { Module } from '@nestjs/common'
+import { FoldersService } from './folders.service'
+import { FoldersController } from './folders.controller'
+import { PrismaService } from 'src/prisma/prisma.service'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([
-    FolderRepository
-  ])],
-  controllers: [FoldersController],
-  providers: [FoldersService]
+  providers: [FoldersService, PrismaService],
+  controllers: [FoldersController]
 })
-export class FoldersModule {}
+export class FoldersModule { }

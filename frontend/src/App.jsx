@@ -10,27 +10,22 @@ export const App = () => {
 
   // 初回useEffectでaccessTokenをサーバー側で認証する
   // アクセストークンがあればOKとする。AuthContextでlocalStorageに保管する
-  
-  if (!user.accessToken) {
-    return <Signin />
-  } else {
-    return (
-      <NoteContainer>
-        <NavigationContainer>
-          <div className="logo">
-            Cloud Note App
-          </div>
-          <nav id="nav">        
-            <NoteList />
-          </nav>
-        </NavigationContainer>        
-        <div className="editor-container">
-          <Note />
+
+  return (
+    <NoteContainer>
+      <NavigationContainer>
+        <div className="logo">
+          Cloud Note App
         </div>
-      </NoteContainer>
-    );      
-  } 
-  
+        <nav id="nav">
+          <NoteList />
+        </nav>
+      </NavigationContainer>
+      <div className="editor-container">
+        <Note />
+      </div>
+    </NoteContainer>
+  );
 }
 
 const NoteContainer = styled.div`

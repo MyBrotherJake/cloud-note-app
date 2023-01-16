@@ -1,15 +1,14 @@
-import { UsersService } from './users.service';
-import { Body, Controller, Post } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from '../entities/user.entity';
+import { Body, Controller, Post } from '@nestjs/common'
+import { User } from '@prisma/client'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UsersService } from './users.service'
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly user: UsersService) { }
 
-  // ユーザー登録の仮実装
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.usersService.create(createUserDto)
+  async create(@Body() dto: CreateUserDto): Promise<User> {
+    return await this.user.create(dto)
   }
 }

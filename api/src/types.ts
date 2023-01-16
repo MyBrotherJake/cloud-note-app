@@ -1,5 +1,4 @@
-import { Folder } from './entities/folder.entity';
-import { Note } from './entities/note.entity';
+import { Folder, Note } from '@prisma/client';
 
 export interface FoldersAndNotes {
   folders: Folder[],

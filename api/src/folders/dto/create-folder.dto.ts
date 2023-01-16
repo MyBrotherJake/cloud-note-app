@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator'
 
 export class CreateFolderDto {
-  @IsUUID()
-  @IsNotEmpty()
-  userId: string
+  // @IsUUID()
+  // @IsNotEmpty()
+  // userId: string
 
   @IsNotEmpty()
   name: string
