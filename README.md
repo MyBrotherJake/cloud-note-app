@@ -21,7 +21,7 @@ Dokcer for Macのダッシュボードやdocker attachでコンソールに接�
 
 1. apiコンテナを起動したら、prismaコマンドでDBを初期化します
 ```
-$npx prisma db reset --force
+$npx prisma migrate reset --force
 ```
 
 2. この時、api/prisma/note.dbというファイルが作成されます（これがDBの実体です。DBに直接接続したい場合はapiコンテナで以下のコマンドを実行できます。
