@@ -11,6 +11,6 @@ RUN yarn install
 
 ADD . ./
 # マイグレーションファイルを元にDB作成
-RUN npx prisma migrate reset
+RUN npx prisma migrate reset -y
 
 CMD ["yarn", "start:dev"]
