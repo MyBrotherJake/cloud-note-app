@@ -5,7 +5,7 @@ import { SelectFolder } from "./SelectFolder";
 import styled from "styled-components";
 
 export const Note = () => {
-  
+ 
   return (      
     <> 
       <OptionArea>   

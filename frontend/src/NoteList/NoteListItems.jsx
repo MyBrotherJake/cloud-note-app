@@ -26,9 +26,7 @@ export const NoteListItems = (props) => {
   /**
    * onClick時にAPI呼び出し
    */
-  const onClickTitle = async (element) => {    
-    // ノートID取得    
-    const noteId = element.target.id;
+  const onClickTitle = async (noteId) => {                
     // APIから詳細を取得    
     await getNoteContents(noteId);    
   };   
@@ -46,39 +44,43 @@ export const NoteListItems = (props) => {
   /**
    * Create NoteList
    */
-  // updatedAt でソート  
-  const sortNotesWithoutFolder = notesData["notesWithoutFolder"].sort((a, b) => {
-    return (a.updatedAt < b.updatedAt) ? -1 : 1
-  });  
   // Without Folder       
-  const notesWithoutFolder = sortNotesWithoutFolder.map(({id, title}) => {
+  // 更新日でソート後、リストを作成
+  const notesWithoutFolder = notesData["notesWithoutFolder"].sort((a, b) => {
+    return (a.updatedAt < b.updatedAt) ? -1 : 1
+  }).map(({id, title}) => {
     return (
       <Fragment key={id}>        
-        <li id={id} key={id} onClick={onClickTitle}>                  
+        <li id={id} key={id} onClick={ () => onClickTitle(id) }>                  
           <DocumentTextIcon style={iconStyle} key={id} />
           {title}
         </li>      
       </Fragment>
     );
   });  
-  // With Folder  
-  const folders = notesData["folders"].map(({id, name, notes}) => {
+  // With Folder    
+  // フォルダは作成日、ノートは更新日でそれぞれソート
+  const folders = notesData["folders"].sort((a, b) => {
+    return (a.createdAt < b.createdAt) ? -1 : 1
+  }).map(({id, name, notes}) => {
     return (
       <Fragment key={id}>        
         <li id={id} key={id} >                  
           <FolderMinusIcon style={iconStyle} key={id} />
           {name}
           {
-            notes.map(({id, title}) => {            
+            notes.sort((a, b) => {
+              return (a.updatedAt < b.updatedAt) ? -1 : 1
+            }).map(({id, title}) => {
               return (
                 <ul style={listStyle} key={id}>                  
-                  <li id={id} key={id} onClick={onClickTitle}>                                      
+                  <li id={id} key={id} onClick={ () => onClickTitle(id) }>                                      
                     <DocumentTextIcon style={iconStyle} key={id} />
                     {title}
                   </li>
                 </ul>
               );              
-            }) 
+            })            
           }          
         </li>
       </Fragment>
