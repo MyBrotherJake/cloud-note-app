@@ -2,12 +2,14 @@
 
 ## 開発環境構築
 
-### Docker
+### envファイルの配置
+受け取った.envファイルをapiフォルダ直下に配置してください
 
+### Docker
 ```
 >docker-compose up -d
 ```
-開発環境では5つのコンテナが起動します
+開発環境では2つのコンテナが起動します
 
 1. frontend / React.js
 2. api / Nest.js
@@ -16,10 +18,9 @@ frontend/apiともにDockerfile内でサーバーが起動する設定になっ�
 Dokcer for Macのダッシュボードやdocker attachでコンソールに接続することができます。
 
 ### Database
-
 #### prismaの初期設定
 
-1. apiコンテナを起動したら、prismaコマンドでDBを初期化します
+1. apiコンテナを起動したら、コンテナ内でprismaコマンドでDBを初期化します
 ```
 $npx prisma migrate reset --force
 ```
@@ -69,27 +70,38 @@ GET http://localhost:4000/notes/:noteId
 ### ノートを作成
 POST http://localhost:4000/notes/
 
-```
-// request
-{
-  userId: ''
-}
-
-// response
-{
-  noteId: ''
-}
-```
-
 ### ノートを更新
 PATCH http://localhost:4000/notes/:noteId
-
 ```
+// payload
 {
-  noteId: ''
   title: ''
   content: ''
 }
 ```
+
+### ノートを削除
+DELETE http://localhost:4000/notes/:noteId
+
+### フォルダを作成
+POST http://localhost:4000/folders
+```
+// payload
+{
+  name: ''
+}
+```
+
+### フォルダを更新
+PATCH http://localhost:4000/folders/:folderId
+```
+// payload
+{
+  name: ''
+}
+```
+
+### フォルダを削除
+DELETE http://localhost:4000/folders/:folderId
 
 - コンテナ間通信の場合はホスト名`localhost`ではなくコンテナ名`api`を使用してください
