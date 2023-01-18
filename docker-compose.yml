@@ -17,6 +17,7 @@ services:
       context: ./api
     ports:
       - '4000:4000'
+      - '5555:5555'
     volumes:
       - ./api:/app:cached
       - /app/node_modules
