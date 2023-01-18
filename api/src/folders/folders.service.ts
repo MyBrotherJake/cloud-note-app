@@ -42,11 +42,19 @@ export class FoldersService {
     const folder = await this.prisma.folder.findUnique({
       where: { id }
     })
-    if (!folder) throw new NotFoundException('ノートが見つかりません')
+    if (!folder) throw new NotFoundException('フォルダが存在しません')
 
     const archived = await this.prisma.folder.update({
       where: { id },
-      data: { destroyedAt: new Date().toISOString() }
+      data: {
+        destroyedAt: new Date().toISOString(),
+        notes: {
+          updateMany: {
+            where: {},
+            data: { folderId: null }
+          }
+        }
+      },
     })
     return archived
   }
