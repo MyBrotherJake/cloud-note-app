@@ -25,12 +25,11 @@ export class NotesService {
   async findAll(): Promise<FoldersAndNotes> {
     const folders = await this.prisma.folder.findMany({
       where: { destroyedAt: null },
+      orderBy: { createdAt: 'asc' },
       include: {
         notes: {
-          where: {
-            archivedAt: null,
-            destroyedAt: null
-          }
+          where: { archivedAt: null, destroyedAt: null },
+          orderBy: { createdAt: 'asc' }
         }
       }
     })
@@ -40,7 +39,8 @@ export class NotesService {
         folder: null,
         archivedAt: null,
         destroyedAt: null
-      }
+      },
+      orderBy: { createdAt: 'asc' }
     })
     return { folders, notesWithoutFolder }
   }
@@ -52,7 +52,7 @@ export class NotesService {
       where: {
         id: dto.folderId,
         destroyedAt: null
-      }
+      },
     })
 
     const note = await this.prisma.note.create({
