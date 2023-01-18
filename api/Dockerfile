@@ -1,7 +1,6 @@
-FROM node:16.15.0-alpine
+FROM node:16-slim
 
-
-RUN apk add sqlite
+RUN apt-get update && apt-get install sqlite3 libsqlite3-dev openssl -y
 
 RUN mkdir -p /app
 WORKDIR /app
