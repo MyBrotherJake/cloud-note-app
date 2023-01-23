@@ -37,10 +37,10 @@ export const SelectFolder = () => {
   /**
    * Folder List
    */  
-  const foldersList = folders.map(({folderId, folderName}) => {
+  const foldersList = folders.map(({folderId, folderName}) => {    
     return (
       <option value={folderId} key={folderId}>{folderName}</option>
-    );
+    );    
   }); 
   /**
    * Select Style
@@ -48,9 +48,11 @@ export const SelectFolder = () => {
   const selectStyle = {
     "margin": "auto"
   };  
- 
+  
+
+
   return (
-    <select name="select-folder" style={selectStyle} onChange={onSelect}>
+    <select name="select-folder" style={selectStyle} onChange={onSelect} defaultValue={note["folderId"]} key={note["folderId"]}>
       <option value="">--フォルダ未選択--</option>
       {foldersList}
     </select>
