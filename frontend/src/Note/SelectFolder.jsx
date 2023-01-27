@@ -20,8 +20,7 @@ export const SelectFolder = () => {
     await updateFolder(folderId, note);
   };
   /**
-   * PATCH
-   * TODO フォルダ移動での再描画処理
+   * PATCH   
    */
   const updateFolder = async (folderId, note) => {
     // notesList から Index 取得

@@ -80,8 +80,7 @@ export function UpdateNote (notesList, note) {
   const noteId = notesList[index]["noteId"];  
   const folderId = notesList[index]["folderId"];
   // PATCH Data
-  const patchData = {
-    //noteId,
+  const patchData = {    
     title,
     content: body,
     folderId,
@@ -95,9 +94,6 @@ export function UpdateNote (notesList, note) {
 };
 /**
  * API Create Note
- * TODO 
- * ノート新規作成で、フォルダ未選択なら、フォルダなしでノートを作りたい
- * Update時のフォルダ=>フォルダなしへの移動は今は無視
  */
 export function CreateNote(setNote, notesList, setNotesList) {
   /**
