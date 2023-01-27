@@ -5,15 +5,13 @@ import { NoteListItems } from "./NoteListItems";
 import { CreateNoteButton } from "./CreateNoteButton";
 import { CreateFolderButton } from "./CreateFolderButton";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
-import { AuthContext } from "../Providers/AuthProvider";
 import { CreateNote } from "../Note/SetNote";
 /**
  * ノート一覧の表示
  */
 export const NoteList = () => {  
   
-  const { note, setNote, notesList, setNotesList, folders, setFolders } = useContext(ShowNoteContext);  
-  const { user } = useContext(AuthContext);  
+  const { note, setNote, notesList, setNotesList, folders, setFolders } = useContext(ShowNoteContext);    
   const [ notes, setNotes ] = useState();    
   // 再描画の制御  
   useEffect(() => {
@@ -24,17 +22,17 @@ export const NoteList = () => {
       setNotes(notesData);            
       /**
        * folders にノートがあるかをチェック
-       */
+       */      
       let existNote = false;      
       notesData["folders"].forEach(({notes}) => {        
         if (notes.length > 0) {           
           existNote  = true
           return;
         }
-      });            
+      });                      
       // ノートがない場合に新規作成処理      
       if (notesData["notesWithoutFolder"].length === 0 && !existNote) {      
-        const createNewNote = CreateNote(user, setNote, notesList, setNotesList);
+        const createNewNote = CreateNote(setNote, notesList, setNotesList);
         createNewNote();          
       }
       
@@ -76,7 +74,7 @@ export const NoteList = () => {
       if (folders.length > 0 && folders[0]["folderId"] === "") {
         folders.shift();
       }      
-      // ノートIDが取得できない場合
+      // ノートIDが取得できない場合 => 画面ロード時の処理
       if (notesList.length > 0 && note["noteId"] === "") {      
         // 更新日順にソート        
         notesList.sort((a, b) => (a.updatedAt > b.updatedAt) ? -1 : 1);
@@ -89,9 +87,9 @@ export const NoteList = () => {
       }                 
       // State更新
       setNotesList(notesList);    
-      setFolders(folders);                          
+      setFolders(folders);                                
     })();    
-  }, [user, note, setNote, notesList, setNotesList, folders, setFolders]);      
+  }, [note, setNote, notesList, setNotesList, folders, setFolders]);      
   /**
    * list-style: none;
    */

@@ -29,8 +29,7 @@ export function SetContent (target) {
     
     if (index === -1){
       return;
-    }
-    
+    }    
     // useEffect の再レンダリングの条件として、違うオブジェクトを参照させるため、配列をコピー
     const newList =notesList.slice()
     let targetValue = "";        
@@ -81,33 +80,28 @@ export function UpdateNote (notesList, note) {
   const noteId = notesList[index]["noteId"];  
   const folderId = notesList[index]["folderId"];
   // PATCH Data
-  const patchData = {
-    noteId,
+  const patchData = {    
     title,
     content: body,
     folderId,
   };
   // Update    
   const update = async () => {    
-    const resData = await axios.patch(`/notes/${noteId}`, patchData );        
-    return resData
+    const resData = await axios.patch(`/notes/${noteId}`, patchData );       
+    return resData;
   };  
-  update();      
+  return update();      
 };
 /**
  * API Create Note
  */
-export function CreateNote(user, setNote, notesList, setNotesList) {
+export function CreateNote(setNote, notesList, setNotesList) {
   /**
    * onClick Event
    */
-  const onClickCreate = async () => {
-    // UserID    
-    const userId = user["id"];
-    // 認証が現在通らないので、あらかじめ作ったダミーデータを利用する
-    //const userId = "8a940d80-2d62-4e59-885e-5b67df590f8a";
+  const onClickCreate = async () => {    
     // ユーザーIDを渡して、新規ノート作成
-    const resData = await axios.post(`/notes`, {userId: userId});
+    const resData = await axios.post(`/notes`);
     // ノートIDを取得
     const noteId = resData.data["id"];    
     // State更新処理
@@ -116,13 +110,13 @@ export function CreateNote(user, setNote, notesList, setNotesList) {
   // State
   const createNote = async (noteId) => {
      // 選択中にする
-     setNote({ noteId, title: "新規ノート", body: "" });        
+     setNote({ noteId, title: "新規ノート", body: "", folderId: "" });        
      // 一覧に追加
-     notesList.push({ noteId, title: "新規ノート", body: "" }); 
+     notesList.push({ noteId, title: "新規ノート", body: "", folderId: "" }); 
      // State更新用の配列をコピー
      const newNotesList = notesList.slice();
      // 一覧のState更新
-     setNotesList(newNotesList);       
+     setNotesList(newNotesList);                 
   };
 
   return (

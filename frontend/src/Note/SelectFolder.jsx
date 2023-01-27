@@ -18,29 +18,29 @@ export const SelectFolder = () => {
     const folderId = element.target.value;
     // Call API
     await updateFolder(folderId, note);
-  }
+  };
   /**
-   * PATCH
+   * PATCH   
    */
   const updateFolder = async (folderId, note) => {
     // notesList から Index 取得
     const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
     // フォルダIDをセット
     notesList[index]["folderId"] = folderId;    
-    // State更新用配列    
-    const newNotesList = notesList.slice();
-    setNotesList(newNotesList);        
     // Update
-    const resData = await UpdateNote(notesList, note);    
+    const resData = await UpdateNote(notesList, note);     
+    // State更新用配列
+    const newNotesList = notesList.slice(0, notesList.length);    
+    setNotesList(newNotesList);     
     return resData;
-  }
+  };
   /**
    * Folder List
    */  
-  const foldersList = folders.map(({folderId, folderName}) => {
+  const foldersList = folders.map(({folderId, folderName}) => {    
     return (
       <option value={folderId} key={folderId}>{folderName}</option>
-    );
+    );    
   }); 
   /**
    * Select Style
@@ -48,9 +48,11 @@ export const SelectFolder = () => {
   const selectStyle = {
     "margin": "auto"
   };  
- 
+  
+
+
   return (
-    <select name="select-folder" style={selectStyle} onChange={onSelect}>
+    <select name="select-folder" style={selectStyle} onChange={onSelect} defaultValue={note["folderId"]} key={note["folderId"]}>
       <option value="">--フォルダ未選択--</option>
       {foldersList}
     </select>

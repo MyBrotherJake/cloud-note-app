@@ -49,7 +49,7 @@ export const DeleteNoteButton = () => {
       setNotesList(newNotesList);          
     }
     // 現在の選択をクリア
-    setNote({noteId: "", title: "", body: ""});    
+    setNote({noteId: "", title: "", body: "", folderId: ""});    
   };
 
   return (
