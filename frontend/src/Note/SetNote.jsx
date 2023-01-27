@@ -88,13 +88,16 @@ export function UpdateNote (notesList, note) {
   };
   // Update    
   const update = async () => {    
-    const resData = await axios.patch(`/notes/${noteId}`, patchData );        
+    const resData = await axios.patch(`/notes/${noteId}`, patchData );       
     return resData;
   };  
-  update();      
+  return update();      
 };
 /**
  * API Create Note
+ * TODO 
+ * ノート新規作成で、フォルダ未選択なら、フォルダなしでノートを作りたい
+ * Update時のフォルダ=>フォルダなしへの移動は今は無視
  */
 export function CreateNote(setNote, notesList, setNotesList) {
   /**
@@ -117,7 +120,7 @@ export function CreateNote(setNote, notesList, setNotesList) {
      // State更新用の配列をコピー
      const newNotesList = notesList.slice();
      // 一覧のState更新
-     setNotesList(newNotesList);            
+     setNotesList(newNotesList);                 
   };
 
   return (

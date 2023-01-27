@@ -18,22 +18,23 @@ export const SelectFolder = () => {
     const folderId = element.target.value;
     // Call API
     await updateFolder(folderId, note);
-  }
+  };
   /**
    * PATCH
+   * TODO フォルダ移動での再描画処理
    */
   const updateFolder = async (folderId, note) => {
     // notesList から Index 取得
     const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
     // フォルダIDをセット
     notesList[index]["folderId"] = folderId;    
-    // State更新用配列    
-    const newNotesList = notesList.slice();
-    setNotesList(newNotesList);        
     // Update
-    const resData = await UpdateNote(notesList, note);    
+    const resData = await UpdateNote(notesList, note);     
+    // State更新用配列
+    const newNotesList = notesList.slice(0, notesList.length);    
+    setNotesList(newNotesList);     
     return resData;
-  }
+  };
   /**
    * Folder List
    */  

@@ -5,11 +5,9 @@ import { CreateNote } from "../Note/SetNote";
 
 export const CreateNoteButton = () => {
 
-  const { note, setNote, notesList, setNotesList } = useContext(ShowNoteContext);  
+  const { setNote, notesList, setNotesList } = useContext(ShowNoteContext);  
   // ノート新規作成処理
-  const onClickCreate = CreateNote(setNote, notesList, setNotesList);
-  
-  console.log(note);
+  const onClickCreate = CreateNote(setNote, notesList, setNotesList);  
   
   return (
     <DocumentPlusIcon onClick={onClickCreate} />

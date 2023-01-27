@@ -87,7 +87,7 @@ export const NoteList = () => {
       }                 
       // State更新
       setNotesList(notesList);    
-      setFolders(folders);                          
+      setFolders(folders);                                
     })();    
   }, [note, setNote, notesList, setNotesList, folders, setFolders]);      
   /**
