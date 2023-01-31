@@ -1,6 +1,6 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import axios from "axios";
-import { FolderMinusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import { FolderMinusIcon, FolderPlusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 /**
@@ -9,13 +9,19 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 export const NoteListItems = (props) => {  
   
   const { setNote } = useContext(ShowNoteContext);
-  
+  // TODO 対象となるFolderId を持たせたい
+  const [ isOpen, setIsOpen ] = useState(false);  
+
   const { notesData, listStyle } = props;
   // Icon Style  
   const iconStyle = {
     "width": "20px",
     "height": "20px",        
   };  
+  // Summary Style
+  const summaryStyle = {
+    "display": "block",
+  };
   // データが取得できない場合  
   if (!notesData) {   
     // 空のリストを返す
@@ -42,6 +48,25 @@ export const NoteListItems = (props) => {
     setNote({ noteId, title, body: content, folderId });        
   };
   /**
+   * Toggle Event
+   */
+  const toggleEvent = (element) => {
+    // 対象 summary 取得
+    const summaryElement = element.target;
+    // 親要素 details を取得
+    const detailsElement = summaryElement.parentElement;
+    // フォルダの状態(開閉) を取得
+    detailsElement.addEventListener("toggle", (event) => {
+      if (detailsElement.open) {
+        // set Close
+        setIsOpen(false);        
+      } else {
+        // set Open
+        setIsOpen(true);        
+      }
+    });     
+  }
+  /**
    * Create NoteList
    */
   // Without Folder       
@@ -63,26 +88,33 @@ export const NoteListItems = (props) => {
   const folders = notesData["folders"].sort((a, b) => {
     return (a.createdAt < b.createdAt) ? -1 : 1
   }).map(({id, name, notes}) => {
+
+    const FolderIcon = isOpen ? <FolderPlusIcon style={iconStyle} /> : <FolderMinusIcon style={iconStyle} />;
+
     return (
-      <Fragment key={id}>        
-        <li id={id} key={id} >                  
-          <FolderMinusIcon style={iconStyle} key={id} />
-          {name}
-          {
-            notes.sort((a, b) => {
-              return (a.updatedAt < b.updatedAt) ? -1 : 1
-            }).map(({id, title}) => {
-              return (
-                <ul style={listStyle} key={id}>                  
-                  <li id={id} key={id} onClick={ () => onClickTitle(id) }>                                      
-                    <DocumentTextIcon style={iconStyle} key={id} />
-                    {title}
-                  </li>
-                </ul>
-              );              
-            })            
-          }          
-        </li>
+      <Fragment key={id}>            
+        <li id={id} key={id} >                            
+          <details open>
+            <summary style={summaryStyle} onClick={toggleEvent}>
+              { FolderIcon }              
+              {name}
+            </summary>
+            {
+              notes.sort((a, b) => {
+                return (a.updatedAt < b.updatedAt) ? -1 : 1
+              }).map(({id, title}) => {
+                return (
+                  <ul style={listStyle} key={id}>                  
+                    <li id={id} key={id} onClick={ () => onClickTitle(id) }>                                      
+                      <DocumentTextIcon style={iconStyle} key={id} />
+                      {title}
+                    </li>
+                  </ul>
+                );              
+              })            
+            }
+          </details>             
+        </li>        
       </Fragment>
     );
   });  
