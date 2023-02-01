@@ -9,8 +9,16 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 export const NoteListItems = (props) => {  
   
   const { setNote } = useContext(ShowNoteContext);
-  // TODO 対象となるFolderId を持たせたい
+  // フォルダ開閉の状態を取得する  
   const [ isOpen, setIsOpen ] = useState(false);  
+  const [ folderId, setFolderId ] = useState();
+  /*
+  TODO 複数フォルダの状態を管理
+  const [ folderOpen, setFolderOpen ] = useState({
+    folderId: "",
+    isOpen: false    
+  });
+  */
 
   const { notesData, listStyle } = props;
   // Icon Style  
@@ -49,23 +57,36 @@ export const NoteListItems = (props) => {
   };
   /**
    * Toggle Event
-   */
-  const toggleEvent = (element) => {
+   */    
+  const toggleEvent = (element, folderId) => {           
     // 対象 summary 取得
     const summaryElement = element.target;
     // 親要素 details を取得
     const detailsElement = summaryElement.parentElement;
     // フォルダの状態(開閉) を取得
     detailsElement.addEventListener("toggle", (event) => {
-      if (detailsElement.open) {
-        // set Close
-        setIsOpen(false);        
-      } else {
-        // set Open
-        setIsOpen(true);        
+      if (detailsElement.open) {        
+        setIsOpen(false);                
+      } else {        
+        setIsOpen(true);                
       }
-    });     
+    });
+    setFolderId(folderId);        
+  };
+  /**
+   * 重複チェック
+   */
+  /*
+  const pushCheck = (id) => {
+    const index = folderOpen.findIndex(({folderId}) => folderId === id);
+    // ノート新規作成時に重複しないようにチェック
+    if (index === -1) {
+      return true;      
+    }             
+    return false;       
   }
+  */
+  
   /**
    * Create NoteList
    */
@@ -88,15 +109,17 @@ export const NoteListItems = (props) => {
   const folders = notesData["folders"].sort((a, b) => {
     return (a.createdAt < b.createdAt) ? -1 : 1
   }).map(({id, name, notes}) => {
-
-    const FolderIcon = isOpen ? <FolderPlusIcon style={iconStyle} /> : <FolderMinusIcon style={iconStyle} />;
-
+    // フォルダアイコンを変更
+    // TODO 複数フォルダの開閉の状態を条件に設定したい
+    const FolderIcon = isOpen && folderId === id ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;    
+    //const FolderIcon = true ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;    
+    
     return (
       <Fragment key={id}>            
-        <li id={id} key={id} >                            
+        <li id={id} key={id} onClick={(element) => toggleEvent(element, id)} >                            
           <details open>
-            <summary style={summaryStyle} onClick={toggleEvent}>
-              { FolderIcon }              
+            <summary style={summaryStyle}>                        
+              { FolderIcon }
               {name}
             </summary>
             {
