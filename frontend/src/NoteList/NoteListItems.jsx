@@ -9,16 +9,12 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 export const NoteListItems = (props) => {  
   
   const { setNote } = useContext(ShowNoteContext);
-  // フォルダ開閉の状態を取得する  
-  const [ isOpen, setIsOpen ] = useState(false);  
-  const [ folderId, setFolderId ] = useState();
-  /*
-  TODO 複数フォルダの状態を管理
-  const [ folderOpen, setFolderOpen ] = useState({
+  // 複数フォルダ開閉の状態を取得する    
+  const [ folderOpen, setFolderOpen ] = useState([{
     folderId: "",
     isOpen: false    
-  });
-  */
+  }]);
+  
 
   const { notesData, listStyle } = props;
   // Icon Style  
@@ -65,28 +61,32 @@ export const NoteListItems = (props) => {
     const detailsElement = summaryElement.parentElement;
     // フォルダの状態(開閉) を取得
     detailsElement.addEventListener("toggle", (event) => {
-      if (detailsElement.open) {        
-        setIsOpen(false);                
-      } else {        
-        setIsOpen(true);                
+      if (detailsElement.open) {                
+        pushList(folderId, false);
+      } else {                
+        pushList(folderId, true);        
       }
-    });
-    setFolderId(folderId);        
+    });             
   };
   /**
-   * 重複チェック
-   */
-  /*
-  const pushCheck = (id) => {
+   * 重複チェックとStateの更新
+   */  
+  const pushList = (id, isOpen) => {
     const index = folderOpen.findIndex(({folderId}) => folderId === id);
-    // ノート新規作成時に重複しないようにチェック
+    // フォルダ存在チェック
     if (index === -1) {
-      return true;      
-    }             
-    return false;       
-  }
-  */
-  
+      folderOpen.push({folderId: id, isOpen: true});
+    } else {
+      folderOpen[index]["isOpen"] = isOpen;
+    }              
+    // folderIdが空のリストは削除  
+    if (folderOpen[0]["folderId"] === "") {
+      folderOpen.shift();
+    }
+    // State更新用配列
+    const newOpenList = folderOpen.slice();    
+    setFolderOpen(newOpenList);    
+  }  
   /**
    * Create NoteList
    */
@@ -108,11 +108,11 @@ export const NoteListItems = (props) => {
   // フォルダは作成日、ノートは更新日でそれぞれソート
   const folders = notesData["folders"].sort((a, b) => {
     return (a.createdAt < b.createdAt) ? -1 : 1
-  }).map(({id, name, notes}) => {
+  }).map(({id, name, notes}) => {    
+    // 対象フォルダのインデックス取得
+    const index = folderOpen.findIndex(({folderId}) => folderId === id);
     // フォルダアイコンを変更
-    // TODO 複数フォルダの開閉の状態を条件に設定したい
-    const FolderIcon = isOpen && folderId === id ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;    
-    //const FolderIcon = true ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;    
+    const FolderIcon = index !== -1 && folderOpen[index]["folderId"] === id && folderOpen[index]["isOpen"] ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;    
     
     return (
       <Fragment key={id}>            
