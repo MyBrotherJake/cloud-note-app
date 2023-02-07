@@ -9,5 +9,6 @@ ADD ./package.json ./yarn.lock ./
 RUN yarn install
 
 ADD . ./
+RUN yarn prisma generate && yarn prisma db push
 
 CMD ["yarn", "start:dev"]
