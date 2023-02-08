@@ -2,6 +2,7 @@ import { Fragment, useContext, useState } from "react";
 import axios from "axios";
 import { FolderMinusIcon, FolderPlusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { FolderName } from "./UpdateFolderName";
 
 /**
  * リスト作成
@@ -12,7 +13,7 @@ export const NoteListItems = (props) => {
   // 複数フォルダ開閉の状態を取得する    
   const [ folderOpen, setFolderOpen ] = useState([{
     folderId: "",
-    isOpen: false    
+    isOpen: false
   }]);
   
 
@@ -60,13 +61,13 @@ export const NoteListItems = (props) => {
     // 親要素 details を取得
     const detailsElement = summaryElement.parentElement;
     // フォルダの状態(開閉) を取得
-    detailsElement.addEventListener("toggle", (event) => {
-      if (detailsElement.open) {                
-        pushList(folderId, false);
+    detailsElement.addEventListener("toggle", (event) => {          
+      if (detailsElement.open) {                      
+        pushList(folderId, false);      
       } else {                
         pushList(folderId, true);        
-      }
-    });             
+      };
+    });      
   };
   /**
    * 重複チェックとStateの更新
@@ -75,9 +76,9 @@ export const NoteListItems = (props) => {
     const index = folderOpen.findIndex(({folderId}) => folderId === id);
     // フォルダ存在チェック
     if (index === -1) {
-      folderOpen.push({folderId: id, isOpen: true});
+      folderOpen.push({folderId: id, isOpen: true});      
     } else {
-      folderOpen[index]["isOpen"] = isOpen;
+      folderOpen[index]["isOpen"] = isOpen;      
     }              
     // folderIdが空のリストは削除  
     if (folderOpen[0]["folderId"] === "") {
@@ -88,7 +89,7 @@ export const NoteListItems = (props) => {
     setFolderOpen(newOpenList);    
   }  
   /**
-   * Create NoteList
+   * -------------------------------------------------Create NoteList-------------------------------------------------------
    */
   // Without Folder       
   // 更新日でソート後、リストを作成
@@ -112,15 +113,15 @@ export const NoteListItems = (props) => {
     // 対象フォルダのインデックス取得
     const index = folderOpen.findIndex(({folderId}) => folderId === id);
     // フォルダアイコンを変更
-    const FolderIcon = index !== -1 && folderOpen[index]["folderId"] === id && folderOpen[index]["isOpen"] ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;    
-    
+    const FolderIcon = index !== -1 && folderOpen[index]["folderId"] === id && folderOpen[index]["isOpen"] ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;        
+
     return (
       <Fragment key={id}>            
-        <li id={id} key={id} onClick={(element) => toggleEvent(element, id)} >                            
+        <li id={id} key={id} onClick={(element) => toggleEvent(element, id)}>                            
           <details open>
             <summary style={summaryStyle}>                        
-              { FolderIcon }
-              {name}
+              { FolderIcon }              
+              <FolderName folderId={id} folderName={name} />
             </summary>
             {
               notes.sort((a, b) => {
