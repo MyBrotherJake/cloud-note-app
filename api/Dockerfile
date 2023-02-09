@@ -1,6 +1,6 @@
 FROM node:16-slim
 
-RUN apt-get update && apt-get install sqlite3 libsqlite3-dev openssl -y
+RUN apt-get update && apt-get install sqlite3 libsqlite3-dev openssl procps -y
 
 RUN mkdir -p /app
 WORKDIR /app
