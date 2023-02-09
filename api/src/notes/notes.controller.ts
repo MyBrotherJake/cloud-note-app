@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common'
 import { Note } from '@prisma/client'
 import { FoldersAndNotes } from 'src/types'
-import { CreateNoteDto } from './dto/create-note.dto'
 import { UpdateNoteDto } from './dto/update-note.dto'
 import { NotesService } from './notes.service'
 
@@ -20,8 +19,8 @@ export class NotesController {
   }
 
   @Post()
-  async create(@Body() dto: CreateNoteDto): Promise<Note> {
-    return await this.note.create(dto)
+  async create(): Promise<Note> {
+    return await this.note.create()
   }
 
   @Patch(':id')

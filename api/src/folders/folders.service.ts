@@ -9,11 +9,8 @@ export class FoldersService {
   constructor(private readonly prisma: PrismaService) { }
 
   async create(dto: CreateFolderDto): Promise<Folder> {
-    // seedユーザーを取得する仮実装
-    const user = await this.prisma.user.findFirst()
     const folder = await this.prisma.folder.create({
       data: {
-        user: { connect: { id: user.id } },
         name: dto.name,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -48,13 +45,9 @@ export class FoldersService {
       where: { id },
       data: {
         destroyedAt: new Date().toISOString(),
-        notes: {
-          updateMany: {
-            where: {},
-            data: { folderId: null }
-          }
-        }
+        notes: { set: [] }
       },
+      include: { notes: true }
     })
     return archived
   }

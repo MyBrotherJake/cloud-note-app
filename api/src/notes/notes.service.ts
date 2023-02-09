@@ -1,8 +1,7 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common'
-import { Note, Prisma } from '@prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { Note } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { FoldersAndNotes } from 'src/types'
-import { CreateNoteDto } from './dto/create-note.dto'
 import { UpdateNoteDto } from './dto/update-note.dto'
 
 @Injectable()
@@ -35,7 +34,6 @@ export class NotesService {
     })
     const notesWithoutFolder = await this.prisma.note.findMany({
       where: {
-        // TODO userIDで絞り込み
         folder: null,
         archivedAt: null,
         destroyedAt: null
@@ -45,20 +43,9 @@ export class NotesService {
     return { folders, notesWithoutFolder }
   }
 
-  async create(dto: CreateNoteDto): Promise<Note> {
-    // seedユーザーを取得する仮実装
-    const user = await this.prisma.user.findFirst()
-    const folder = await this.prisma.folder.findFirst({
-      where: {
-        id: dto.folderId,
-        destroyedAt: null
-      },
-    })
-
+  async create(): Promise<Note> {
     const note = await this.prisma.note.create({
       data: {
-        user: { connect: { id: user.id } },
-        folder: folder ? { connect: { id: folder.id } } : undefined,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       }
@@ -89,7 +76,9 @@ export class NotesService {
     const updated = await this.prisma.note.update({
       where: { id },
       data: {
-        ...dto,
+        title: dto.title,
+        content: dto.content,
+        folderId: dto.folderId || null,
         updatedAt: new Date().toISOString()
       }
     })
