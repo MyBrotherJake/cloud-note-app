@@ -3,7 +3,7 @@ import axios from "axios";
 import { FolderMinusIcon, FolderPlusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { FolderName } from "./UpdateFolderName";
-
+import { DeleteFolderButton } from "./DeleteFolderButton";
 /**
  * リスト作成
  */
@@ -66,8 +66,8 @@ export const NoteListItems = (props) => {
         pushList(folderId, false);      
       } else {                
         pushList(folderId, true);        
-      };
-    });      
+      };      
+    });       
   };
   /**
    * 重複チェックとStateの更新
@@ -87,7 +87,32 @@ export const NoteListItems = (props) => {
     // State更新用配列
     const newOpenList = folderOpen.slice();    
     setFolderOpen(newOpenList);    
-  }  
+  } 
+  /**
+   * onMouse Event
+   */
+  const onMouseOver = (element, folderId) => {
+    console.log(element);
+    // 対象 summary 取得
+    const summaryElement = element.target;
+    // 親要素 details を取得
+    const detailsElement = summaryElement.parentElement;
+    // × を表示
+    detailsElement.addEventListener("mouseover", (event) => {          
+      
+    });
+    
+  };
+  const onMouseLeave = (element, folderId) => {
+    // 対象 summary 取得
+    const summaryElement = element.target;
+    // 親要素 details を取得
+    const detailsElement = summaryElement.parentElement;
+    // × を非表示
+    detailsElement.addEventListener("mouseleave", (event) => {          
+      
+    });           
+  };
   /**
    * -------------------------------------------------Create NoteList-------------------------------------------------------
    */
@@ -118,10 +143,11 @@ export const NoteListItems = (props) => {
     return (
       <Fragment key={id}>            
         <li id={id} key={id} onClick={(element) => toggleEvent(element, id)}>                            
-          <details open>
-            <summary style={summaryStyle}>                        
+          <details open >
+            <summary style={summaryStyle} onMouseOver={(element) => onMouseOver(element, id)} onMouseLeave={(element) => onMouseLeave(element, id)}>                        
               { FolderIcon }              
               <FolderName folderId={id} folderName={name} />
+              <DeleteFolderButton folderId={id} iconStyle={iconStyle} />
             </summary>
             {
               notes.sort((a, b) => {
