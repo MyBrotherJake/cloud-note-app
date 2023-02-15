@@ -7,8 +7,11 @@ export const DeleteFolderButton = (props) => {
 
   const { folders, setFolders } = useContext(ShowNoteContext);
   const { folderId, iconStyle } = props;
-
-
+ 
+  
+  /**
+   * Delete処理
+   */
   const onClickDelete = async () => {
     if (window.confirm("フォルダを削除します。よろしいですか？") === true) {
       const resData = await axios.delete(`/folders/${folderId}`);
@@ -27,9 +30,9 @@ export const DeleteFolderButton = (props) => {
       // State更新
       setFolders(newFoldersList);          
     };
-  };
+  };  
 
   return (    
-    < XCircleIcon onClick={onClickDelete} style={iconStyle} />
+    < XCircleIcon onClick={onClickDelete} style={iconStyle}  />
   );
 }
