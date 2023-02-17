@@ -3,7 +3,7 @@ import axios from "axios";
 import { FolderMinusIcon, FolderPlusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { FolderName } from "./UpdateFolderName";
-
+import { DeleteFolderButton } from "./DeleteFolderButton";
 /**
  * リスト作成
  */
@@ -15,18 +15,32 @@ export const NoteListItems = (props) => {
     folderId: "",
     isOpen: false
   }]);
-  
-
+  // 削除アイコンの表示を管理する
+  const [ isDisplay, setIsDisplay ] = useState({
+    folderId: "", 
+    isDisplay: false
+  });
   const { notesData, listStyle } = props;
   // Icon Style  
   const iconStyle = {
     "width": "20px",
     "height": "20px",        
-  };  
+  };    
   // Summary Style
   const summaryStyle = {
     "display": "block",
   };
+  // Icon DisplayStyle
+  const display = {
+    "width": "20px",
+    "height": "20px",        
+    "display": "inline",
+  }
+  const notDisplay = {
+    "width": "20px",
+    "height": "20px",        
+    "display": "none",
+  }
   // データが取得できない場合  
   if (!notesData) {   
     // 空のリストを返す
@@ -66,8 +80,8 @@ export const NoteListItems = (props) => {
         pushList(folderId, false);      
       } else {                
         pushList(folderId, true);        
-      };
-    });      
+      };      
+    });       
   };
   /**
    * 重複チェックとStateの更新
@@ -88,6 +102,13 @@ export const NoteListItems = (props) => {
     const newOpenList = folderOpen.slice();    
     setFolderOpen(newOpenList);    
   }  
+  
+  const onMouseOver = (id) => {
+    setIsDisplay({folderId: id, isDisplay: true})
+  }
+  const onMouseLeave = (id) => {
+    setIsDisplay({folderId: id, isDisplay: false})
+  }
   /**
    * -------------------------------------------------Create NoteList-------------------------------------------------------
    */
@@ -114,14 +135,17 @@ export const NoteListItems = (props) => {
     const index = folderOpen.findIndex(({folderId}) => folderId === id);
     // フォルダアイコンを変更
     const FolderIcon = index !== -1 && folderOpen[index]["folderId"] === id && folderOpen[index]["isOpen"] ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;        
+    // 削除アイコンの表示・非表示
+    const DeleteIcon = id === isDisplay["folderId"] && isDisplay["isDisplay"] ? <DeleteFolderButton folderId={id} iconStyle={display} /> : <DeleteFolderButton folderId={id} iconStyle={notDisplay}  />
 
     return (
       <Fragment key={id}>            
         <li id={id} key={id} onClick={(element) => toggleEvent(element, id)}>                            
           <details open>
-            <summary style={summaryStyle}>                        
+            <summary style={summaryStyle} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)}>                        
               { FolderIcon }              
               <FolderName folderId={id} folderName={name} />
+              { DeleteIcon }
             </summary>
             {
               notes.sort((a, b) => {
