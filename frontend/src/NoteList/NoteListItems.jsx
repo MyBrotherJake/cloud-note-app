@@ -1,6 +1,11 @@
 import { Fragment, useContext, useState } from "react";
 import axios from "axios";
 import { FolderMinusIcon, FolderPlusIcon, DocumentTextIcon } from "@heroicons/react/24/outline";
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { FolderName } from "./UpdateFolderName";
 import { DeleteFolderButton } from "./DeleteFolderButton";
@@ -9,12 +14,7 @@ import { DeleteFolderButton } from "./DeleteFolderButton";
  */
 export const NoteListItems = (props) => {  
   
-  const { setNote } = useContext(ShowNoteContext);
-  // 複数フォルダ開閉の状態を取得する    
-  const [ folderOpen, setFolderOpen ] = useState([{
-    folderId: "",
-    isOpen: false
-  }]);
+  const { setNote, folders, setFolders } = useContext(ShowNoteContext);  
   // 削除アイコンの表示を管理する
   const [ isDisplay, setIsDisplay ] = useState({
     folderId: "", 
@@ -26,10 +26,6 @@ export const NoteListItems = (props) => {
     "width": "20px",
     "height": "20px",        
   };    
-  // Summary Style
-  const summaryStyle = {
-    "display": "block",
-  };
   // Icon DisplayStyle
   const display = {
     "width": "20px",
@@ -67,42 +63,18 @@ export const NoteListItems = (props) => {
     setNote({ noteId, title, body: content, folderId });        
   };
   /**
-   * Toggle Event
-   */    
-  const toggleEvent = (element, folderId) => {           
-    // 対象 summary 取得
-    const summaryElement = element.target;
-    // 親要素 details を取得
-    const detailsElement = summaryElement.parentElement;
-    // フォルダの状態(開閉) を取得
-    detailsElement.addEventListener("toggle", (event) => {          
-      if (detailsElement.open) {                      
-        pushList(folderId, false);      
-      } else {                
-        pushList(folderId, true);        
-      };      
-    });       
-  };
+   * フォルダアイコン Clickイベント
+   */
+  const onClickFolder = (index) => {
+    // フォルダの開閉フラグ
+    folders[index]["isOpen"] = !folders[index]["isOpen"];
+    // 再描画用配列
+    const newFolders = folders.slice();    
+    setFolders(newFolders);
+  }
   /**
-   * 重複チェックとStateの更新
-   */  
-  const pushList = (id, isOpen) => {
-    const index = folderOpen.findIndex(({folderId}) => folderId === id);
-    // フォルダ存在チェック
-    if (index === -1) {
-      folderOpen.push({folderId: id, isOpen: true});      
-    } else {
-      folderOpen[index]["isOpen"] = isOpen;      
-    }              
-    // folderIdが空のリストは削除  
-    if (folderOpen[0]["folderId"] === "") {
-      folderOpen.shift();
-    }
-    // State更新用配列
-    const newOpenList = folderOpen.slice();    
-    setFolderOpen(newOpenList);    
-  }  
-  
+   * 削除アイコンの表示・非表示
+   */
   const onMouseOver = (id) => {
     setIsDisplay({folderId: id, isDisplay: true})
   }
@@ -114,60 +86,62 @@ export const NoteListItems = (props) => {
    */
   // Without Folder       
   // 更新日でソート後、リストを作成
-  const notesWithoutFolder = notesData["notesWithoutFolder"].sort((a, b) => {
+  const notesWithoutFolderList = notesData["notesWithoutFolder"].sort((a, b) => {
     return (a.updatedAt < b.updatedAt) ? -1 : 1
-  }).map(({id, title}) => {
-    return (
-      <Fragment key={id}>        
-        <li id={id} key={id} onClick={ () => onClickTitle(id) }>                  
+  }).map(({id, title}) => {   
+   return (
+    <Fragment key={id}>
+      <ListItemButton id={id} key={id} onClick={ () => onClickTitle(id) }>                  
           <DocumentTextIcon style={iconStyle} key={id} />
           {title}
-        </li>      
-      </Fragment>
-    );
+      </ListItemButton>     
+    </Fragment>
+   );
   });  
   // With Folder    
   // フォルダは作成日、ノートは更新日でそれぞれソート
-  const folders = notesData["folders"].sort((a, b) => {
+  const foldersList = notesData["folders"].sort((a, b) => {
     return (a.createdAt < b.createdAt) ? -1 : 1
-  }).map(({id, name, notes}) => {    
+  }).map(({id, name, notes}) => {        
     // 対象フォルダのインデックス取得
-    const index = folderOpen.findIndex(({folderId}) => folderId === id);
-    // フォルダアイコンを変更
-    const FolderIcon = index !== -1 && folderOpen[index]["folderId"] === id && folderOpen[index]["isOpen"] ? <FolderPlusIcon style={iconStyle} key={id} id={id} /> : <FolderMinusIcon style={iconStyle} key={id} id={id} />;        
+    const index = folders.findIndex(({folderId}) => folderId === id);
+      // フォルダアイコンを変更
+    const FolderIcon = folders[index]["folderId"] === id && folders[index]["isOpen"] ? <FolderMinusIcon style={iconStyle} key={id} id={id} /> : <FolderPlusIcon style={iconStyle} key={id} id={id} />;            
     // 削除アイコンの表示・非表示
     const DeleteIcon = id === isDisplay["folderId"] && isDisplay["isDisplay"] ? <DeleteFolderButton folderId={id} iconStyle={display} /> : <DeleteFolderButton folderId={id} iconStyle={notDisplay}  />
-
+    
     return (
-      <Fragment key={id}>            
-        <li id={id} key={id} onClick={(element) => toggleEvent(element, id)}>                            
-          <details open>
-            <summary style={summaryStyle} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)}>                        
-              { FolderIcon }              
-              <FolderName folderId={id} folderName={name} />
-              { DeleteIcon }
-            </summary>
-            {
-              notes.sort((a, b) => {
-                return (a.updatedAt < b.updatedAt) ? -1 : 1
-              }).map(({id, title}) => {
-                return (
-                  <ul style={listStyle} key={id}>                  
-                    <li id={id} key={id} onClick={ () => onClickTitle(id) }>                                      
-                      <DocumentTextIcon style={iconStyle} key={id} />
-                      {title}
-                    </li>
-                  </ul>
-                );              
-              })            
-            }
-          </details>             
-        </li>        
+      <Fragment key={id}>      
+        <ListItemButton id={id} key={id} onClick={() => onClickFolder(index)} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)}>
+          { FolderIcon }
+          <ListItemText>                    
+            <FolderName folderId={id} folderName={name} />
+          </ListItemText>
+          { DeleteIcon }
+        </ListItemButton>
+        <Collapse in={folders[index]["isOpen"]} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding >        
+            <ListItemButton sx={{ pl: 4 }} style={{display: 'inherit'}}>                                     
+              {
+                notes.sort((a, b) => {
+                  return (a.updatedAt < b.updatedAt) ? -1 : 1
+                }).map(({id, title}) => {
+                  return (
+                    <ListItemButton id={id} key={id} onClick={() => onClickTitle(id)}>                  
+                        <DocumentTextIcon style={iconStyle} key={id} />
+                        <ListItemText>{title}</ListItemText>                        
+                    </ListItemButton>                     
+                  );              
+                })            
+              }         
+            </ListItemButton>
+          </List>
+        </Collapse>      
       </Fragment>
     );
   });  
   // Join With Folder + Without Folder
-  const items = folders.concat(notesWithoutFolder);
+  const items = foldersList.concat(notesWithoutFolderList);
 
   return (
     <>

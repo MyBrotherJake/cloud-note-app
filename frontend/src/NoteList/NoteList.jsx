@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
 import { NoteListItems } from "./NoteListItems";
 import { CreateNoteButton } from "./CreateNoteButton";
 import { CreateFolderButton } from "./CreateFolderButton";
@@ -54,7 +56,7 @@ export const NoteList = () => {
         const folderSubId = id;
 
         if (folderIndex === -1) {
-          folders.push({ folderId: folderSubId,folderName: name });
+          folders.push({ folderId: folderSubId,folderName: name, isOpen: true });
         }        
         notes.forEach(({ id, title, content, updatedAt }) => {        
           // 配列のインデックスを取得
@@ -96,18 +98,28 @@ export const NoteList = () => {
   const listStyle = {
     "listStyle": "none",    
   };
-
+  
   return (
-    <>
-      <ul style={listStyle}>
-        <NoteListItems notesData={notes} listStyle={listStyle} />
-      </ul>
+    <>      
+      <List
+      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      subheader={
+        <ListSubheader component="div" id="nested-list-subheader">
+          Notes List
+        </ListSubheader>
+      }
+      >
+        <NoteListItems notesData={notes} listStyle={listStyle} />      
+      </List>
+      
       <CreateArea>
         <CreateNoteButton />
         <CreateFolderButton />
       </CreateArea>
     </>
-  );     
+  );    
 };
 
 const CreateArea = styled.div`
