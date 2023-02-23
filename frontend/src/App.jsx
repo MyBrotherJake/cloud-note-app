@@ -1,15 +1,20 @@
 import { Signin } from './Auth/Signin';
 import { Note } from "./Note/Note";
 import { NoteList } from "./NoteList/NoteList";
-import { useContext } from 'react';
-import { AuthContext } from './Providers/AuthProvider';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export const App = () => {
-  const { user } = useContext(AuthContext)
+  const [user, setUser] = useState(null)
 
-  // 初回useEffectでaccessTokenをサーバー側で認証する
-  // アクセストークンがあればOKとする。AuthContextでlocalStorageに保管する
+  useEffect(() => {
+    const data = localStorage.getItem('user')
+    if (data) setUser(data)
+  }, [user])
+
+  if (!user) {
+    return (<Signin />)
+  }
 
   return (
     <NoteContainer>
