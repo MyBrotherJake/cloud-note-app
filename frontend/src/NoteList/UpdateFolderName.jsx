@@ -38,4 +38,6 @@ export const FolderName = (props) => {
 
 const InputArea = styled.input`
   border: none;
+  font-size: 0.9em;
+  width: 85%;
 `;
