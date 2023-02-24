@@ -32,6 +32,8 @@ export const SelectFolder = () => {
     // State更新用配列
     const newNotesList = notesList.slice(0, notesList.length);    
     setNotesList(newNotesList);     
+    // 新しいフォルダIDをセット
+    note["folderId"] = folderId;    
     return resData;
   };
   /**
