@@ -9,6 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { FolderName } from "./UpdateFolderName";
 import { DeleteFolderButton } from "./DeleteFolderButton";
+import { ListItemIcon } from '@mui/material';
 /**
  * リスト作成
  */
@@ -23,8 +24,8 @@ export const NoteListItems = (props) => {
   const { notesData, listStyle } = props;
   // Icon Style  
   const iconStyle = {
-    "width": "20px",
-    "height": "20px",        
+    "width": "22px",
+    "height": "22px",        
   };    
   // Icon DisplayStyle
   const display = {
@@ -91,9 +92,13 @@ export const NoteListItems = (props) => {
   }).map(({id, title}) => {   
    return (
     <Fragment key={id}>
-      <ListItemButton id={id} key={id} onClick={ () => onClickTitle(id) }>                  
+      <ListItemButton id={id} key={id} onClick={ () => onClickTitle(id) }>
+        <ListItemIcon sx={{ minWidth: 28 }}>
           <DocumentTextIcon style={iconStyle} key={id} />
+        </ListItemIcon>
+        <ListItemText primaryTypographyProps={{ noWrap: true }}>
           {title}
+        </ListItemText>
       </ListItemButton>     
     </Fragment>
    );
@@ -113,7 +118,9 @@ export const NoteListItems = (props) => {
     return (
       <Fragment key={id}>      
         <ListItemButton id={id} key={id} onClick={() => onClickFolder(index)} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)}>
-          { FolderIcon }
+          <ListItemIcon sx={{ minWidth: 28 }}>
+            { FolderIcon }
+          </ListItemIcon>
           <ListItemText>                    
             <FolderName folderId={id} folderName={name} />
           </ListItemText>
@@ -127,9 +134,13 @@ export const NoteListItems = (props) => {
                   return (a.updatedAt < b.updatedAt) ? -1 : 1
                 }).map(({id, title}) => {
                   return (
-                    <ListItemButton id={id} key={id} onClick={() => onClickTitle(id)}>                  
+                    <ListItemButton id={id} key={id} onClick={() => onClickTitle(id)}>
+                      <ListItemIcon sx={{ minWidth: 28 }}>
                         <DocumentTextIcon style={iconStyle} key={id} />
-                        <ListItemText>{title}</ListItemText>                        
+                      </ListItemIcon>
+                      <ListItemText primaryTypographyProps={{ noWrap: true }}>
+                        {title}
+                      </ListItemText>                        
                     </ListItemButton>                     
                   );              
                 })            
