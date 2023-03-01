@@ -12,7 +12,8 @@ export const Signin = () => {
       email: data.email,
       photo: data.photoURL
     }
-    localStorage.setItem('user', userData)
+    
+    localStorage.setItem('user', JSON.stringify(userData))
   } 
 
   useEffect(() => {

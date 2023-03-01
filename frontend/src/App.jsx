@@ -1,4 +1,5 @@
 import { Signin } from './Auth/Signin';
+import { UserProfile } from './User/UserProfile';
 import { Note } from "./Note/Note";
 import { NoteList } from "./NoteList/NoteList";
 import { useEffect, useState } from 'react';
@@ -9,18 +10,23 @@ export const App = () => {
 
   useEffect(() => {
     const data = localStorage.getItem('user')
-    if (data) setUser(data)
-  }, [user])
+    if (data) setUser(JSON.parse(data))
+  }, [])
 
   if (!user) {
     return (<Signin />)
   }
+
+  console.log(JSON.stringify(user))
 
   return (
     <NoteContainer>
       <NavigationContainer>
         <div className="logo">
           Cloud Note App
+        </div>
+        <div className="profile">
+          <UserProfile user={user} />
         </div>
         <nav id="nav">
           <NoteList />
