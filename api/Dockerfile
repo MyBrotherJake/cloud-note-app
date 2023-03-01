@@ -9,6 +9,6 @@ ADD ./package.json ./yarn.lock ./
 RUN yarn install
 
 ADD . ./
-RUN yarn prisma generate && yarn prisma db push
+RUN yarn prisma generate && yarn prisma db push --accept-data-loss
 
 CMD ["yarn", "start:dev"]
