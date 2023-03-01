@@ -22,7 +22,7 @@ export const CreateFolderButton = () => {
    */
   const createFolder = async (folderId) => {   
     // 配列に追加
-    folders.push({folderId: folderId, folderName: "新規フォルダ"});
+    folders.push({folderId: folderId, folderName: "新規フォルダ", isOpen: true});
     // 再描画用に新規配列
     const newFolders = folders.slice();
     setFolders(newFolders);        

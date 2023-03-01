@@ -1,7 +1,7 @@
 import { DocumentPlusIcon } from "@heroicons/react/24/outline";
 import { useContext } from "react";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
-import { CreateNote } from "../Note/SetNote";
+import { CreateNote } from "../Note/CreateNote";
 
 export const CreateNoteButton = () => {
 

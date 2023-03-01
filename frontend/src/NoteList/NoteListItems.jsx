@@ -15,11 +15,13 @@ import { DeleteFolderButton } from "./DeleteFolderButton";
 export const NoteListItems = (props) => {  
   
   const { setNote, folders, setFolders } = useContext(ShowNoteContext);  
+  
   // 削除アイコンの表示を管理する
   const [ isDisplay, setIsDisplay ] = useState({
     folderId: "", 
     isDisplay: false
-  });
+  });  
+
   const { notesData } = props;
   // Icon Style  
   const iconStyle = {
@@ -104,9 +106,15 @@ export const NoteListItems = (props) => {
     return (a.createdAt < b.createdAt) ? -1 : 1
   }).map(({id, name, notes}) => {        
     // 対象フォルダのインデックス取得
-    const index = folders.findIndex(({folderId}) => folderId === id);
+    const index = folders.findIndex(({folderId}) => folderId === id);    
+    // 検索に引っ掛からなかった場合    
+    if (index === -1) {
+      return (
+        <Fragment key={id}></Fragment>
+      );
+    }    
       // フォルダアイコンを変更
-    const FolderIcon = folders[index]["folderId"] === id && folders[index]["isOpen"] ? <FolderMinusIcon style={iconStyle} key={id} id={id} /> : <FolderPlusIcon style={iconStyle} key={id} id={id} />;            
+    const FolderIcon = folders[index]["folderId"] === id && folders[index]["isOpen"] ? <FolderMinusIcon style={iconStyle} key={id} id={id} /> : <FolderPlusIcon style={iconStyle} key={id} id={id} />;                
     // 削除アイコンの表示・非表示
     const DeleteIcon = id === isDisplay["folderId"] && isDisplay["isDisplay"] ? <DeleteFolderButton folderId={id} iconStyle={display} /> : <DeleteFolderButton folderId={id} iconStyle={notDisplay}  />
     
@@ -142,7 +150,7 @@ export const NoteListItems = (props) => {
   });  
   // Join With Folder + Without Folder
   const items = foldersList.concat(notesWithoutFolderList);
-
+  
   return (
     <>
       {items}

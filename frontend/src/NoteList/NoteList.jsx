@@ -7,7 +7,7 @@ import { NoteListItems } from "./NoteListItems";
 import { CreateNoteButton } from "./CreateNoteButton";
 import { CreateFolderButton } from "./CreateFolderButton";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
-import { CreateNote } from "../Note/SetNote";
+import { CreateNote } from "../Note/CreateNote";
 /**
  * ノート一覧の表示
  */
@@ -15,32 +15,32 @@ export const NoteList = () => {
   
   const { note, setNote, notesList, setNotesList, folders, setFolders } = useContext(ShowNoteContext);    
   const [ notes, setNotes ] = useState();    
-  // 再描画の制御  
+  // 再描画の制御    
   useEffect(() => {
-    (async () => {
+    (async () => {      
       const resNotes = await axios.get("/notes");
       // APIから取得したデータをそのまま props として渡す
       const notesData = resNotes.data;
-      setNotes(notesData);            
+      setNotes(notesData);       
       /**
        * folders にノートがあるかをチェック
-       */      
+       */     
       let existNote = false;      
-      notesData["folders"].forEach(({notes}) => {        
+      notesData["folders"].forEach(({notes}) => {              
         if (notes.length > 0) {           
           existNote  = true
           return;
         }
       });                      
       // ノートがない場合に新規作成処理      
-      if (notesData["notesWithoutFolder"].length === 0 && !existNote) {      
+      if (notesData["notesWithoutFolder"].length === 0 && !existNote) {            
         const createNewNote = CreateNote(setNote, notesList, setNotesList);
         createNewNote();          
       }
       
       // 配列を整理して notesList を更新する
       // フォルダなし    
-      notesData["notesWithoutFolder"].forEach(({ id, title, content, folderId, updatedAt }) => {                    
+      notesData["notesWithoutFolder"].forEach(({ id, title, content, folderId, updatedAt }) => {                          
         // 配列のインデックスを取得
         const noteIndex = notesList.findIndex(({noteId}) => noteId === id);
         // ノート新規作成時に重複しないようにチェック
@@ -50,7 +50,7 @@ export const NoteList = () => {
         }                
       });
       // フォルダあり
-      notesData["folders"].forEach(({id, name, notes}) => {             
+      notesData["folders"].forEach(({id, name, notes}) => {                   
         // 重複チェック
         const folderIndex = folders.findIndex(({folderId}) => folderId === id);
         const folderSubId = id;
@@ -87,19 +87,12 @@ export const NoteList = () => {
         const folderId = notesList[0]["folderId"];
         setNote({ noteId, title, body, folderId });
       }                 
-      // State更新
-      setNotesList(notesList);    
-      setFolders(folders);                                
-    })();    
-  }, [note, setNote, notesList, setNotesList, folders, setFolders]);      
-//}, []);      
-  /**
-   * list-style: none;
-   */
-  const listStyle = {
-    "listStyle": "none",    
-  };
-  
+      // State更新                                    
+      setNotesList(notesList);          
+      setFolders(folders);      
+    })();  
+  }, [note, setNote, notesList, setNotesList, folders, setFolders]);       
+    
   return (
     <>      
       <List
@@ -112,7 +105,7 @@ export const NoteList = () => {
         </ListSubheader>
       }
       >
-        <NoteListItems notesData={notes} listStyle={listStyle} />      
+        <NoteListItems notesData={notes} />      
       </List>
       
       <CreateArea>

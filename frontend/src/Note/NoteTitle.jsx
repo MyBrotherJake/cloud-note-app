@@ -1,11 +1,14 @@
 import styled from "styled-components";
-import { SetContent, UpdateNote } from "./SetNote";
+import { SetContent } from "./SetNote";
+import { UpdateNote } from "./UpdateNote";
 /**
  * ノートのタイトル
  */
-export const NoteTitle = () => {
+export const NoteTitle = (props) => {
+
+  const { notesList, setNotesList, note } = props;
   // タイトルの取得    
-  const { notesList, setNotesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("title");
+  const { data, onChangeContent, isChange, setIsChange } = SetContent("title", notesList, setNotesList, note);
   
   if (isChange) {    
     UpdateNote(notesList, setNotesList, note);    

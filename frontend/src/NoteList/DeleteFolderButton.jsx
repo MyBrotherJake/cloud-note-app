@@ -26,9 +26,9 @@ export const DeleteFolderButton = (props) => {
      // 指定した要素を削除        
      if (delete folders[index] === true) {      
       // state更新用に新しい配列を作成
-      const newFoldersList = folders.filter((element) => element === true);    
+      const newFoldersList = folders.filter((element) => element);        
       // State更新
-      setFolders(newFoldersList);          
+      await setFolders(newFoldersList);           
     };
   };  
 

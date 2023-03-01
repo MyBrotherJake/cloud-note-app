@@ -1,11 +1,10 @@
 import { useContext } from "react";
-import { UpdateNote } from "./SetNote";
+import { UpdateNote } from "./UpdateNote";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 /**
  * フォルダ移動用プルダウン
  */
 export const SelectFolder = () => {
-
   /**
    * Folders State
    */
@@ -28,7 +27,7 @@ export const SelectFolder = () => {
     // フォルダIDをセット
     notesList[index]["folderId"] = folderId;    
     // Update
-    const resData = await UpdateNote(notesList, note);     
+    const resData = await UpdateNote(notesList, setNotesList, note);     
     // State更新用配列
     const newNotesList = notesList.slice(0, notesList.length);    
     setNotesList(newNotesList);     

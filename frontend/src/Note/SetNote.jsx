@@ -1,13 +1,9 @@
-import { useContext, useState } from "react";
-import axios from "axios";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { useState } from "react";
 /**
  * NoteTitle および NoteBody の共通処理
  * Title と Body の値を配列から探してセットする
  */
-export function SetContent (target) {
-  // State を取得
-  const { notesList, setNotesList, note } = useContext(ShowNoteContext);
+export function SetContent (target, notesList, setNotesList, note) {
   // 変更フラグ
   const [ isChange, setIsChange ] = useState(false);    
   // noteId
@@ -54,81 +50,13 @@ export function SetContent (target) {
     // 変更フラグを立てる
     setIsChange(true);   
   };   
-  return {     
-    notesList,
-    setNotesList,
-    note,                 // 現在選択されているノートのデータ
-    noteId,               // 現在選択されているノートID
+  return {         
     data,                 // 表示させる値
     onChangeContent,      // onChange Event
     isChange,             // 内容の変更フラグ  
     setIsChange           // 変更フラグ State
   };
 };  
-/**
- * API PATCH 処理
- */
-export function UpdateNote (notesList, setNotesList, note) {    
-  //const { notesList, setNotesList } = useContext(ShowNoteContext);
-  // 配列のインデックスを取得
-  const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
 
-  if (index === -1) {
-    return;
-  }
-  // 値をセット
-  const title = notesList[index]["title"];
-  const body = notesList[index]["body"];
-  const noteId = notesList[index]["noteId"];  
-  const folderId = notesList[index]["folderId"];
-  // PATCH Data
-  const patchData = {    
-    title,
-    content: body,
-    folderId,
-  };
-  // Update    
-  const update = async () => {    
-    const resData = await axios.patch(`/notes/${noteId}`, patchData );    
-    // NoteList State更新
-    notesList[index]["title"] = resData.data["title"];
-    notesList[index]["body"] = resData.data["body"];
 
-    const newNotesList = notesList.slice();
-    setNotesList(newNotesList);
-    return resData;
-  };    
-  return update();        
-};
-/**
- * API Create Note
- */
-export function CreateNote(setNote, notesList, setNotesList) {
-  /**
-   * onClick Event
-   */
-  const onClickCreate = async () => {    
-    // ユーザーIDを渡して、新規ノート作成
-    const resData = await axios.post(`/notes`);
-    // ノートIDを取得
-    const noteId = resData.data["id"];    
-    // State更新処理
-    await createNote(noteId);
-  };
-  // State
-  const createNote = async (noteId) => {
-     // 選択中にする
-     setNote({ noteId, title: "新規ノート", body: "", folderId: "" });        
-     // 一覧に追加
-     notesList.push({ noteId, title: "新規ノート", body: "", folderId: "" }); 
-     // State更新用の配列をコピー
-     const newNotesList = notesList.slice();
-     // 一覧のState更新
-     setNotesList(newNotesList);                 
-  };
-
-  return (
-    onClickCreate
-  );
-}
 
