@@ -5,10 +5,10 @@ import { SetContent, UpdateNote } from "./SetNote";
  */
 export const NoteTitle = () => {
   // タイトルの取得    
-  const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("title");
+  const { notesList, setNotesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("title");
   
   if (isChange) {    
-    UpdateNote(notesList, note);    
+    UpdateNote(notesList, setNotesList, note);    
     setIsChange(false);
   }
 

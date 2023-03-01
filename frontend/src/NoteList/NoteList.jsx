@@ -92,6 +92,7 @@ export const NoteList = () => {
       setFolders(folders);                                
     })();    
   }, [note, setNote, notesList, setNotesList, folders, setFolders]);      
+//}, []);      
   /**
    * list-style: none;
    */

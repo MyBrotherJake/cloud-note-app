@@ -54,8 +54,9 @@ export function SetContent (target) {
     // 変更フラグを立てる
     setIsChange(true);   
   };   
-  return { 
-    notesList,            // ノート一覧データ
+  return {     
+    notesList,
+    setNotesList,
     note,                 // 現在選択されているノートのデータ
     noteId,               // 現在選択されているノートID
     data,                 // 表示させる値
@@ -67,7 +68,8 @@ export function SetContent (target) {
 /**
  * API PATCH 処理
  */
-export function UpdateNote (notesList, note) {    
+export function UpdateNote (notesList, setNotesList, note) {    
+  //const { notesList, setNotesList } = useContext(ShowNoteContext);
   // 配列のインデックスを取得
   const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
 
@@ -87,10 +89,16 @@ export function UpdateNote (notesList, note) {
   };
   // Update    
   const update = async () => {    
-    const resData = await axios.patch(`/notes/${noteId}`, patchData );       
+    const resData = await axios.patch(`/notes/${noteId}`, patchData );    
+    // NoteList State更新
+    notesList[index]["title"] = resData.data["title"];
+    notesList[index]["body"] = resData.data["body"];
+
+    const newNotesList = notesList.slice();
+    setNotesList(newNotesList);
     return resData;
-  };  
-  return update();      
+  };    
+  return update();        
 };
 /**
  * API Create Note

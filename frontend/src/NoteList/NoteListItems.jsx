@@ -20,7 +20,7 @@ export const NoteListItems = (props) => {
     folderId: "", 
     isDisplay: false
   });
-  const { notesData, listStyle } = props;
+  const { notesData } = props;
   // Icon Style  
   const iconStyle = {
     "width": "20px",
