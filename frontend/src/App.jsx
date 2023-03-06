@@ -3,11 +3,11 @@ import { UserProfile } from './User/UserProfile';
 import { Note } from "./Note/Note";
 import { NoteList } from "./NoteList/NoteList";
 import { useEffect, useState } from 'react';
-import { AppBar, Box, CssBaseline, Drawer, Toolbar, Typography } from '@mui/material';
+import { Box, CssBaseline, Drawer, Typography } from '@mui/material';
 
 export const App = () => {
   const [user, setUser] = useState(null)
-  const drawerWidth = 300
+  const drawerWidth = 320
 
   useEffect(() => {
     const data = localStorage.getItem('user')
@@ -23,15 +23,6 @@ export const App = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
-        <Toolbar>
-          <Typography variant='h6' noWrap component='div'>
-            CLOUD NOTE APP
-          </Typography>
-        </Toolbar>
-      </AppBar>      
       <Drawer
         sx={{
           width: drawerWidth,
@@ -43,14 +34,15 @@ export const App = () => {
         }}
         variant="permanent"
         anchor="left">
-        <div style={{ paddingLeft: '16px' }}>
-          <div className="profile">
-            <UserProfile user={user} />
-          </div>
-          <nav id="nav">
-            <NoteList />
-          </nav>
-        </div>
+        <Box>
+          <Typography align='center' variant='h1'>CLOUD NOTE APP</Typography>
+        </Box>
+        <Box sx={{ paddingLeft: 2 }}>
+          <UserProfile user={user} />
+        </Box>
+        <Box id="nav">
+          <NoteList />
+        </Box>
       </Drawer>
       <Box
         component="main"

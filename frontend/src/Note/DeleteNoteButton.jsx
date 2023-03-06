@@ -53,6 +53,6 @@ export const DeleteNoteButton = () => {
   };
 
   return (
-    <TrashIcon onClick={onClickDelete} />          
+    <TrashIcon onClick={onClickDelete} style={{ width: 36 }} />          
   );
 };

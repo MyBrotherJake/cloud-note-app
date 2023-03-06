@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { UpdateNote } from "./SetNote";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { FormControl, InputLabel, MenuItem, Select, Box } from '@mui/material';
+
 /**
  * フォルダ移動用プルダウン
  */
@@ -41,23 +43,26 @@ export const SelectFolder = () => {
    */  
   const foldersList = folders.map(({folderId, folderName}) => {    
     return (
-      <option value={folderId} key={folderId}>{folderName}</option>
-    );    
+      <MenuItem value={folderId} key={folderId}>{folderName}</MenuItem>
+    );
   }); 
-  /**
-   * Select Style
-   */
-  const selectStyle = {
-    "margin": "auto"
-  };  
   
-
-
   return (
-    <select name="select-folder" style={selectStyle} onChange={onSelect} defaultValue={note["folderId"]} key={note["folderId"]}>
-      <option value="">--フォルダ未選択--</option>
-      {foldersList}
-    </select>
-  );
-  
+    <Box>
+      <FormControl fullWidth>
+        <InputLabel id="folder-select">フォルダ</InputLabel>
+        <Select
+          labelId="folder-label"
+          id="folder-select"
+          onChange={onSelect}
+          defaultValue={note["folderId"]}
+          key={note["folderId"]}
+          label="フォルダ"
+          displayEmpty>
+          <MenuItem value="">フォルダ未選択</MenuItem>
+          { foldersList }
+        </Select>
+      </FormControl>
+    </Box>
+  );  
 }

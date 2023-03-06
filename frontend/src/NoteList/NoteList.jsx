@@ -8,6 +8,7 @@ import { CreateNoteButton } from "./CreateNoteButton";
 import { CreateFolderButton } from "./CreateFolderButton";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { CreateNote } from "../Note/SetNote";
+import { Box } from '@mui/material';
 /**
  * ノート一覧の表示
  */
@@ -101,6 +102,15 @@ export const NoteList = () => {
   
   return (
     <>      
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'flex-end', 
+        paddingLeft: 1, 
+        paddingRight: 1 
+      }}>
+        <CreateNoteButton />
+        <CreateFolderButton />
+      </Box>
       <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
       component="nav"
@@ -114,19 +124,6 @@ export const NoteList = () => {
         <NoteListItems notesData={notes} listStyle={listStyle} />      
       </List>
       
-      <CreateArea>
-        <CreateNoteButton />
-        <CreateFolderButton />
-      </CreateArea>
     </>
   );    
 };
-
-const CreateArea = styled.div`
-  width: 80px;
-  height: 40px; 
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  display: flex;
-`;

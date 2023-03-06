@@ -1,5 +1,5 @@
+import { Box, InputLabel } from '@mui/material';
 import Editor from "rich-markdown-editor";
-import styled from "styled-components";
 import { SetContent, UpdateNote } from "./SetNote";
 /**
  * ノートの作成、編集
@@ -15,18 +15,15 @@ export const NoteBody = () => {
   } 
    
   return (
-    <>
-      <EditorArea>
-        <Editor                    
+    <Box sx={{ marginTop: 5 }}>
+      <InputLabel>本文</InputLabel>
+      <Box sx={{ marginTop: 2 }}>
+        <Editor
           key={note["noteId"]}         
           defaultValue={data}
-          onChange={onChangeContent}                    
-        />        
-      </EditorArea>    
-    </>        
+          onChange={onChangeContent}
+        />
+      </Box>
+    </Box>        
   ); 
 };
-
-const EditorArea = styled.div`
-  margin: 20px;
-`;

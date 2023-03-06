@@ -2,25 +2,37 @@ import { NoteTitle } from "./NoteTitle";
 import { NoteBody } from "./NoteBody";
 import { DeleteNoteButton } from "./DeleteNoteButton";
 import { SelectFolder } from "./SelectFolder";
-import styled from "styled-components";
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { Box, InputLabel } from '@mui/material';
 
 export const Note = () => {
  
   return (      
-    <> 
-      <OptionArea>   
-        <SelectFolder />             
-        <DeleteNoteButton />        
-      </OptionArea>
-      <NoteTitle />               
-      <NoteBody />             
-    </>
+    <Grid container>
+      <Grid xs={6}>
+        <Box sx={{ minWidth: 200, width: 'fit-content' }}>
+          <SelectFolder />
+        </Box>
+      </Grid>
+      <Grid xs={6} sx={{ 
+        display: 'flex',
+        justifyContent: 'flex-end', 
+        alignItems: 'center' 
+      }}>
+        <Box>
+          <DeleteNoteButton />
+        </Box>
+      </Grid>
+      <Grid xs={12}>
+        <Box sx={{ marginTop: 5 }}>
+          <NoteTitle />
+        </Box>
+      </Grid>
+      <Grid xs={12}>
+        <Box>
+          <NoteBody />
+        </Box>
+      </Grid>
+    </Grid>
   );  
 };
-
-const OptionArea = styled.div`
-  width: 200px;
-  height: 30px;
-  display: flex;  
-  margin-left: auto;
-`;

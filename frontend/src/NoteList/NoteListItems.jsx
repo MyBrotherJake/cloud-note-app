@@ -117,7 +117,7 @@ export const NoteListItems = (props) => {
     
     return (
       <Fragment key={id}>      
-        <ListItemButton id={id} key={id} onClick={() => onClickFolder(index)} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)}>
+        <ListItemButton id={id} key={id} onClick={() => onClickFolder(index)} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)} sx={{ pb: 0 }}>
           <ListItemIcon sx={{ minWidth: 28 }}>
             { FolderIcon }
           </ListItemIcon>
@@ -128,13 +128,13 @@ export const NoteListItems = (props) => {
         </ListItemButton>
         <Collapse in={folders[index]["isOpen"]} timeout="auto" unmountOnExit>
           <List component="div" disablePadding >        
-            <ListItemButton sx={{ pl: 4 }} style={{display: 'inherit'}}>                                     
+            <ListItemButton sx={{ pl: 4, pt: 0 }} style={{display: 'inherit'}}>                                     
               {
                 notes.sort((a, b) => {
                   return (a.updatedAt < b.updatedAt) ? -1 : 1
                 }).map(({id, title}) => {
                   return (
-                    <ListItemButton id={id} key={id} onClick={() => onClickTitle(id)}>
+                    <ListItemButton id={id} key={id} onClick={() => onClickTitle(id)} sx={{ pb: 0 }}>
                       <ListItemIcon sx={{ minWidth: 28 }}>
                         <DocumentTextIcon style={iconStyle} key={id} />
                       </ListItemIcon>
