@@ -29,10 +29,10 @@ export const SelectFolder = () => {
     // Update
     const resData = await UpdateNote(notesList, setNotesList, note);     
     // State更新用配列
-    const newNotesList = notesList.slice(0, notesList.length);    
-    setNotesList(newNotesList);     
+    const newNotesList = notesList.slice();    
     // 新しいフォルダIDをセット
-    note["folderId"] = folderId;    
+    note["folderId"] = folderId;        
+    setNotesList(newNotesList);     
     return resData;
   };
   /**

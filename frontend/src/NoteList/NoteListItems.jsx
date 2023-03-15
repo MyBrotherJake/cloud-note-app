@@ -12,17 +12,15 @@ import { DeleteFolderButton } from "./DeleteFolderButton";
 /**
  * リスト作成
  */
-export const NoteListItems = (props) => {  
+export const NoteListItems = () => {  
   
-  const { setNote, folders, setFolders } = useContext(ShowNoteContext);  
+  const { note, setNote, notesList, folders, setFolders } = useContext(ShowNoteContext);  
   
   // 削除アイコンの表示を管理する
   const [ isDisplay, setIsDisplay ] = useState({
     folderId: "", 
     isDisplay: false
-  });  
-
-  const { notesData } = props;
+  });      
   // Icon Style  
   const iconStyle = {
     "width": "20px",
@@ -40,30 +38,24 @@ export const NoteListItems = (props) => {
     "display": "none",
   }
   // データが取得できない場合  
-  if (!notesData) {   
+  if (!notesList) {   
     // 空のリストを返す
     return (
       <li></li>
     );
-  };      
+  };        
   /**
    * onClick時にAPI呼び出し
    */
   const onClickTitle = async (noteId) => {                
-    // APIから詳細を取得    
-    await getNoteContents(noteId);    
-  };   
-  /**
-   * noteId をキーにAPIから値取得
-   */  
-  const getNoteContents = async (noteId) => {
+    // APIから詳細を取得        
     // GET
     const resNote = await axios.get(`/notes/${noteId}`);
     // タイトル, 内容 をセット
-    const { title, content, folderId } = resNote.data;    
+    const { title, content, folderId } = resNote.data;     
     // 現在選択されたノート
-    setNote({ noteId, title, body: content, folderId });        
-  };
+    setNote({ noteId, title, body: content, folderId });      
+  };     
   /**
    * フォルダアイコン Clickイベント
    */
@@ -85,10 +77,38 @@ export const NoteListItems = (props) => {
   }
   /**
    * -------------------------------------------------Create NoteList-------------------------------------------------------
+   * notesList から配列を再加工して、最初にAPIから受け取ったオブジェクトの形にする
    */
+  const notesWithoutFolder = notesList.map(({noteId, title, folderId, updatedAt}) => {
+    if (folderId === null) {
+      return ({id: noteId, title, folderId, updatedAt});      
+    }  else {
+      return undefined;
+    }
+  }).filter((element) => element);    
+
+  const withFolder = notesList.map(({noteId, title, folderId, updatedAt, createdAt}) => {
+    const subId = folderId;
+    if (subId) {
+      const index = folders.findIndex(({folderId}) => folderId === subId);
+      
+      const folderName = folders[index]["folderName"];      
+
+      const noteContents = noteId !== "" ? [{ "id": noteId, "title": title, "updatedAt": updatedAt }] : [];
+      
+      return (
+        {
+          "id": folderId,
+          "name": folderName,
+          "createdAt": createdAt,
+          "notes": noteContents
+        }
+      );    
+    }; 
+  }).filter((element) => element);        
   // Without Folder       
-  // 更新日でソート後、リストを作成
-  const notesWithoutFolderList = notesData["notesWithoutFolder"].sort((a, b) => {
+  // 更新日でソート後、リストを作成  
+  const notesWithoutFolderList = notesWithoutFolder.sort((a, b) => {
     return (a.updatedAt < b.updatedAt) ? -1 : 1
   }).map(({id, title}) => {   
    return (
@@ -101,8 +121,8 @@ export const NoteListItems = (props) => {
    );
   });  
   // With Folder    
-  // フォルダは作成日、ノートは更新日でそれぞれソート
-  const foldersList = notesData["folders"].sort((a, b) => {
+  // フォルダは作成日、ノートは更新日でそれぞれソート  
+  const foldersList = withFolder.sort((a, b) => {
     return (a.createdAt < b.createdAt) ? -1 : 1
   }).map(({id, name, notes}) => {        
     // 対象フォルダのインデックス取得
@@ -151,9 +171,10 @@ export const NoteListItems = (props) => {
   // Join With Folder + Without Folder
   const items = foldersList.concat(notesWithoutFolderList);
   
+
   return (
     <>
-      {items}
+      { items }
     </>    
   );
 }

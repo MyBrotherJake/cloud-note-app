@@ -21,6 +21,7 @@ export const ShowNoteProvider = props => {
         body: "",
         folderId: "",
         updatedAt: "",
+        createdAt: "",
       }
     ]    
   );

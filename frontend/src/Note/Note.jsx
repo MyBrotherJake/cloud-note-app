@@ -7,8 +7,8 @@ import { useContext } from "react";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 
 export const Note = () => {
- 
-  const { notesList, setNotesList, note } = useContext(ShowNoteContext);
+  
+  const { notesList, setNotesList, note, setNote } = useContext(ShowNoteContext);
 
   return (      
     <> 
@@ -16,10 +16,24 @@ export const Note = () => {
         <SelectFolder />             
         <DeleteNoteButton />        
       </OptionArea>
-      <NoteTitle notesList={notesList} setNotesList={setNotesList} note={note} />               
-      <NoteBody notesList={notesList} setNotesList={setNotesList} note={note} />             
+      <NoteTitle notesList={notesList} setNotesList={setNotesList} note={note} setNote={setNote} />               
+      <NoteBody notesList={notesList} setNotesList={setNotesList} note={note} setNote={setNote} />             
     </>
-  );  
+  );
+  
+ /*
+  return (      
+    <> 
+      <OptionArea>   
+        <SelectFolder />             
+        <DeleteNoteButton />        
+      </OptionArea>
+      <NoteTitle />               
+      <NoteBody />             
+    </>
+  );
+  */
+
 };
 
 const OptionArea = styled.div`

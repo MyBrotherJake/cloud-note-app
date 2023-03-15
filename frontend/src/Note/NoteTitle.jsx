@@ -1,11 +1,14 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { SetContent } from "./SetNote";
 import { UpdateNote } from "./UpdateNote";
 /**
  * ノートのタイトル
  */
 export const NoteTitle = (props) => {
-
+//export const NoteTitle = () => {
+  //const { notesList, setNotesList, note } = useContext(ShowNoteContext);
   const { notesList, setNotesList, note } = props;
   // タイトルの取得    
   const { data, onChangeContent, isChange, setIsChange } = SetContent("title", notesList, setNotesList, note);
