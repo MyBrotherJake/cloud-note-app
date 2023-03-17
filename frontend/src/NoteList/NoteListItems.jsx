@@ -87,25 +87,63 @@ export const NoteListItems = () => {
     }
   }).filter((element) => element);    
 
-  const withFolder = notesList.map(({noteId, title, folderId, updatedAt, createdAt}) => {
-    const subId = folderId;
-    if (subId) {
-      const index = folders.findIndex(({folderId}) => folderId === subId);
-      
-      const folderName = folders[index]["folderName"];      
-
-      const noteContents = noteId !== "" ? [{ "id": noteId, "title": title, "updatedAt": updatedAt }] : [];
-      
-      return (
+  const withFolder = folders.map(({folderId, folderName, createdAt}) => {
+    const folderSubId = folderId;
+    
+    // 同一フォルダのノート配列を取得
+    const newNotesList = notesList.filter(({folderId}) => folderId === folderSubId);
+    // note 配列の生成
+    const noteContents = newNotesList.map(({noteId, title, updatedAt}) => {
+      return (              
         {
-          "id": folderId,
-          "name": folderName,
-          "createdAt": createdAt,
-          "notes": noteContents
+          "id": noteId,
+          "title": title,
+          "updatedAt": updatedAt
+        }        
+      );      
+    }).filter(({id}) => id);
+
+    return ({
+      "id": folderId,
+      "name": folderName,
+      "createdAt": createdAt,
+      "notes": noteContents
+    });
+  });
+/*
+  const withFolder = notesList.map(({noteId, title, folderId, updatedAt, createdAt}) => {
+    if (folderId !== null) {
+      
+    }
+      
+      "notes": [
+        {
+            "id": "80e4e46b-5ea6-49b4-9be8-bb4000605f36",
+            "title": "移動用ノートA",
+            "content": "ABCDEFG\n\nABDDEFGDFDE\n\nABCDEFGHSE",
+            "createdAt": "2023-03-15T08:22:03.852Z",
+            "updatedAt": "2023-03-17T07:17:58.544Z",
+            "archivedAt": null,
+            "destroyedAt": null,
+            "folderId": "35aa3d19-ef35-4fec-b7f0-261dbbe75a35"
+        },
+        {
+            "id": "dec8bdb2-74ac-41fa-a412-47f382969e90",
+            "title": "移動用ノートB",
+            "content": null,
+            "createdAt": "2023-03-17T07:18:12.350Z",
+            "updatedAt": "2023-03-17T07:19:02.994Z",
+            "archivedAt": null,
+            "destroyedAt": null,
+            "folderId": "35aa3d19-ef35-4fec-b7f0-261dbbe75a35"
         }
-      );    
-    }; 
+    ]
+    
+    
   }).filter((element) => element);        
+  */
+ console.log(withFolder);
+ console.log(notesWithoutFolder);
   // Without Folder       
   // 更新日でソート後、リストを作成  
   const notesWithoutFolderList = notesWithoutFolder.sort((a, b) => {

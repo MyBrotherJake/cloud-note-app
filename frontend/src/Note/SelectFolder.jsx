@@ -27,7 +27,7 @@ export const SelectFolder = () => {
     // フォルダIDをセット
     notesList[index]["folderId"] = folderId;    
     // Update
-    const resData = await UpdateNote(notesList, setNotesList, note);     
+    const resData = UpdateNote(notesList, setNotesList, note);     
     // State更新用配列
     const newNotesList = notesList.slice();    
     // 新しいフォルダIDをセット

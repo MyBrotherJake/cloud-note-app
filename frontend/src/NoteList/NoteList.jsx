@@ -67,7 +67,7 @@ export const NoteList = () => {
     const folderSubId = id;
 
     if (folderIndex === -1) {
-      folders.push({ folderId: folderSubId, folderName: name, isOpen: true });                  
+      folders.push({ folderId: folderSubId, folderName: name, isOpen: true, createdAt });                  
     } 
     if (notes.length > 0) {
       notes.forEach(({ id, title, content, updatedAt }) => {        

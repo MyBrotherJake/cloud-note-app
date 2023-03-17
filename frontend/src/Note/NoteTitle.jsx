@@ -6,21 +6,18 @@ import { UpdateNote } from "./UpdateNote";
 /**
  * ノートのタイトル
  */
-export const NoteTitle = (props) => {
-//export const NoteTitle = () => {
-  //const { notesList, setNotesList, note } = useContext(ShowNoteContext);
-  const { notesList, setNotesList, note } = props;
+export const NoteTitle = () => {
   // タイトルの取得    
-  const { data, onChangeContent, isChange, setIsChange } = SetContent("title", notesList, setNotesList, note);
+  const { noteId, data, onChangeContent, isChange, setIsChange } = SetContent("title");
   
   if (isChange) {    
-    UpdateNote(notesList, setNotesList, note);    
+    UpdateNote();    
     setIsChange(false);
   }
 
   return (
     <TitleArea 
-      key={note["noteId"]}
+      key={noteId}
       onChange={onChangeContent} 
       placeholder="タイトル"            
       value={data}

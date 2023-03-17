@@ -7,16 +7,12 @@ import { UpdateNote } from "./UpdateNote";
 /**
  * ノートの作成、編集
  */
-export const NoteBody = (props) => {
-//export const NoteBody = () => {
-  // 本文の取得  
-  const { notesList, setNotesList, note } = props;
-  //const { notesList, setNotesList, note } = useContext(ShowNoteContext);
+export const NoteBody = () => {
   // タイトルの取得    
-  const { data, onChangeContent, isChange, setIsChange } = SetContent("body", notesList, setNotesList, note);
+  const { noteId, data, onChangeContent, isChange, setIsChange } = SetContent("body");
 
   if (isChange) {    
-    UpdateNote(notesList, setNotesList, note);    
+    UpdateNote();    
     setIsChange(false);
   } 
    
@@ -24,7 +20,7 @@ export const NoteBody = (props) => {
     <>
       <EditorArea>
         <Editor                    
-          key={note["noteId"]}         
+          key={noteId}         
           defaultValue={data}
           onChange={onChangeContent}                    
         />        
