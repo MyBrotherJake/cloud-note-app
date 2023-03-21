@@ -40,16 +40,16 @@ export const DeleteNoteButton = () => {
    */  
   const updateNoteList = (id) => {
     // 配列のインデックスを取得
-    const index = notesList.findIndex(({noteId}) => noteId === id);
+    const index = notesList.findIndex(({noteId}) => noteId === id);    
     // 指定した要素を削除        
     if (delete notesList[index] === true) {      
       // state更新用に新しい配列を作成
       const newNotesList = notesList.filter((element) => element);    
       // State更新      
-      setNotesList(newNotesList);                
-    }
-    // 現在の選択をクリア
-    setNote({noteId: "", title: "", body: "", folderId: ""});    
+      setNotesList(newNotesList);                       
+      // 現在の選択をクリア
+      setNote({noteId: "", title: "", body: "", folderId: ""});          
+    };    
   };
 
   return (

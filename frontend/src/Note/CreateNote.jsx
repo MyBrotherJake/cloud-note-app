@@ -7,13 +7,13 @@ export function CreateNote(setNote, notesList, setNotesList) {
    * onClick Event
    */
   const onClickCreate = async () => {    
-    // ユーザーIDを渡して、新規ノート作成
+    // ユーザーIDを渡して、新規ノート作成    
     const resData = await axios.post(`/notes`);      
     // State更新処理
-    await createNote(resData.data);
+    createNote(resData.data);
   };
   // State
-  const createNote = async (data) => {
+  const createNote = (data) => {
      // 一覧に追加
      notesList.push({ 
       noteId: data["id"], 
@@ -23,14 +23,14 @@ export function CreateNote(setNote, notesList, setNotesList) {
       updatedAt: data["updatedAt"], 
       createdAt: data["createdAt"] 
     });
-    // 選択中にする
+    setNotesList(notesList);
+    // 選択中にする    
     setNote({ 
       noteId: data["id"], 
       title: "新規ノート", 
       body: data["content"], 
       folderId: data["folderId"] 
-    });     
-    setNotesList(notesList);
+    });        
   };
 
   return (

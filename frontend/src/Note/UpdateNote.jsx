@@ -1,11 +1,8 @@
-import { useContext } from "react";
 import axios from "axios";
-import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 /**
  * API PATCH 処理
  */
-export function UpdateNote () {    
-  const { note, setNote, notesList, setNotesList } = useContext(ShowNoteContext);
+export function UpdateNote (notesList, note) {    
   // 配列のインデックスを取得
   const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
 
@@ -35,10 +32,10 @@ export function UpdateNote () {
     notesList[index]["body"] = resData.data["content"];
     notesList[index]["folderId"] = resData.data["folderId"];
     notesList[index]["updatedAt"] = resData.data["updatedAt"];
-    // Note            
+    // Note                
     note["title"] = resData.data["title"];
     note["body"] = resData.data["content"];
-    note["folderId"] = resData.data["folderId"];        
+    note["folderId"] = resData.data["folderId"];            
   };    
  update();        
 };

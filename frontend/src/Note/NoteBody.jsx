@@ -8,11 +8,12 @@ import { UpdateNote } from "./UpdateNote";
  * ノートの作成、編集
  */
 export const NoteBody = () => {
+  const { notesList, setNotesList, note } = useContext(ShowNoteContext);
   // タイトルの取得    
   const { noteId, data, onChangeContent, isChange, setIsChange } = SetContent("body");
 
   if (isChange) {    
-    UpdateNote();    
+    UpdateNote(notesList, setNotesList, note);    
     setIsChange(false);
   } 
    

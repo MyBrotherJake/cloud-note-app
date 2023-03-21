@@ -46,11 +46,11 @@ export function SetContent (target) {
     };    
     // 配列にセット
     if (index !== -1) {
-      //newList[index][target] = targetValue;                        
-      
+      newList[index][target] = targetValue;                              
+      //notesList[index][target] = targetValue;
     }    
-    //setNotesList(newList);     
-    //setNote(note);
+    setNotesList(newList);     
+    setNote(note);
     // 変更フラグを立てる
     setIsChange(true);   
   };   

@@ -9,6 +9,7 @@ export const SelectFolder = () => {
    * Folders State
    */
   const { folders, note, notesList, setNotesList } = useContext(ShowNoteContext);
+
   /**
    * onChange Event  
    */
@@ -16,22 +17,28 @@ export const SelectFolder = () => {
     // Get FolderID
     const folderId = element.target.value;
     // Call API
-    await updateFolder(folderId, note);
+    await updateFolder(folderId);
   };
   /**
    * PATCH   
    */
-  const updateFolder = async (folderId, note) => {
+  const updateFolder = async (folderId) => {
     // notesList から Index 取得
     const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
     // フォルダIDをセット
-    notesList[index]["folderId"] = folderId;    
+    if (folderId) {
+      notesList[index]["folderId"] = folderId;        
+      note["folderId"] = folderId;        
+    } else {
+      notesList[index]["folderId"] = "";
+      note["folderId"] = "";
+    }
+    
+    
     // Update
     const resData = UpdateNote(notesList, setNotesList, note);     
-    // State更新用配列
-    const newNotesList = notesList.slice();    
-    // 新しいフォルダIDをセット
-    note["folderId"] = folderId;        
+    // State更新用配列    
+    const newNotesList = notesList.slice();
     setNotesList(newNotesList);     
     return resData;
   };

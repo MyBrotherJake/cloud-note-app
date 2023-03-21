@@ -26,29 +26,7 @@ export const NoteList = () => {
   
   if (!notes) {
     return <ul></ul>
-  };
-
-  /**
-   * folders にノートがあるかをチェック
-   */     
-  let existNote = false;        
-  notes["folders"].forEach(({notes}) => {              
-    if (notes.length > 0) {                 
-      existNote  = true
-      return;
-    }
-  });       
-  if (notes["notesWithoutFolder"].length > 0) {    
-    existNote = true;
-  }
-  if (notesList[0]["noteId"] !== "" && notesList[0]["folderId"] !== "") {    
-    existNote = true;
-  }  
-  // ノートがない場合に新規作成処理         
-  if (existNote === false) {    
-    const createNewNote = CreateNote(setNote, notesList, setNotesList);
-    createNewNote();       
-  }  
+  };    
   // 配列を整理して notesList を更新する
   // フォルダなし      
   notes["notesWithoutFolder"].forEach(({ id, title, content, folderId, updatedAt }) => {                          
@@ -57,7 +35,7 @@ export const NoteList = () => {
     // ノート新規作成時に重複しないようにチェック
     if (noteIndex === -1) {
       // 配列に追加
-      notesList.push({ noteId: id, title, body: content, folderId, updatedAt });      
+      notesList.push({ noteId: id, title, body: content, folderId, updatedAt, createdAt: "" });      
     }                
   });  
   // フォルダあり  
@@ -94,22 +72,26 @@ export const NoteList = () => {
   }  
   // State更新                                    
   setNotesList(notesList);          
-  setFolders(folders);       
-  // ノートIDが取得できない場合 => 画面ロード時の処理    
+  setFolders(folders);         
+  // ノートIDが取得できない場合 => 画面ロード時の処理   
   if (notesList.length > 0 && note["noteId"] === "") {      
     // 更新日順にソート            
-    notesList.filter((element) => element["noteId"] !== "").sort((a, b) => (a.updatedAt > b.updatedAt) ? -1 : 1);        
-    // 最新のノートをセット
-    const noteId = notesList[0]["noteId"];
-    const title = notesList[0]["title"];
-    const body = notesList[0]["body"];
-    const folderId = notesList[0]["folderId"];    
+    const sortList = notesList.filter((element) => element["noteId"] !== "").sort((a, b) => (a.updatedAt > b.updatedAt) ? -1 : 1);            
+    // 最新のノートをセット    
+    const noteId = sortList[0]["noteId"];
+    const title = sortList[0]["title"];
+    const body = sortList[0]["body"];
+    const folderId = sortList[0]["folderId"];    
     // TODO 
     /**
      * Warning: Cannot update a component (`ShowNoteProvider`) while rendering a different component (`NoteList`). 
      * To locate the bad setState() call inside `NoteList`     
      */
     setNote({ noteId, title, body, folderId });    
+  } else if (notesList.length === 0 && note["noteId"] === "") {
+    // ノートがない場合、新規作成
+    const createNewNote = CreateNote(setNote, notesList, setNotesList);
+    createNewNote();     
   };   
   
   return (
