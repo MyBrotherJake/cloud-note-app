@@ -9,6 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { FolderName } from "./UpdateFolderName";
 import { DeleteFolderButton } from "./DeleteFolderButton";
+import { ListItemIcon } from '@mui/material';
 /**
  * リスト作成
  */
@@ -22,8 +23,8 @@ export const NoteListItems = () => {
   });      
   // Icon Style  
   const iconStyle = {
-    "width": "20px",
-    "height": "20px",        
+    "width": "22px",
+    "height": "22px",        
   };    
   // Icon DisplayStyle
   const display = {
@@ -116,9 +117,13 @@ export const NoteListItems = () => {
   }).map(({id, title}) => {   
    return (
     <Fragment key={id}>
-      <ListItemButton id={id} key={id} onClick={ () => onClickTitle(id) }>                  
+      <ListItemButton id={id} key={id} onClick={ () => onClickTitle(id) }>
+        <ListItemIcon sx={{ minWidth: 28 }}>
           <DocumentTextIcon style={iconStyle} key={id} />
+        </ListItemIcon>
+        <ListItemText primaryTypographyProps={{ noWrap: true }}>
           {title}
+        </ListItemText>
       </ListItemButton>     
     </Fragment>
    );
@@ -143,8 +148,10 @@ export const NoteListItems = () => {
     
     return (
       <Fragment key={id}>      
-        <ListItemButton id={id} key={id} onClick={() => onClickFolder(index)} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)}>
-          { FolderIcon }
+        <ListItemButton id={id} key={id} onClick={() => onClickFolder(index)} onMouseOver={() => onMouseOver(id)} onMouseLeave={() => onMouseLeave(id)} sx={{ pb: 0 }}>
+          <ListItemIcon sx={{ minWidth: 28 }}>
+            { FolderIcon }
+          </ListItemIcon>
           <ListItemText>                    
             <FolderName folderId={id} folderName={name} />
           </ListItemText>
@@ -152,15 +159,19 @@ export const NoteListItems = () => {
         </ListItemButton>
         <Collapse in={folders[index]["isOpen"]} timeout="auto" unmountOnExit>
           <List component="div" disablePadding >        
-            <ListItemButton sx={{ pl: 4 }} style={{display: 'inherit'}}>                                     
+            <ListItemButton sx={{ pl: 4, pt: 0 }} style={{display: 'inherit'}}>                                     
               {
                 notes.sort((a, b) => {
                   return (a.updatedAt < b.updatedAt) ? -1 : 1
                 }).map(({id, title}) => {
                   return (
-                    <ListItemButton id={id} key={id} onClick={() => onClickTitle(id)}>                  
+                    <ListItemButton id={id} key={id} onClick={() => onClickTitle(id)} sx={{ pb: 0 }}>
+                      <ListItemIcon sx={{ minWidth: 28 }}>
                         <DocumentTextIcon style={iconStyle} key={id} />
-                        <ListItemText>{title}</ListItemText>                        
+                      </ListItemIcon>
+                      <ListItemText primaryTypographyProps={{ noWrap: true }}>
+                        {title}
+                      </ListItemText>                        
                     </ListItemButton>                     
                   );              
                 })            

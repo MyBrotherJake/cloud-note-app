@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import { useContext } from "react";
 import Editor from "rich-markdown-editor";
 import styled from "styled-components";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { SetContent } from "./SetNote";
 import { UpdateNote } from "./UpdateNote";
+=======
+import { Box, InputLabel } from '@mui/material';
+import Editor from "rich-markdown-editor";
+import { SetContent, UpdateNote } from "./SetNote";
+>>>>>>> main
 /**
  * ノートの作成、編集
  */
@@ -18,18 +24,22 @@ export const NoteBody = () => {
   } 
    
   return (
+<<<<<<< HEAD
     <>
       <EditorArea>
         <Editor                    
           key={noteId}         
+=======
+    <Box sx={{ marginTop: 5 }}>
+      <InputLabel>本文</InputLabel>
+      <Box sx={{ marginTop: 2 }}>
+        <Editor
+          key={note["noteId"]}         
+>>>>>>> main
           defaultValue={data}
-          onChange={onChangeContent}                    
-        />        
-      </EditorArea>    
-    </>        
+          onChange={onChangeContent}
+        />
+      </Box>
+    </Box>        
   ); 
 };
-
-const EditorArea = styled.div`
-  margin: 20px;
-`;

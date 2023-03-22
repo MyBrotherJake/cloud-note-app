@@ -2,6 +2,7 @@ import { FolderOpenIcon } from "@heroicons/react/24/outline";
 import { useContext } from "react";
 import axios from "axios";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { Box } from '@mui/system';
 
 export const CreateFolderButton = () => {
 
@@ -41,7 +42,9 @@ export const CreateFolderButton = () => {
   };
 
   return (
-    <FolderOpenIcon onClick={onClickCreateFolder} />
+    <Box sx={{ width: 50 }}>
+      <FolderOpenIcon onClick={onClickCreateFolder} cursor='pointer' />
+    </Box>
   );
 }
 

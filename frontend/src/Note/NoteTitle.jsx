@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { useContext } from "react";
+=======
+import { TextField } from '@mui/material';
+import { Box } from '@mui/material';
+>>>>>>> main
 import styled from "styled-components";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { SetContent } from "./SetNote";
@@ -17,18 +22,25 @@ export const NoteTitle = () => {
   }
 
   return (
+<<<<<<< HEAD
     <TitleArea 
       key={noteId}
       onChange={onChangeContent} 
       placeholder="タイトル"            
       value={data}
     />
+=======
+    <Box
+      component="form"
+      noValidate
+      autoComplete="off">
+      <TextField 
+        fullWidth
+        label="タイトル"
+        onChange={onChangeContent}
+        value={data}
+        variant="standard" />
+    </Box>
+>>>>>>> main
   );
 };
-
-const TitleArea = styled.input`
-  width: 500px;
-  font-size: 24px;
-  border: none;
-  margin: 20px;
-`;

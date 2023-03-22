@@ -1,46 +1,55 @@
 import { Signin } from './Auth/Signin';
+import { UserProfile } from './User/UserProfile';
 import { Note } from "./Note/Note";
 import { NoteList } from "./NoteList/NoteList";
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { Box, CssBaseline, Drawer, Typography } from '@mui/material';
 
 export const App = () => {
   const [user, setUser] = useState(null)
+  const drawerWidth = 320
 
   useEffect(() => {
     const data = localStorage.getItem('user')
-    if (data) setUser(data)
-  }, [user])
+    if (data) setUser(JSON.parse(data))
+  }, [])
 
   if (!user) {
     return (<Signin />)
   }
 
+  console.log(JSON.stringify(user))
+
   return (
-    <NoteContainer>
-      <NavigationContainer>
-        <div className="logo">
-          Cloud Note App
-        </div>
-        <nav id="nav">
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          }
+        }}
+        variant="permanent"
+        anchor="left">
+        <Box>
+          <Typography align='center' variant='h1'>CLOUD NOTE APP</Typography>
+        </Box>
+        <Box sx={{ paddingLeft: 2 }}>
+          <UserProfile user={user} />
+        </Box>
+        <Box id="nav">
           <NoteList />
-        </nav>
-      </NavigationContainer>
-      <div className="editor-container">
+        </Box>
+      </Drawer>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
         <Note />
-      </div>
-    </NoteContainer>
+      </Box>
+    </Box>
   );
 }
 
-const NoteContainer = styled.div`
-  display: grid;
-  grid-template-columns: 300px auto;
-`
-
-const NavigationContainer = styled.div`
-  height: 100vh;
-  resize: horizontal;
-  overflow: hidden;
-  border-right: solid 1px;  
-`
