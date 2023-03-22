@@ -5,11 +5,11 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
  * Title と Body の値を配列から探してセットする
  */
 export function SetContent (target) {
-  const { note, setNote, notesList, setNotesList } = useContext(ShowNoteContext);
+  const { note, setNote, notesList, setNotesList } = useContext(ShowNoteContext);  
   // 変更フラグ
-  const [ isChange, setIsChange ] = useState(false);    
-  // noteId
-  const noteId = note["noteId"];
+  const [ isChange, setIsChange ] = useState(false);        
+  // ノートID
+  const noteId = note["noteId"];  
   // NoteListからIDをもとに ノート詳細を取得  
   const noteData = notesList.find(element => element && element["noteId"] === noteId);
   // データ取得
@@ -17,7 +17,7 @@ export function SetContent (target) {
   // ノート新規作成時の null 回避 (inputタグおよびエディタでのエラー回避)
   if (noteData && noteData[target]) {
     data = noteData[target];       
-  }
+  }    
   /**
    * onChange
    */
@@ -46,8 +46,7 @@ export function SetContent (target) {
     };    
     // 配列にセット
     if (index !== -1) {
-      newList[index][target] = targetValue;                              
-      //notesList[index][target] = targetValue;
+      newList[index][target] = targetValue;                                    
     }    
     setNotesList(newList);     
     setNote(note);
@@ -62,6 +61,3 @@ export function SetContent (target) {
     setIsChange           // 変更フラグ State
   };
 };  
-
-
-

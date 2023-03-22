@@ -14,8 +14,7 @@ import { DeleteFolderButton } from "./DeleteFolderButton";
  */
 export const NoteListItems = () => {  
   
-  const { setNote, notesList, folders, setFolders } = useContext(ShowNoteContext);  
-  
+  const { setNote, notesList, folders, setFolders } = useContext(ShowNoteContext);    
   // 削除アイコンの表示を管理する
   const [ isDisplay, setIsDisplay ] = useState({
     folderId: "", 
@@ -65,16 +64,16 @@ export const NoteListItems = () => {
     // 再描画用配列
     const newFolders = folders.slice();    
     setFolders(newFolders);
-  }
+  };
   /**
    * 削除アイコンの表示・非表示
    */
   const onMouseOver = (id) => {
     setIsDisplay({folderId: id, isDisplay: true})
-  }
+  };
   const onMouseLeave = (id) => {
     setIsDisplay({folderId: id, isDisplay: false})
-  }
+  };
   /**
    * -------------------------------------------------Create NoteList-------------------------------------------------------
    * notesList から配列を再加工して、最初にAPIから受け取ったオブジェクトの形にする
@@ -109,7 +108,7 @@ export const NoteListItems = () => {
       "createdAt": createdAt,
       "notes": noteContents
     });
-  });  
+  });    
   // Without Folder       
   // 更新日でソート後、リストを作成  
   const notesWithoutFolderList = notesWithoutFolder.sort((a, b) => {

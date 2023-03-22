@@ -5,14 +5,10 @@ import axios from "axios";
 export function UpdateNote (notesList, note) {    
   // 配列のインデックスを取得
   const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
-
+  
   if (index === -1) {
     return;
   }
-  // TODO
-  /**
-   * UPDATE ERROR
-   */
   // 値をセット
   const title = notesList[index]["title"];
   const body = notesList[index]["body"];

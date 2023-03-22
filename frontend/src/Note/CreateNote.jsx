@@ -30,7 +30,7 @@ export function CreateNote(setNote, notesList, setNotesList) {
       title: "新規ノート", 
       body: data["content"], 
       folderId: data["folderId"] 
-    });        
+    });    
   };
 
   return (

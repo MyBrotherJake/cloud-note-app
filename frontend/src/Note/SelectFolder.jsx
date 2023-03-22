@@ -36,7 +36,7 @@ export const SelectFolder = () => {
     
     
     // Update
-    const resData = UpdateNote(notesList, setNotesList, note);     
+    const resData = UpdateNote(notesList, note);     
     // State更新用配列    
     const newNotesList = notesList.slice();
     setNotesList(newNotesList);     

@@ -7,12 +7,12 @@ import { UpdateNote } from "./UpdateNote";
  * ノートのタイトル
  */
 export const NoteTitle = () => {
-  const { notesList, setNotesList, note } = useContext(ShowNoteContext);
+  const { notesList, note } = useContext(ShowNoteContext);  
   // タイトルの取得    
   const { noteId, data, onChangeContent, isChange, setIsChange } = SetContent("title");
   
   if (isChange) {    
-    UpdateNote(notesList, setNotesList, note);    
+    UpdateNote(notesList, note);    
     setIsChange(false);
   }
 

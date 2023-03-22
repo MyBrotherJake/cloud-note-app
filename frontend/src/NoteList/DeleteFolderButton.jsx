@@ -26,7 +26,7 @@ export const DeleteFolderButton = (props) => {
      // 指定した要素を削除        
     if (delete folders[index] === true) {      
       // state更新用に新しい配列を作成
-      const newFoldersList = folders.filter((element) => element);
+      const newFoldersList = folders.filter((element) => element);      
       // フォルダ削除後、フォルダ内に合ったノートのフォルダIDを消す
       notesList.forEach(({noteId, folderId}) => {
         if (folderId === id && noteId !== "") {
@@ -35,12 +35,12 @@ export const DeleteFolderButton = (props) => {
           notesList[noteIndex]["folderId"] = null;
         }
       });
-      const listIndex = notesList.findIndex(({folderId}) => folderId === id);
+      const listIndex = notesList.findIndex(({folderId}) => folderId === id);      
       delete notesList[listIndex];
       const newNotesList = notesList.filter((element) => element);             
-      // State更新
+      // State更新      
       setFolders(newFoldersList);           
-      setNotesList(newNotesList);           
+      setNotesList(newNotesList);         
     };
   };  
 

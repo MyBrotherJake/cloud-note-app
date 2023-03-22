@@ -46,7 +46,7 @@ export const DeleteNoteButton = () => {
       // state更新用に新しい配列を作成
       const newNotesList = notesList.filter((element) => element);    
       // State更新      
-      setNotesList(newNotesList);                       
+      setNotesList(newNotesList);          
       // 現在の選択をクリア
       setNote({noteId: "", title: "", body: "", folderId: ""});          
     };    
