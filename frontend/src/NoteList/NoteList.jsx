@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import styled from "styled-components";
 import axios from "axios";
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -7,12 +6,9 @@ import { NoteListItems } from "./NoteListItems";
 import { CreateNoteButton } from "./CreateNoteButton";
 import { CreateFolderButton } from "./CreateFolderButton";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
-<<<<<<< HEAD
 import { CreateNote } from "../Note/CreateNote";
-=======
-import { CreateNote } from "../Note/SetNote";
 import { Box } from '@mui/material';
->>>>>>> main
+
 /**
  * ノート一覧の表示
  */

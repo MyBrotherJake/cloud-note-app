@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import { useContext } from "react";
-=======
 import { TextField } from '@mui/material';
 import { Box } from '@mui/material';
->>>>>>> main
-import styled from "styled-components";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { SetContent } from "./SetNote";
 import { UpdateNote } from "./UpdateNote";
@@ -22,14 +18,6 @@ export const NoteTitle = () => {
   }
 
   return (
-<<<<<<< HEAD
-    <TitleArea 
-      key={noteId}
-      onChange={onChangeContent} 
-      placeholder="タイトル"            
-      value={data}
-    />
-=======
     <Box
       component="form"
       noValidate
@@ -41,6 +29,5 @@ export const NoteTitle = () => {
         value={data}
         variant="standard" />
     </Box>
->>>>>>> main
   );
 };
