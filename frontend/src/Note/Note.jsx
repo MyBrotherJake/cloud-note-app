@@ -6,7 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box, InputLabel } from '@mui/material';
 
 export const Note = () => {
- 
+  
   return (      
     <Grid container>
       <Grid xs={6}>
@@ -35,4 +35,5 @@ export const Note = () => {
       </Grid>
     </Grid>
   );  
+
 };

@@ -21,6 +21,7 @@ export const ShowNoteProvider = props => {
         body: "",
         folderId: "",
         updatedAt: "",
+        createdAt: "",
       }
     ]    
   );
@@ -31,6 +32,7 @@ export const ShowNoteProvider = props => {
         folderId: "",
         folderName: "",
         isOpen: true,
+        createdAt: "",
       }
     ]
   );
