@@ -4,7 +4,6 @@ import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { SetContent } from "./SetNote";
 import { UpdateNote } from "./UpdateNote";
 import { Box, InputLabel } from '@mui/material';
-import Editor from "rich-markdown-editor";
 /**
  * ノートの作成、編集
  */
@@ -17,7 +16,7 @@ export const NoteBody = () => {
     UpdateNote(notesList, note);    
     setIsChange(false);
   } 
-   
+
   return (
     <Box sx={{ marginTop: 5 }}>
       <InputLabel>本文</InputLabel>

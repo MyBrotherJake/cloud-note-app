@@ -35,7 +35,7 @@ export const ShowNoteProvider = props => {
         createdAt: "",
       }
     ]
-  );
+  ); 
 
   return (
     <ShowNoteContext.Provider value={{ notesList, setNotesList, note, setNote, folders, setFolders }}>

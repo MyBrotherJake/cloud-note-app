@@ -8,6 +8,7 @@ import { UpdateNote } from "./UpdateNote";
  * ノートのタイトル
  */
 export const NoteTitle = () => {
+
   const { notesList, note } = useContext(ShowNoteContext);  
   // タイトルの取得    
   const { noteId, data, onChangeContent, isChange, setIsChange } = SetContent("title");
@@ -16,7 +17,7 @@ export const NoteTitle = () => {
     UpdateNote(notesList, note);    
     setIsChange(false);
   }
-
+  
   return (
     <Box
       component="form"
