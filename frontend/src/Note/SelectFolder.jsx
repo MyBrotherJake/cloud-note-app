@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { UpdateNote } from "./UpdateNote";
+import { UpdateNote } from "./SetNote";
 import { ShowNoteContext } from "../Providers/ShowNoteProvider";
 import { FormControl, InputLabel, MenuItem, Select, Box } from '@mui/material';
 
@@ -7,11 +7,11 @@ import { FormControl, InputLabel, MenuItem, Select, Box } from '@mui/material';
  * フォルダ移動用プルダウン
  */
 export const SelectFolder = () => {
+
   /**
    * Folders State
    */
   const { folders, note, notesList, setNotesList } = useContext(ShowNoteContext);
-
   /**
    * onChange Event  
    */
@@ -19,29 +19,23 @@ export const SelectFolder = () => {
     // Get FolderID
     const folderId = element.target.value;
     // Call API
-    await updateFolder(folderId);
+    await updateFolder(folderId, note);
   };
   /**
    * PATCH   
    */
-  const updateFolder = async (folderId) => {
+  const updateFolder = async (folderId, note) => {
     // notesList から Index 取得
     const index = notesList.findIndex(({noteId}) => noteId === note["noteId"]);
     // フォルダIDをセット
-    if (folderId) {
-      notesList[index]["folderId"] = folderId;        
-      note["folderId"] = folderId;        
-    } else {
-      notesList[index]["folderId"] = "";
-      note["folderId"] = "";
-    }
-    
-    
+    notesList[index]["folderId"] = folderId;    
     // Update
-    const resData = UpdateNote(notesList, note);     
-    // State更新用配列    
-    const newNotesList = notesList.slice();
+    const resData = await UpdateNote(notesList, note);     
+    // State更新用配列
+    const newNotesList = notesList.slice(0, notesList.length);    
     setNotesList(newNotesList);     
+    // 新しいフォルダIDをセット
+    note["folderId"] = folderId;    
     return resData;
   };
   /**
