@@ -10,8 +10,9 @@ import Editor from "rich-markdown-editor";
  */
 export const NoteBody = () => {
   // 本文の取得
-  
-  const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("body");
+  const { notesList, note } = useContext(ShowNoteContext);
+  // タイトルの取得    
+  const { noteId, data, onChangeContent, isChange, setIsChange } = SetContent("body");
   
   if (isChange) {    
     UpdateNote(notesList, note);    

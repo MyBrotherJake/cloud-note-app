@@ -6,27 +6,39 @@ import { Box } from '@mui/system';
 
 export const CreateFolderButton = () => {
 
-  const { folders, setFolders } = useContext(ShowNoteContext);  
+  const { folders, setFolders, notesList, setNotesList } = useContext(ShowNoteContext);  
   /**
    * FolderIcon onClick
    */
   const onClickCreateFolder = async () => {    
     // Post
     const resData = await axios.post('/folders', {name: "新規フォルダ"});
-    // FolderId
-    const folderId = resData.data['id'];
     // State 更新
-    await createFolder(folderId);
+    createFolder(resData.data);       
   };
   /**
    * State 更新処理
    */
-  const createFolder = async (folderId) => {   
+  const createFolder = (data) => {   
     // 配列に追加
-    folders.push({folderId: folderId, folderName: "新規フォルダ"});
-    // 再描画用に新規配列
-    const newFolders = folders.slice();
-    setFolders(newFolders);        
+    folders.push({
+      folderId: data["id"], 
+      folderName: data["name"], 
+      isOpen: true
+    });
+    // NoteList
+    notesList.push({ 
+      noteId: "", 
+      title: "", 
+      body: "", 
+      folderId: data["id"], 
+      updatedAt: data["updatedAt"], 
+      createdAt: data["createdAt"] 
+    });
+    // 再描画用
+    const newList = notesList.slice();
+    setFolders(folders);
+    setNotesList(newList);     
   };
 
   return (
@@ -35,4 +47,3 @@ export const CreateFolderButton = () => {
     </Box>
   );
 }
-
