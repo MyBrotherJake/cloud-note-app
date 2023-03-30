@@ -8,7 +8,7 @@ import { Box, CssBaseline, Drawer, Typography } from '@mui/material';
 export const App = () => {
   const [user, setUser] = useState(null)
   const drawerWidth = 320
-
+  
   useEffect(() => {
     const data = localStorage.getItem('user')
     if (data) setUser(JSON.parse(data))

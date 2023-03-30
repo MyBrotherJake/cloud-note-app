@@ -1,19 +1,22 @@
+import { useContext } from "react";
 import { TextField } from '@mui/material';
 import { Box } from '@mui/material';
-import styled from "styled-components";
-import { SetContent, UpdateNote } from "./SetNote";
+import { ShowNoteContext } from "../Providers/ShowNoteProvider";
+import { SetContent } from "./SetNote";
+import { UpdateNote } from "./UpdateNote";
 /**
  * ノートのタイトル
  */
 export const NoteTitle = () => {
+  const { notesList, note } = useContext(ShowNoteContext);  
   // タイトルの取得    
-  const { notesList, note, data, onChangeContent, isChange, setIsChange } = SetContent("title");
+  const { noteId, data, onChangeContent, isChange, setIsChange } = SetContent("title");
   
   if (isChange) {    
     UpdateNote(notesList, note);    
     setIsChange(false);
   }
-
+  
   return (
     <Box
       component="form"
